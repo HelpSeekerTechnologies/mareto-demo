@@ -625,6 +625,12 @@ function submitContact() {
   const perUser = uCount <= 10 ? 40 : uCount <= 25 ? 35 : uCount <= 50 ? 30 : 25;
   const priceEstimate = Math.round(perUser * uCount);
 
+  // Capture exact calculator values for the results email
+  var calcUsersEl = document.getElementById('calcUsers');
+  var calcTermEl = document.getElementById('calcTerm');
+  var calcUsers = calcUsersEl ? parseInt(calcUsersEl.value) : uCount;
+  var calcTerm = calcTermEl ? parseInt(calcTermEl.value) : 1;
+
   // Map quiz values to HubSpot option values
   var orgTypeMap = { nonprofit:'Non-Profit / Charity', indigenous:'Indigenous Organization', municipal:'Government / Municipal', other_gov:'Health Authority', other:'Other' };
   var servicesMap = { cfs:'Child & Family Services', indigenous_svc:'Indigenous Services', mental_health:'Mental Health & Addictions', housing:'Housing & Homelessness', dv:'Domestic Violence', employment:'Other', food:'Other', seniors_disability:'Senior Services', youth:'Other', other_svc:'Other' };
@@ -658,7 +664,9 @@ function submitContact() {
       { objectTypeId: '0-1', name: 'mareto_timeline', value: hsTimeline },
       { objectTypeId: '0-1', name: 'mareto_role', value: hsRole },
       { objectTypeId: '0-1', name: 'mareto_fit_score', value: String(fitPoints) },
-      { objectTypeId: '0-1', name: 'mareto_price_estimate', value: String(priceEstimate) }
+      { objectTypeId: '0-1', name: 'mareto_price_estimate', value: String(priceEstimate) },
+      { objectTypeId: '0-1', name: 'mareto_calc_users', value: String(calcUsers) },
+      { objectTypeId: '0-1', name: 'mareto_calc_term', value: String(calcTerm) }
     ],
     context: { pageUri: window.location.href, pageName: 'Mareto Fit Finder' }
   };

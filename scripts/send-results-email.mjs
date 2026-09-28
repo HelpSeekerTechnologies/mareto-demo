@@ -28,7 +28,8 @@ async function searchUnsent() {
         'email', 'firstname', 'lastname', 'company',
         'mareto_org_type', 'mareto_services', 'mareto_programs',
         'mareto_challenges', 'mareto_users', 'mareto_timeline',
-        'mareto_role', 'mareto_fit_score', 'mareto_price_estimate'
+        'mareto_role', 'mareto_fit_score', 'mareto_price_estimate',
+        'mareto_calc_users', 'mareto_calc_term'
       ],
       limit: 20
     })
@@ -44,16 +45,53 @@ function getFitLabel(score) {
   return { label: 'Potential Fit', color: '#e6a817', desc: 'Mareto may be able to help depending on your specific requirements.' };
 }
 
+function getPricing(calcUsers, calcTerm, usersLabel) {
+  // Use exact calculator values if available, fall back to range-based estimate
+  let userCount;
+  if (calcUsers && parseInt(calcUsers, 10) > 0) {
+    userCount = parseInt(calcUsers, 10);
+  } else {
+    const userDefaults = {'1-10': 5, '11-25': 15, '26-50': 30, '51-100': 50, '101-250': 75};
+    userCount = userDefaults[usersLabel] || 10;
+  }
+  const term = calcTerm ? parseInt(calcTerm, 10) : 1;
+
+  let perUser, tierName;
+  if (userCount <= 10) { perUser = 40; tierName = 'Standard'; }
+  else if (userCount <= 25) { perUser = 35; tierName = 'Growth'; }
+  else if (userCount <= 50) { perUser = 30; tierName = 'Scale'; }
+  else { perUser = 25; tierName = 'Enterprise'; }
+
+  // Multi-year discounts
+  let discount = 0, discountLabel = '';
+  if (term === 2) { discount = 0.10; discountLabel = '10% multi-year discount'; }
+  else if (term === 3) { discount = 0.15; discountLabel = '15% multi-year discount'; }
+
+  const effectiveRate = perUser * (1 - discount);
+  const monthly = effectiveRate * userCount;
+  const annual = monthly * 12;
+  const setup = 5000;
+  const firstYear = annual + setup;
+  const termLabel = term === 1 ? '1 year' : term === 2 ? '2 years' : '3 years';
+
+  return { perUser: effectiveRate, tierName, userCount, monthly, annual, setup, firstYear, term, termLabel, discount, discountLabel };
+}
+
+function fmtCAD(n) {
+  return '$' + n.toLocaleString('en-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
 function buildEmail(contact) {
   const p = contact.properties;
   const name = p.firstname || '';
   const score = p.mareto_fit_score || '0';
-  const price = p.mareto_price_estimate || '—';
   const orgType = p.mareto_org_type || '—';
   const users = p.mareto_users || '—';
+  const calcUsers = p.mareto_calc_users || '';
+  const calcTerm = p.mareto_calc_term || '';
   const fit = getFitLabel(score);
   const greeting = name ? `Hi ${name},` : 'Hi there,';
-  const priceDisplay = price !== '—' ? `$${parseInt(price, 10).toLocaleString('en-CA')}` : '—';
+  const pricing = getPricing(calcUsers, calcTerm, users);
 
   return `<!DOCTYPE html>
 <html>
@@ -91,29 +129,53 @@ function buildEmail(contact) {
 </td></tr>
 
 <!-- Results Grid -->
-<tr><td style="padding:0 40px 24px;">
+<tr><td style="padding:0 40px 12px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="50%" style="padding:12px 16px;background:#f8f9fb;border-radius:8px 0 0 0;">
+    <td width="50%" style="padding:12px 16px;background:#f8f9fb;border-radius:8px 0 0 8px;">
       <p style="margin:0;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;">Fit Score</p>
       <p style="margin:4px 0 0;font-size:20px;font-weight:800;color:#0f1c3f;">${score}<span style="font-size:14px;color:#999;font-weight:400"> / 10</span></p>
     </td>
-    <td width="50%" style="padding:12px 16px;background:#f8f9fb;border-radius:0 8px 0 0;">
-      <p style="margin:0;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;">Est. Monthly Cost</p>
-      <p style="margin:4px 0 0;font-size:20px;font-weight:800;color:#0f1c3f;">${priceDisplay}<span style="font-size:14px;color:#999;font-weight:400"> CAD/mo</span></p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" style="padding:12px 16px;background:#f8f9fb;border-radius:0 0 0 8px;">
+    <td width="50%" style="padding:12px 16px;background:#f8f9fb;border-radius:0 8px 8px 0;">
       <p style="margin:0;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;">Organization Type</p>
       <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#0f1c3f;">${orgType}</p>
     </td>
-    <td width="50%" style="padding:12px 16px;background:#f8f9fb;border-radius:0 0 8px 0;">
-      <p style="margin:0;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;">Team Size</p>
-      <p style="margin:4px 0 0;font-size:15px;font-weight:600;color:#0f1c3f;">${users}</p>
-    </td>
   </tr>
   </table>
+</td></tr>
+
+<!-- Pricing Breakdown -->
+<tr><td style="padding:0 40px 24px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0f1c3f;border-radius:10px;">
+  <tr>
+    <td width="33%" style="padding:20px 16px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:800;color:#2ab5b2;">$${pricing.perUser.toFixed(2)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;">Per User / Month</p>
+      <p style="margin:2px 0 0;font-size:10px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;">${pricing.tierName} Tier</p>
+    </td>
+    <td width="34%" style="padding:20px 16px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:800;color:#2ab5b2;">${fmtCAD(pricing.monthly)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;">Monthly Total</p>
+      <p style="margin:2px 0 0;font-size:10px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px;">${pricing.userCount} Users</p>
+    </td>
+    <td width="33%" style="padding:20px 16px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:800;color:#2ab5b2;">${fmtCAD(pricing.annual)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;">Annual Licensing</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" style="padding:4px 16px 20px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:800;color:#2ab5b2;">${fmtCAD(pricing.setup)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;">One-Time Setup</p>
+    </td>
+    <td colspan="2" style="padding:4px 16px 20px;text-align:center;">
+      <p style="margin:0;font-size:28px;font-weight:800;color:#2ab5b2;">${fmtCAD(pricing.firstYear)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;">First-Year Total</p>
+    </td>
+  </tr>
+  </table>${pricing.discountLabel ? `
+  <p style="margin:8px 0 0;font-size:12px;color:#22a55d;font-weight:700;">Based on ${pricing.termLabel} contract with ${pricing.discountLabel} applied.</p>` : ''}
+  <p style="margin:${pricing.discountLabel ? '4' : '8'}px 0 0;font-size:12px;color:#999;font-style:italic;">This is an estimate based on published pricing. Your final quote will reflect your specific configuration and needs.</p>
 </td></tr>
 
 <!-- CTA -->
