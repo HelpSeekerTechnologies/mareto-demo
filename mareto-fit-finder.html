@@ -642,23 +642,23 @@ function submitContact() {
   var hsTimeline = timelineMap[timeline] || 'Just exploring';
   var hsRole = roleMap[role] || 'Other';
 
-  // POST to HubSpot Forms API
+  // POST to HubSpot Forms API (new form editor requires objectTypeId)
   const hubspotData = {
     fields: [
-      { name: 'email', value: email },
-      { name: 'firstname', value: name.split(' ')[0] || '' },
-      { name: 'lastname', value: name.split(' ').slice(1).join(' ') || '' },
-      { name: 'company', value: org },
-      { name: 'jobtitle', value: title },
-      { name: 'mareto_org_type', value: hsOrgType },
-      { name: 'mareto_services', value: hsServices.join(';') },
-      { name: 'mareto_programs', value: programs },
-      { name: 'mareto_challenges', value: hsChallenges.join(';') },
-      { name: 'mareto_users', value: hsUsers },
-      { name: 'mareto_timeline', value: hsTimeline },
-      { name: 'mareto_role', value: hsRole },
-      { name: 'mareto_fit_score', value: String(fitPoints) },
-      { name: 'mareto_price_estimate', value: String(priceEstimate) }
+      { objectTypeId: '0-1', name: 'email', value: email },
+      { objectTypeId: '0-1', name: 'firstname', value: name.split(' ')[0] || '' },
+      { objectTypeId: '0-1', name: 'lastname', value: name.split(' ').slice(1).join(' ') || '' },
+      { objectTypeId: '0-2', name: 'name', value: org },
+      { objectTypeId: '0-1', name: 'jobtitle', value: title },
+      { objectTypeId: '0-1', name: 'mareto_org_type', value: hsOrgType },
+      { objectTypeId: '0-1', name: 'mareto_services', value: hsServices.join(';') },
+      { objectTypeId: '0-1', name: 'mareto_programs', value: programs },
+      { objectTypeId: '0-1', name: 'mareto_challenges', value: hsChallenges.join(';') },
+      { objectTypeId: '0-1', name: 'mareto_users', value: hsUsers },
+      { objectTypeId: '0-1', name: 'mareto_timeline', value: hsTimeline },
+      { objectTypeId: '0-1', name: 'mareto_role', value: hsRole },
+      { objectTypeId: '0-1', name: 'mareto_fit_score', value: String(fitPoints) },
+      { objectTypeId: '0-1', name: 'mareto_price_estimate', value: String(priceEstimate) }
     ],
     context: { pageUri: window.location.href, pageName: 'Mareto Fit Finder' }
   };
