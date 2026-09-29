@@ -18,12 +18,20 @@ async function searchUnsent() {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      filterGroups: [{
-        filters: [
-          { propertyName: 'mareto_fit_score', operator: 'HAS_PROPERTY' },
-          { propertyName: 'mareto_results_email_sent', operator: 'NOT_HAS_PROPERTY' }
-        ]
-      }],
+      filterGroups: [
+        {
+          filters: [
+            { propertyName: 'mareto_fit_score', operator: 'HAS_PROPERTY' },
+            { propertyName: 'mareto_results_email_sent', operator: 'NOT_HAS_PROPERTY' }
+          ]
+        },
+        {
+          filters: [
+            { propertyName: 'mareto_fit_score', operator: 'HAS_PROPERTY' },
+            { propertyName: 'mareto_results_email_sent', operator: 'NEQ', value: 'true' }
+          ]
+        }
+      ],
       properties: [
         'email', 'firstname', 'lastname', 'company',
         'mareto_org_type', 'mareto_services', 'mareto_programs',
