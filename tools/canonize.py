@@ -145,9 +145,16 @@ def donuts_to_bars(t: str) -> tuple[str, int]:
             legend = _legend_items(enc)
             if legend and len(legend) >= len(circles):
                 rows = [(lab, val, float(p)) for (lab, val), p in zip(legend, circles)]
-                # replace the whole enclosing container (donut + legend) with the rows
-                t = t[:k] + bars_html(rows, total) + t[enc_end:]
-                removed_legend = True
+                enc_tag = enc[:enc.find(">") + 1]
+                if 'class="card' in enc_tag or "class='card" in enc_tag:
+                    # the donut was the card's first child: keep the card, swap the donut, drop the legend inside it
+                    inner = enc[len(enc_tag):-len("</div>")]
+                    inner = inner[:i - k - len(enc_tag)] + bars_html(rows, total) + inner[j - k - len(enc_tag):]
+                    inner = re.sub(r'<div(?:\s[^>]*)?>(?:\s*<div class="(?:rep-)?legend-item">(?:<div[^>]*></div>)?[^<]*</div>)+\s*</div>', "", inner)
+                    t = t[:k] + enc_tag + inner + "</div>" + t[enc_end:]
+                else:
+                    # replace the whole enclosing flex container (donut + legend) with the rows
+                    t = t[:k] + bars_html(rows, total) + t[enc_end:]
                 n += 1
                 continue
             rows = [(f"Series {ix + 1}", "", float(p)) for ix, p in enumerate(circles)]

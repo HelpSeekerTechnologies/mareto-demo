@@ -187,8 +187,9 @@ def main() -> None:
     # keep Kim's embedded screenshots and logo, in order
     imgs = re.findall(r'<div class="slide" data-step="(\d)">[\s\S]*?<img src="([^"]+)"', t)
     by_step = {int(k): v for k, v in imgs}
-    logo = re.search(r'<img class="logo-img" src="([^"]+)"', t).group(1)
     nav_logo = re.search(r'<div class="brand"><img src="([^"]+)"', t)
+    # the landing is a light page now, so it carries the nav's dark lockup, not the white one
+    logo = nav_logo.group(1) if nav_logo else re.search(r'<img class="logo-img" src="([^"]+)"', t).group(1)
     head_end = t.index('<div class="landing"')
     tour_start = t.index('<div class="tour"')
     tour_open = t[tour_start:t.index('<div class="slide" data-step="1">')]
