@@ -28,7 +28,7 @@ os.environ.setdefault("PLAYWRIGHT_BROWSERS_PATH", r"C:\Users\alina\AppData\Local
 
 # step -> (board page id, [pin target selectors in pin order])
 SHOTS = {
-    1: ("home", [".quick-actions", "#page-home .card-row .card:nth-child(1)", "#page-home .bar-chart", "#page-home .home-right .card:nth-of-type(2)", ".sidebar .nav-list"]),
+    1: ("home", [".quick-actions", "#page-home .card-row .card:nth-child(1)", "#page-home .bar-chart", "text=Special Announcements", ".sidebar .nav-list"]),
     2: ("person", ["#page-person .card table", "#page-person .btn-add", "#page-person .card th:nth-child(3)"]),
     3: ("case", ["#page-case .card-row", "#page-case .btn-add", "#page-case .kanban, #page-case .kanban-board, #caseKanban"]),
     4: ("event", ["#eventTabs", "#event-records table, #page-event .card table"]),
@@ -77,7 +77,8 @@ def main() -> None:
             png = pg.screenshot(type="png")
             boxes = []
             for sel in targets:
-                r = pg.evaluate(f"""() => {{ const e = document.querySelector('{sel}'); if (!e) return null; const r = e.getBoundingClientRect(); return [r.left + r.width/2, r.top + Math.min(r.height/2, 40), r.width, r.height]; }}""")
+                finder = (f"[...document.querySelectorAll('#page-{pid} *')].find(x => x.children.length === 0 && x.textContent.trim() === '{sel[5:]}')" if sel.startswith("text=") else f"document.querySelector('{sel}')")
+                r = pg.evaluate(f"""() => {{ const e = {finder}; if (!e) return null; const r = e.getBoundingClientRect(); return [r.left + r.width/2, r.top + Math.min(r.height/2, 40), r.width, r.height]; }}""")
                 boxes.append(r)
             print(f"step {step} page {pid} active={active} shot={len(png)//1024}KB boxes={[[round(x) for x in bx] if bx else None for bx in boxes]}")
             # the screenshot for this step
