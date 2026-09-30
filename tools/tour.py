@@ -167,11 +167,11 @@ CTA = f'''<div class="cta-slide" id="ctaSlide">
 '''
 
 LANDING = '''<div class="landing" id="landing">
-  <img class="logo-img" src="{logo}" alt="Mareto by HelpSeeker Technologies">
-  <h1>See Mareto <span>in action</span></h1>
-  <p class="subtitle">A guided walk through how Mareto works for community service organizations: intake, case management, reporting and the programs in between.</p>
+  <div class="hs-hero"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+    <div class="hs-hero__inner"><p class="hs-hero__eyebrow">Product tour</p><h1>See Mareto in action</h1><p class="subtitle">A guided walk through how Mareto works for community service organizations: intake, case management, reporting and the programs in between. Seven screens, about two minutes.</p></div></div>
+  <img class="logo-img" src="{logo}" alt="Mareto by HelpSeeker Technologies" style="height:40px;margin:8px 0 22px">
   <button class="start-btn" onclick="startTour()">Start the tour <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-  <p class="note">7 screens, about 2 minutes.<br>Every screen you see is configured to how your organization works.</p>
+  <p class="note">Every screen you see is configured to how your organization works.</p>
 </div>
 '''
 

@@ -23,9 +23,9 @@ TOUR = "./mareto-general-product-tour.html"
 DEMO = "./mareto-interactive-demo.html"
 
 LANDING = '''  <div class="landing" id="landing">
-    <img src="{logo}" alt="Mareto by HelpSeeker Technologies">
-    <h1>Is Mareto <span>right for you?</span></h1>
-    <p>Eight quick questions. You get the size of build your organization needs, what it would cost in year one, and how Mareto meets the problems you named, in a summary you can send to your team.</p>
+    <div class="hs-hero"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+      <div class="hs-hero__inner"><p class="hs-hero__eyebrow">Fit finder</p><h1>Is Mareto right for you?</h1><p>Eight quick questions. You get the size of build your organization needs, what it would cost in year one, and how Mareto meets the problems you named, in a summary you can send to your team.</p></div></div>
+    <img src="{logo}" alt="Mareto by HelpSeeker Technologies" style="height:40px;margin:8px 0 22px">
     <button class="start-btn" onclick="startQuiz()">Find out <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
     <p class="note">About 90 seconds. No account needed.</p>
   </div>
@@ -251,10 +251,10 @@ function showResults() {
     '<div class="fit-banner"><div class="fit-label">Mareto fit</div><div class="fit-score">' + fitLabel + '</div><div class="fit-desc">Build size: <span class="hs-band">' + s.band + '</span></div></div>' +
 
     '<div class="hs-build"><h3>What your build looks like</h3><dl>' +
-      '<dt>Package</dt><dd>' + s.name + ': ' + s.who + '.</dd>' +
-      '<dt>Size</dt><dd>' + s.modules + ' configured to your programs.</dd>' +
-      '<dt>Time to go-live</dt><dd>' + s.weeks + (s.phased ? ', in waves: the first programs go live, then the next, so nobody waits for everything' : '') + '.</dd>' +
-      '<dt>Review rounds</dt><dd>' + (s.essentials ? 'Two' : 'Three') + ' included, with your program leads.</dd>' +
+      '<div><dt>Package</dt><dd>' + s.name + ': ' + s.who + '.</dd></div>' +
+      '<div><dt>Size</dt><dd>' + s.modules + ' configured to your programs.</dd></div>' +
+      '<div><dt>Time to go-live</dt><dd>' + s.weeks + (s.phased ? ', in waves: the first programs go live, then the next, so nobody waits for everything' : '') + '.</dd></div>' +
+      '<div><dt>Review rounds</dt><dd>' + (s.essentials ? 'Two' : 'Three') + ' included, with your program leads.</dd></div>' +
     '</dl><p>Software is the easy part. Every build starts with your impact model: we sit down with your team and sort out the logic model, the referral pathways, the automations, the workflows and the reporting, then configure Mareto to match. Our team comes from social impact, program evaluation and systems planning, and we hold your hand from discovery to go-live and after. Nothing here is a template you squeeze into.</p></div>' +
 
     (cards.length ? '<div class="match-section"><h3>How Mareto answers what you named</h3>' + cards.join('') + '</div>' : '') +
@@ -364,7 +364,7 @@ def main() -> None:
     t = PAGE.read_text(encoding="utf-8")
     logos = re.findall(r'<div class="landing" id="landing">[\s\S]*?<img src="([^"]+)" alt="Mareto">', t)
     logo = logos[0] if logos else re.search(r'<img src="(data:image[^"]+)"', t).group(1)
-    t = re.sub(r'<div class="landing" id="landing">[\s\S]*?</div>\n', LANDING.format(logo=logo), t, count=1)
+    t = re.sub(r'<div class="landing" id="landing">[\s\S]*?<!-- QUESTIONS -->', LANDING.format(logo=logo) + '\n  <!-- QUESTIONS -->', t, count=1)
     # the page's own script is the last <script> without src
     scripts = list(re.finditer(r'<script>([\s\S]*?)</script>', t))
     main_script = scripts[-1]

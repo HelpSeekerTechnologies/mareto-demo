@@ -16,7 +16,7 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent
-CANON = (HERE / "canon.css").read_text(encoding="utf-8")
+CANON = (HERE / "canon.css").read_text(encoding="utf-8") + "\n:root{--hs-hero-image:url(\"" + (HERE / "hero.webp.txt").read_text(encoding="utf-8").strip() + "\")}\n"
 MARK_START, MARK_END = "<!-- mareto-canon:start -->", "<!-- mareto-canon:end -->"
 
 # off-canon -> canon. Bright teal survives only inside a gradient (handled before the map runs).
