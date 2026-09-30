@@ -74,6 +74,12 @@ def fold_weights(t: str) -> str:
     return t
 
 
+def drop_dividers(t: str) -> str:
+    """No lines as separators (canon README §4): a one-sided border in the page's own CSS or inline styles becomes
+    none; cards and controls are separated by tone, shadow and space in canon.css."""
+    return re.sub(r"border-(top|right|bottom|left):\s*[0-9.]+px\s+(solid|dashed|dotted)[^;\"}]*", r"border-:0", t)
+
+
 def drop_uppercase(t: str) -> str:
     return re.sub(r"text-transform:\s*uppercase;?", "", t)
 
@@ -211,6 +217,7 @@ def run(path: pathlib.Path, dry: bool) -> None:
     t = fix_labels(t)
     t = fold_weights(t)
     t = drop_uppercase(t)
+    t = drop_dividers(t)
     t = map_colours(t)
     t, n_donuts = donuts_to_bars(t)
     t = inject_canon(t)

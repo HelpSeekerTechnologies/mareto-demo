@@ -16,7 +16,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .app-layout{display:flex;height:calc(100vh - 32px);margin-top:32px;}
 
 /* Sidebar */
-.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;border-right:1px solid var(--card-border);display:flex;flex-direction:column;overflow-y:auto;height:100%;}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:#fff;border-:0;display:flex;flex-direction:column;overflow-y:auto;height:100%;}
 .sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 4px;}
 .sidebar-logo{display:flex;align-items:center;gap:10px;}
 .sidebar-logo span{font-size:20px;font-weight:700;color:var(--navy);}
@@ -35,7 +35,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .sidebar-search svg{position:absolute;left:9px;top:9px;width:16px;height:16px;stroke:#4A5568;}
 
 .nav-list{flex:1;padding:0 0 16px;}
-.nav-item{display:flex;align-items:center;padding:10px 20px;cursor:pointer;font-size:14px;color:#4A5568;border-left:3px solid transparent;transition:all .15s;gap:10px;user-select:none;}
+.nav-item{display:flex;align-items:center;padding:10px 20px;cursor:pointer;font-size:14px;color:#4A5568;border-:0;transition:all .15s;gap:10px;user-select:none;}
 .nav-item:hover{background:#F9FAFB;color:var(--navy);}
 .nav-item.active{color:var(--teal);border-left-color:var(--teal);background:#EDF5F4;font-weight:700;}
 .nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;flex-shrink:0;}
@@ -43,7 +43,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .nav-item.expanded .chevron{transform:rotate(90deg);}
 .nav-children{display:none;padding-left:20px;}
 .nav-children.show{display:block;}
-.nav-child{display:flex;align-items:center;padding:8px 20px 8px 30px;cursor:pointer;font-size:13px;color:#4A5568;border-left:3px solid transparent;transition:all .15s;gap:8px;}
+.nav-child{display:flex;align-items:center;padding:8px 20px 8px 30px;cursor:pointer;font-size:13px;color:#4A5568;border-:0;transition:all .15s;gap:8px;}
 .nav-child:hover{background:#F9FAFB;color:var(--navy);}
 .nav-child.active{color:var(--teal);border-left-color:var(--teal);background:#EDF5F4;font-weight:700;}
 .nav-child svg{width:16px;height:16px;stroke:currentColor;fill:none;flex-shrink:0;}
@@ -64,8 +64,8 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .bed-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
 .bed-cell{background:#fff;border:1px solid var(--card-border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;position:relative;}
 .bed-cell:hover{box-shadow:0 2px 8px rgba(11,31,51,.1);}
-.bed-cell.occupied{border-left:4px solid #1E3A5F;}
-.bed-cell.available{border-left:4px solid var(--teal);}
+.bed-cell.occupied{border-:0;}
+.bed-cell.available{border-:0;}
 .bed-cell .bed-num{font-size:18px;font-weight:700;color:var(--navy);}
 .bed-cell .bed-person{font-size:11px;color:#4A5568;margin-top:4px;}
 .bed-cell .bed-status-dot{width:8px;height:8px;border-radius:50%;position:absolute;top:10px;right:10px;}
@@ -96,7 +96,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .rs-pill:hover{border-color:var(--teal);color:var(--teal);}
 .rs-pill.active{background:var(--navy);color:#fff;border-color:var(--navy);}
 .rs-period-toggle{display:flex;border:1px solid var(--card-border);border-radius:20px;overflow:hidden;}
-.rs-period{padding:8px 16px;font-size:13px;font-weight:700;color:var(--navy);background:#fff;border:none;cursor:pointer;font-family:'Lato',sans-serif;border-right:1px solid var(--card-border);transition:all .15s;}
+.rs-period{padding:8px 16px;font-size:13px;font-weight:700;color:var(--navy);background:#fff;border:none;cursor:pointer;font-family:'Lato',sans-serif;border-:0;transition:all .15s;}
 .rs-period:last-child{border-right:none;}
 .rs-period:hover{background:#F9FAFB;}
 .rs-period.active{background:var(--navy);color:#fff;}
@@ -115,7 +115,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 /* Assessment page */
 .assess-tabs{display:flex;border:1px solid var(--card-border);border-radius:28px;overflow:hidden;margin-bottom:24px;}
 .assess-tab{flex:1;padding:14px 8px;text-align:center;cursor:pointer;background:#fff;border:none;font-family:'Lato',sans-serif;transition:all .15s;}
-.assess-tab:not(:last-child){border-right:1px solid var(--card-border);}
+.assess-tab:not(:last-child){border-:0;}
 .assess-tab:hover{background:#F9FAFB;}
 .assess-tab.active{background:var(--navy);color:#fff;}
 .assess-tab .at-code{font-size:11px;font-weight:700;letter-spacing:.5px;}
@@ -129,7 +129,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .assess-section{background:#F9FAFB;border:1px solid var(--card-border);border-radius:10px;padding:24px;margin-bottom:20px;}
 .assess-section h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;}
 .assess-section .as-desc{font-size:13px;color:#4A5568;margin-bottom:20px;}
-.assess-check{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #EDF5F4;}
+.assess-check{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-:0;}
 .assess-check:last-child{border-bottom:none;}
 .assess-check .ac-box{width:24px;height:24px;border:2px solid var(--card-border);border-radius:6px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:2px;}
 .assess-check .ac-box.checked{background:var(--teal);border-color:var(--teal);}
@@ -156,7 +156,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .assess-score-bar .asb-score{font-size:28px;font-weight:700;color:var(--navy);}
 .assess-score-bar .asb-label{font-size:14px;font-weight:700;}
 .assess-score-bar .asb-rec{font-size:12px;color:#4A5568;margin-top:2px;}
-.assess-footer{text-align:center;margin-top:20px;padding:16px;border-top:1px solid var(--card-border);font-size:11px;color:#4A5568;}
+.assess-footer{text-align:center;margin-top:20px;padding:16px;border-:0;font-size:11px;color:#4A5568;}
 .assess-summary-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
 .assess-summary-card{background:#F9FAFB;border:1px solid var(--card-border);border-radius:10px;padding:16px;text-align:center;}
 .assess-summary-card .asc-label{font-size:12px;font-weight:700;color:#4A5568;margin-bottom:4px;}
@@ -164,7 +164,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 
 /* Permission grid */
 .perm-grid{display:grid;grid-template-columns:180px repeat(6,1fr);border:1px solid var(--card-border);border-radius:8px;overflow:hidden;}
-.perm-cell{padding:10px 8px;font-size:12px;border-bottom:1px solid #EDF5F4;border-right:1px solid #EDF5F4;display:flex;align-items:center;justify-content:center;}
+.perm-cell{padding:10px 8px;font-size:12px;border-:0;border-:0;display:flex;align-items:center;justify-content:center;}
 .perm-cell:last-child{border-right:none;}
 .perm-cell.header{background:#F9FAFB;font-weight:700;color:var(--navy);font-size:11px;}
 .perm-cell.label{justify-content:flex-start;font-weight:700;color:#4A5568;background:#F9FAFB;}
@@ -192,7 +192,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 
 /* Main */
 .main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.top-bar{background:#fff;border-bottom:1px solid var(--card-border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.top-bar{background:#fff;border-:0;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .top-bar-title{font-size:18px;font-weight:700;color:var(--navy);}
 .top-bar-right{display:flex;align-items:center;gap:16px;font-size:14px;color:#4A5568;}
 .top-bar-right svg{width:20px;height:20px;stroke:#4A5568;cursor:pointer;}
@@ -239,9 +239,9 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .pill-tab.active{background:var(--teal);color:#fff;}
 
 /* Text Tabs */
-.text-tabs{display:flex;gap:24px;margin-bottom:16px;border-bottom:1px solid #E5E7EB;padding-bottom:0;}
-.text-tab{padding:8px 4px;font-size:14px;font-weight:700;cursor:pointer;color:#4A5568;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;background:none;}
-.text-tab.active{color:#0B7770;border-bottom:2px solid #0B7770;}
+.text-tabs{display:flex;gap:24px;margin-bottom:16px;border-:0;padding-bottom:0;}
+.text-tab{padding:8px 4px;font-size:14px;font-weight:700;cursor:pointer;color:#4A5568;border-:0;margin-bottom:-1px;transition:all .15s;background:none;}
+.text-tab.active{color:#0B7770;border-:0;}
 .text-tab:hover{color:var(--navy);}
 
 /* Tables */
@@ -253,11 +253,11 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .table-search:focus{border-color:var(--teal);}
 
 table{width:100%;border-collapse:collapse;}
-thead th{text-align:left;padding:10px 12px;font-size:12px;font-weight:700;color:#4A5568;border-bottom:2px solid var(--card-border);white-space:nowrap;cursor:default;user-select:none;}
+thead th{text-align:left;padding:10px 12px;font-size:12px;font-weight:700;color:#4A5568;border-:0;white-space:nowrap;cursor:default;user-select:none;}
 thead th .col-icons{display:inline;margin-left:4px;color:#bbb;font-size:10px;}
 tbody tr{cursor:pointer;transition:background .1s;}
 tbody tr:hover{background:#F9FAFB;}
-tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-space:nowrap;}
+tbody td{padding:10px 12px;font-size:13px;border-:0;white-space:nowrap;}
 .pagination{display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:12px;color:#4A5568;}
 .pagination .pag-info{display:flex;align-items:center;gap:8px;}
 .pagination .pag-info select{padding:2px 6px;border:1px solid var(--card-border);border-radius:4px;font-size:12px;}
@@ -293,7 +293,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,31,51,.5);z-index:2000;display:none;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:#fff;width:calc(100% - 40px);height:calc(100% - 40px);border-radius:10px;display:flex;flex-direction:column;overflow:hidden;}
-.modal-title-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--card-border);flex-shrink:0;}
+.modal-title-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-:0;flex-shrink:0;}
 .modal-title-bar h3{font-size:16px;color:var(--navy);}
 .modal-title-bar .modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:#4A5568;padding:4px 8px;line-height:1;}
 .modal-title-bar .modal-close:hover{color:var(--navy);}
@@ -315,7 +315,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .risk-bar .risk-label{font-weight:700;letter-spacing:1px;}
 .risk-bar .risk-detail{color:#1E3A5F;font-weight:700;}
 .risk-bar .risk-detail.no-risk{color:#7EDDD5;}
-.modal-bottom{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--card-border);background:#fff;flex-shrink:0;}
+.modal-bottom{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-:0;background:#fff;flex-shrink:0;}
 .modal-bottom .mb-left button{background:none;border:none;font-size:14px;color:#4A5568;cursor:pointer;font-family:'Lato',sans-serif;display:flex;align-items:center;gap:6px;}
 .modal-bottom .mb-left button:hover{color:var(--navy);}
 .modal-bottom .mb-center{display:flex;gap:8px;align-items:center;}
@@ -330,8 +330,8 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 
 /* Create modal sidebar tabs */
 .create-layout{display:flex;min-height:300px;margin:0 20px 16px;background:#fff;border:1px solid var(--card-border);border-radius:8px;overflow:hidden;}
-.create-sidebar{width:200px;border-right:1px solid var(--card-border);background:#F9FAFB;flex-shrink:0;}
-.create-sidebar .cs-tab{padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;color:#4A5568;border-left:3px solid transparent;transition:all .15s;}
+.create-sidebar{width:200px;border-:0;background:#F9FAFB;flex-shrink:0;}
+.create-sidebar .cs-tab{padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;color:#4A5568;border-:0;transition:all .15s;}
 .create-sidebar .cs-tab:hover{background:#F9FAFB;color:var(--navy);}
 .create-sidebar .cs-tab.active{color:var(--teal);border-left-color:var(--teal);background:#EDF5F4;}
 .create-form{flex:1;padding:20px;}
@@ -381,8 +381,8 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 /* Reporting sidebar */
 .report-section-bar{background:linear-gradient(135deg,#EDF5F4,#F9FAFB);color:var(--navy);text-align:center;padding:10px;font-weight:700;font-size:14px;border-radius:6px;margin-bottom:12px;}
 .reporting-layout{display:flex;gap:0;min-height:360px;border:1px solid var(--card-border);border-radius:8px;background:#fff;margin-bottom:20px;overflow:hidden;}
-.reporting-sidebar{width:220px;display:flex;flex-direction:column;gap:0;flex-shrink:0;border-right:1px solid var(--card-border);background:#fff;}
-.reporting-sidebar .rep-tab{padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;color:#4A5568;transition:all .15s;border-left:3px solid transparent;}
+.reporting-sidebar{width:220px;display:flex;flex-direction:column;gap:0;flex-shrink:0;border-:0;background:#fff;}
+.reporting-sidebar .rep-tab{padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;color:#4A5568;transition:all .15s;border-:0;}
 .reporting-sidebar .rep-tab:hover{background:#F9FAFB;color:var(--teal);}
 .reporting-sidebar .rep-tab.active{background:#EDF5F4;color:var(--teal);border-left-color:var(--teal);font-weight:700;}
 .reporting-content{flex:1;padding:20px;position:relative;overflow:hidden;}
@@ -396,7 +396,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 /* Reporting bar charts */
 .rep-bar-wrap{display:flex;align-items:stretch;margin-top:12px;}
 .rep-bar-y{display:flex;flex-direction:column;justify-content:space-between;margin-right:8px;font-size:10px;color:#4A5568;text-align:right;min-width:20px;}
-.rep-bar-chart{display:flex;align-items:flex-end;gap:8px;flex:1;border-bottom:1px solid #E5E7EB;border-left:1px solid #E5E7EB;padding:0 12px 0 4px;min-height:240px;}
+.rep-bar-chart{display:flex;align-items:flex-end;gap:8px;flex:1;border-:0;border-:0;padding:0 12px 0 4px;min-height:240px;}
 .rep-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:40px;}
 .rep-bar{width:80%;max-width:90px;background:#0B1F33;border-radius:3px 3px 0 0;position:relative;min-height:4px;display:flex;align-items:center;justify-content:center;}
 .rep-bar span{color:#fff;font-size:11px;font-weight:700;}
@@ -411,8 +411,8 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .rep-funnel-row{height:40px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;border-radius:2px;}
 /* Reporting table */
 .rep-table{width:100%;border-collapse:collapse;font-size:13px;}
-.rep-table th{text-align:left;padding:8px 12px;border-bottom:2px solid var(--card-border);color:var(--navy);font-weight:700;}
-.rep-table td{padding:8px 12px;border-bottom:1px solid #EDF5F4;color:#4A5568;}
+.rep-table th{text-align:left;padding:8px 12px;border-:0;color:var(--navy);font-weight:700;}
+.rep-table td{padding:8px 12px;border-:0;color:#4A5568;}
 .rep-table .sort-icon{color:#4A5568;font-size:10px;margin-left:4px;}
 .rep-pager{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:#4A5568;}
 .rep-pager a{color:var(--teal);text-decoration:none;font-weight:700;cursor:pointer;}
@@ -435,7 +435,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .strat-header-right .strat-updated-date{font-size:13px;font-weight:400;color:#fff;}
 
 /* Strat tabs */
-#page-strategic .text-tabs{border-bottom:1px solid rgba(255,255,255,0.14);margin-bottom:20px;}
+#page-strategic .text-tabs{border-:0;margin-bottom:20px;}
 #page-strategic .text-tab{color:#fff;font-weight:400;font-size:14px;padding:10px 4px;}
 #page-strategic .text-tab.active{color:#0B7770;border-bottom-color:#0B7770;}
 #page-strategic .text-tab:hover{color:#0B7770;}
@@ -458,14 +458,14 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .strat-chart-card .legend-item{color:rgba(255,255,255,0.7);font-size:12px;}
 
 /* Strat insight box — dark theme */
-.strat-insight{border-left:3px solid #0B7770;padding:10px 14px;background:rgba(15,185,177,0.06);border-radius:6px;margin-bottom:12px;font-size:12px;color:#fff;line-height:1.5;}
+.strat-insight{border-:0;padding:10px 14px;background:rgba(15,185,177,0.06);border-radius:6px;margin-bottom:12px;font-size:12px;color:#fff;line-height:1.5;}
 .strat-insight h4{font-size:12px;font-weight:700;color:#0B7770;margin-bottom:4px;letter-spacing:0.05em;}
 .strat-insight p{font-size:12px;color:#fff;line-height:1.5;}
 .strat-insight.danger{border-left-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.06);}
 .strat-insight.danger h4{color:#1E3A5F;}
 
 /* Strat insight box — dark bg variant */
-.strat-insight-dark{background:rgba(15,185,177,0.06);border-left:3px solid #0B7770;padding:10px 14px;border-radius:6px;font-size:12px;color:#fff;line-height:1.5;margin-top:16px;}
+.strat-insight-dark{background:rgba(15,185,177,0.06);border-:0;padding:10px 14px;border-radius:6px;font-size:12px;color:#fff;line-height:1.5;margin-top:16px;}
 
 /* Risk distribution bars */
 .risk-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
@@ -485,12 +485,12 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .strat-vbar-wrap{display:flex;align-items:flex-end;gap:4px;height:160px;padding:0 8px;}
 .strat-vbar{flex:1;background:#0B7770;border-radius:3px 3px 0 0;min-width:20px;position:relative;}
 .strat-vbar-label{font-size:9px;color:rgba(255,255,255,0.6);text-align:center;margin-top:4px;}
-.strat-vbar-grid{position:relative;height:160px;border-left:1px solid rgba(255,255,255,0.1);}
+.strat-vbar-grid{position:relative;height:160px;border-:0;}
 
 /* Strat action cards */
 .strat-action-col{flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:8px;padding:24px;min-width:260px;}
 .strat-action-col h4{font-size:12px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px;}
-.strat-action-col p{font-size:12px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.strat-action-col p{font-size:12px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px;padding-bottom:12px;border-:0;}
 .strat-action-col p:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
 
 /* Strat metric row for What's Working / Watch Indicators */
@@ -507,7 +507,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:1px solid #EDF5F4;white-
 .strat-pill.na{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);}
 
 /* Strat footer — dark */
-.strat-footer{border-top:1px solid rgba(255,255,255,0.1);margin-top:32px;padding-top:24px;text-align:center;}
+.strat-footer{border-:0;margin-top:32px;padding-top:24px;text-align:center;}
 
 /* Strat chart tooltips */
 #stratTip{position:fixed;z-index:9999;pointer-events:none;background:rgba(10,22,40,0.92);border:1px solid rgba(255,255,255,0.18);border-radius:6px;padding:8px 12px;font-size:12px;color:#fff;white-space:nowrap;opacity:0;transition:opacity .12s;box-shadow:0 4px 12px rgba(11,31,51,0.3);}
@@ -524,8 +524,8 @@ svg circle[data-tip]:hover{r:5;filter:drop-shadow(0 0 4px rgba(15,185,177,0.6));
 
 
 /* Programs sub-page */
-.programs-sidebar{width:220px;border-right:1px solid var(--card-border);background:#F9FAFB;padding:10px 0;flex-shrink:0;overflow-y:auto;}
-.programs-sidebar .prog-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700;color:#4A5568;border-left:3px solid transparent;transition:all .15s;}
+.programs-sidebar{width:220px;border-:0;background:#F9FAFB;padding:10px 0;flex-shrink:0;overflow-y:auto;}
+.programs-sidebar .prog-item{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:700;color:#4A5568;border-:0;transition:all .15s;}
 .programs-sidebar .prog-item:hover{background:#F9FAFB;color:var(--navy);}
 .programs-sidebar .prog-item.active{color:var(--teal);border-left-color:var(--teal);background:#EDF5F4;}
 .programs-sidebar .prog-item svg{width:18px;height:18px;stroke:currentColor;fill:none;flex-shrink:0;}
@@ -585,7 +585,7 @@ svg circle[data-tip]:hover{r:5;filter:drop-shadow(0 0 4px rgba(15,185,177,0.6));
 .corteza-select{position:relative;width:100%;}
 .corteza-select select{width:100%;appearance:none;-webkit-appearance:none;padding:10px 40px 10px 12px;border:1px solid var(--card-border);border-radius:6px;background:#F9FAFB;font-size:13px;font-family:'Lato',sans-serif;color:#4A5568;cursor:pointer;}
 .corteza-select select:focus{border-color:var(--teal);}
-.corteza-select::after{content:'';position:absolute;right:12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--navy);pointer-events:none;}
+.corteza-select::after{content:'';position:absolute;right:12px;top:50%;transform:translateY(-50%);width:0;height:0;border-:0;border-:0;border-:0;pointer-events:none;}
 
 /* Toggle switch (No / Yes) */
 .toggle-wrap{display:flex;align-items:center;gap:8px;font-size:13px;color:#2D3748;margin-top:4px;}
@@ -618,7 +618,7 @@ svg circle[data-tip]:hover{r:5;filter:drop-shadow(0 0 4px rgba(15,185,177,0.6));
 .hc-welcome h3{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:4px;}
 .hc-welcome p{font-size:14px;color:#4A5568;line-height:1.5;}
 .hc-area-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
-.hc-area-card{background:#fff;border:1px solid var(--card-border);border-radius:10px;padding:18px;cursor:pointer;transition:all .15s;border-left:4px solid var(--teal);}
+.hc-area-card{background:#fff;border:1px solid var(--card-border);border-radius:10px;padding:18px;cursor:pointer;transition:all .15s;border-:0;}
 .hc-area-card:hover{box-shadow:0 2px 8px rgba(11,31,51,.1);border-left-color:var(--navy);}
 .hc-area-card h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
 .hc-area-card p{font-size:12px;color:#4A5568;line-height:1.4;}
@@ -972,7 +972,7 @@ tr+tr td{box-shadow:inset 0 1px 0 rgba(11,31,51,.06)}
 .hs-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .hs-btn-secondary{display:inline-flex;align-items:center;gap:8px;min-height:var(--nv-tap);padding:0 22px;border-radius:var(--hs-radius-control);background:var(--hs-mist);color:var(--hs-navy);font-weight:700;text-decoration:none;box-shadow:var(--control-inset)}
 .hs-btn-secondary:hover{background:var(--hs-pale)}
-@media(max-width:767px){.hotspot-card{width:min(260px,calc(100vw - 48px))}.screenshot-wrap{overflow:hidden}}
+@media(max-width:767px){.hotspot-card{display:none!important}.screenshot-wrap{overflow:hidden}.hotspot-dot{width:32px;height:32px;font-size:13px}}
 
 /* ===================== fit finder ===================== */
 .quiz-container .landing{min-height:0}
@@ -1783,11 +1783,11 @@ tr+tr td{box-shadow:inset 0 1px 0 rgba(11,31,51,.06)}
                 <span style="font-size:10px;color:rgba(255,255,255,0.5);">0</span>
               </div>
               <div style="position:absolute;left:28px;right:0;top:0;bottom:24px;">
-                <div style="position:absolute;top:0;left:0;right:0;border-bottom:1px dashed rgba(255,255,255,0.08);"></div>
-                <div style="position:absolute;top:25%;left:0;right:0;border-bottom:1px dashed rgba(255,255,255,0.08);"></div>
-                <div style="position:absolute;top:50%;left:0;right:0;border-bottom:1px dashed rgba(255,255,255,0.08);"></div>
-                <div style="position:absolute;top:75%;left:0;right:0;border-bottom:1px dashed rgba(255,255,255,0.08);"></div>
-                <div style="position:absolute;bottom:0;left:0;right:0;border-bottom:1px solid rgba(255,255,255,0.1);"></div>
+                <div style="position:absolute;top:0;left:0;right:0;border-:0;"></div>
+                <div style="position:absolute;top:25%;left:0;right:0;border-:0;"></div>
+                <div style="position:absolute;top:50%;left:0;right:0;border-:0;"></div>
+                <div style="position:absolute;top:75%;left:0;right:0;border-:0;"></div>
+                <div style="position:absolute;bottom:0;left:0;right:0;border-:0;"></div>
                 <svg viewBox="0 0 250 100" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
                   <polygon points="0,75 42,75 83,62 125,50 167,12 208,25 250,37 250,100 0,100" fill="rgba(15,185,177,0.2)"/>
                   <polyline points="0,75 42,75 83,62 125,50 167,12 208,25 250,37" fill="none" stroke="#0B7770" stroke-width="2"/>
@@ -3510,7 +3510,7 @@ tr+tr td{box-shadow:inset 0 1px 0 rgba(11,31,51,.06)}
               <span class="rs-live-badge">Live data</span>
             </div>
             <div style="font-size:12px;color:#4A5568;margin-bottom:12px;">Case start dates, live.</div>
-            <div id="rs-bar-chart" style="display:flex;align-items:flex-end;gap:6px;height:200px;padding:0 4px;border-bottom:1px solid #E5E7EB;"></div>
+            <div id="rs-bar-chart" style="display:flex;align-items:flex-end;gap:6px;height:200px;padding:0 4px;border-:0;"></div>
             <div id="rs-bar-labels" style="display:flex;gap:6px;padding:0 4px;margin-top:4px;"></div>
           </div>
           <!-- Horizontal bar: files by program -->
@@ -3810,108 +3810,108 @@ tr+tr td{box-shadow:inset 0 1px 0 rgba(11,31,51,.06)}
           <p class="hb-desc">A quick reference for the terms you'll see throughout Mareto. If a word on screen doesn't match anything here, check with your admin.</p>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;">
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Person</strong> — any individual in the system: a client, caregiver, child, or community member. The base record everything else links to.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Family</strong> — a group of linked person records. Children belong to their family and are not listed separately in the Person Registry.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Relationship</strong> — a defined connection between two people: partner, sibling, emergency contact, caseworker, or custom.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Intake</strong> — the process of receiving a new request for services. An intake creates a record that can become a case.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Assessment</strong> — a scored evaluation completed during intake. Includes acuity, stability, engagement, and transition tools.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Waitlist</strong> — the queue of intakes waiting to be assigned to a program or caseworker.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Case</strong> — an active service file for one person. Tracks goals, notes, referrals, and status from open to close.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Case Note</strong> — a timestamped record of an interaction, observation, or action taken on a case. Tied to the caseworker who wrote it.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Program</strong> — a service your organization delivers: Family Support, Youth Services, Counselling, Employment, Early Learning, or custom.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Enrollment</strong> — when a person is added to a program. One person can be enrolled in multiple programs at once.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Event</strong> — any logged interaction: a phone call, home visit, group session, or crisis response. Found in the Event Log.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Referral</strong> — a formal request to connect a person with another service, either within your organization (internal) or to a partner agency (external).
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Resource</strong> — a physical asset managed in the Shelter module: a bed, a unit, a room. Tracked on the kanban board.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Incident Report</strong> — a record of a safety or behavioural event in a shelter or program setting. Linked to involved persons and follow-up actions.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Daily Log</strong> — shift-by-shift notes for shelter operations. Handoff details, observations, and anything the next shift needs to know.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Attendance</strong> — check-in tracking for programs or shelter stays. Records who was present, meal counts, and daily occupancy.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Funder Contract</strong> — an agreement with a funding body. Tracks dollar amount, reporting schedule, and compliance deadlines.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Report Generator</strong> — the tool for building funder-ready reports. Select date range, program, and format, then export.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Strategic Insights</strong> — high-level dashboards showing trends, service gaps, and outcome trajectories across all programs.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Reports and Analytics</strong> — the live reporting studio with KPI cards, time-series charts, and data exports.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Wellness Tracker</strong> — a module for recording wellness scores and health indicators over time. Used in clinical and shelter settings.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Timesheet</strong> — staff hours logged per day. Includes clock-in/out, break tracking, and leave requests.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Staff Leave</strong> — vacation, sick, or personal time requests submitted through the Timesheets module.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">User Access</strong> — the admin panel for managing who can see and do what. Role-based permissions control visibility of records and modules.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Namespace</strong> — the top-level container for your organization in Mareto. All data, users, and configuration live inside your namespace.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Survey</strong> — a configurable questionnaire sent to clients or staff. Responses feed into reporting and program evaluation.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Outreach</strong> — field-based work tracked by location and contact. Logs visits, interactions, and GPS-tagged notes.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Appointment</strong> — a scheduled meeting or session. Appears on the calendar and can be linked to a case or program.
             </div>
 
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Status</strong> — the current state of a record: <strong>Active</strong>, <strong>Pending</strong>, <strong>Closed</strong>, <strong>Approved</strong>, or <strong>In Progress</strong>. Every list can be filtered by status.
             </div>
-            <div style="padding:14px 0;border-bottom:1px solid #F9FAFB;">
+            <div style="padding:14px 0;border-:0;">
               <strong style="color:var(--teal);">Audit Trail</strong> — the system log of who viewed, edited, or exported a record and when. Available to admin users.
             </div>
 
@@ -4438,7 +4438,7 @@ function renderMiniCal(){
   // Build grid cells
   let cells='';
   ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{
-    cells+=`<div style="padding:8px 4px;font-weight:700;color:var(--navy);font-size:13px;text-align:center;border-bottom:1px solid #E5E7EB;background:#F9FAFB;">${d}</div>`;
+    cells+=`<div style="padding:8px 4px;font-weight:700;color:var(--navy);font-size:13px;text-align:center;border-:0;background:#F9FAFB;">${d}</div>`;
   });
   for(let i=0;i<firstDay;i++) cells+=`<div style="border:1px solid #EDF5F4;min-height:64px;"></div>`;
   for(let d=1;d<=daysInMonth;d++){
@@ -4868,7 +4868,7 @@ function openEventEditModal(){
     <div style="padding:12px 20px;">
       <button class="btn-add" style="width:100%;padding:10px 20px;font-size:14px;" onclick="openCreateModal('case')">Create Case</button>
     </div>
-    <div style="margin:0 20px 20px;padding:12px 16px;background:#EDF5F4;border-left:4px solid var(--teal);border-radius:4px;font-size:13px;color:#2D3748;">
+    <div style="margin:0 20px 20px;padding:12px 16px;background:#EDF5F4;border-:0;border-radius:4px;font-size:13px;color:#2D3748;">
       Your event details will show here when you select an event type.
     </div>`;
   document.getElementById('modalBottom').innerHTML=`
