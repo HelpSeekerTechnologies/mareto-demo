@@ -207,7 +207,36 @@ BOARD_DRAWER = """<!-- mareto-canon:drawer -->
 <!-- /mareto-canon:drawer -->"""
 
 
+HIGHLIGHTS = """<div class="card-row hs-highlights" data-hs-highlights>
+        <div class="card kpi"><div class="kpi-label">Open caseload</div><div class="kpi-value">67</div><div class="kpi-sub">across 9 case workers, 7 per worker</div></div>
+        <div class="card kpi"><div class="kpi-label">Events this week</div><div class="kpi-value">41</div><div class="kpi-sub">sessions, calls and visits logged by staff</div></div>
+        <div class="card kpi"><div class="kpi-label">Checkpoints due</div><div class="kpi-value">6</div><div class="kpi-sub">follow-ups falling due in the next 7 days</div></div>
+        <div class="card kpi"><div class="kpi-label">Staff active today</div><div class="kpi-value">12</div><div class="kpi-sub">signed in and recording</div></div>
+      </div>
+      """
+
+
+PROGRAMS = """<div class="card" data-hs-programs>
+        <div class="table-header"><h3>Programs</h3><button class="btn-add" onclick="showToast('Adding a program is done with you during setup')">+ Add</button></div>
+        <table style="width:100%"><thead><tr><th>Program</th><th>Open cases</th><th>Case workers</th><th>Events this month</th><th>Referrals, 30 days</th><th>Status</th></tr></thead><tbody>
+        <tr><td><a href="#" onclick="return false">Family Support</a></td><td>5</td><td>3</td><td>38</td><td>4</td><td><span class="status-badge status-active">Accepting</span></td></tr>
+        <tr><td><a href="#" onclick="return false">Youth Services</a></td><td>3</td><td>2</td><td>21</td><td>2</td><td><span class="status-badge status-active">Accepting</span></td></tr>
+        <tr><td><a href="#" onclick="return false">Counselling</a></td><td>2</td><td>2</td><td>17</td><td>1</td><td><span class="status-badge status-pending">Waitlist</span></td></tr>
+        <tr><td><a href="#" onclick="return false">Employment</a></td><td>2</td><td>1</td><td>9</td><td>1</td><td><span class="status-badge status-active">Accepting</span></td></tr>
+        <tr><td><a href="#" onclick="return false">Early Learning</a></td><td>2</td><td>1</td><td>12</td><td>1</td><td><span class="status-badge status-active">Accepting</span></td></tr>
+        </tbody></table>
+      </div>
+      """
+
+
 def board_extras(t: str) -> str:
+    # home page highlights (Alina 30 Sep: caseload, staff and events at a glance) above the overview
+    if "data-hs-highlights" not in t and 'id="page-home"' in t:
+        t = t.replace('<div class="home-split">', HIGHLIGHTS + '<div class="home-split">', 1)
+    if "data-hs-programs" not in t and 'id="page-programs"' in t:
+        i = t.index('id="page-programs"'); j = t.find('<div class="page"', i + 10)
+        seg = t[i:j]; k = seg.rfind("</div>")  # the page's closing div
+        t = t[:i] + seg[:k] + PROGRAMS + seg[k:] + t[j:]
     if "mareto-canon:drawer" in t:
         return t
     return t.replace("</body>", BOARD_DRAWER + "\n</body>", 1)

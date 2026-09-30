@@ -247,15 +247,31 @@ function showResults() {
   else if (['immediate', '3months'].includes(a.timeline) && ['decision_maker', 'evaluator'].includes(a.role)) { ctaMessage = 'On your timeline, a 20-minute meeting is the fastest way to see Mareto configured for your programs and to firm up the estimate.'; ctaPrimary = 'Book a meeting'; ctaHref = BOOK; ctaSecondary = 'Or explore the interactive demo first'; ctaSecondaryHref = DEMO; }
   else { ctaMessage = 'No rush. Explore the interactive demo, and book a meeting when you want the estimate firmed up.'; ctaPrimary = 'Explore the interactive demo'; ctaHref = DEMO; ctaSecondary = 'Or book a meeting'; ctaSecondaryHref = BOOK; }
 
+  // who they told us they are, in one sentence, and what that tells us
+  const orgWords = { nonprofit: 'a nonprofit', indigenous: 'an Indigenous organization', municipal: 'a municipal team', other_gov: 'a public body', other: 'an organization' }[a.org_type] || 'an organization';
+  const svcNames = { cfs: 'child and family services', indigenous_svc: 'Indigenous services', mental_health: 'mental health and addictions', housing: 'housing and homelessness', dv: 'domestic violence and crisis', employment: 'employment', food: 'food security', seniors_disability: 'seniors and disability services', youth: 'youth services', other_svc: 'community services' };
+  const svcList = (a.services || []).map(v => svcNames[v]).filter(Boolean);
+  const svcText = svcList.length ? (svcList.length === 1 ? svcList[0] : svcList.slice(0, -1).join(', ') + ' and ' + svcList[svcList.length - 1]) : 'community services';
+  const progWords = { '1-2': 'one or two programs', '3-5': 'three to five programs', '6-10': 'six to ten programs', '10+': 'more than ten programs' }[a.programs] || 'a few programs';
+  const userWords = { '1-5': 'up to five', '6-15': 'six to fifteen', '16-30': 'sixteen to thirty', '31-50': 'thirty-one to fifty', '50+': 'more than fifty' }[a.users] || 'a handful of';
+  const tlWords = { immediate: 'and you need something now', '3months': 'and you want to move within three months', '6months': 'and you are planning for the next six months', exploring: 'and you are still looking around' }[a.timeline] || '';
+  const chNames = { reporting: 'funder reporting', duplicates: 'counting people twice', too_many_tools: 'too many tools', no_visibility: 'history that does not follow the person', data_entry: 'data entry', privacy: 'where the data lives', bad_fit: 'software that does not fit', outcomes: 'outcomes you cannot show' };
+  const chList = ch.map(c => chNames[c]).filter(Boolean);
+  const chText = chList.length ? (chList.length === 1 ? chList[0] : chList.slice(0, -1).join(', ') + ' and ' + chList[chList.length - 1]) : '';
+  const youText = 'You are ' + orgWords + ' delivering ' + svcText + ' across ' + progWords + ', with ' + userWords + ' staff signing in, ' + tlWords + '.' + (chText ? ' What gets in the way: ' + chText + '.' : '');
+  const tellsUs = s.essentials ? 'Organizations like yours are the fastest to set up: one template, two review rounds, live in weeks.'
+    : s.pts <= 9 ? 'Organizations like yours usually need a few automations and one public form; a build of 60 to 120 modules, live in four to six weeks.'
+    : s.pts <= 17 ? 'Organizations like yours usually bring records over from another system and need more roles; a build of 120 to 200 modules in about eight weeks.'
+    : 'Organizations like yours are the ones we go live in waves for: many service streams, a large migration and a governance body signing off. The largest build on the platform runs 19 programs on one registry.';
   r.innerHTML = '<div class="results-header"><h2>Your results</h2><p>' + fitDesc + '</p></div>' +
-    '<div class="fit-banner"><div class="fit-label">Mareto fit</div><div class="fit-score">' + fitLabel + '</div><div class="fit-desc">Build size: <span class="hs-band">' + s.band + '</span></div></div>' +
+    '<div class="fit-banner"><div class="fit-label">Mareto fit</div><div class="fit-score">' + fitLabel + '</div><p class="fit-you">' + youText + '</p><div class="fit-desc"><span class="hs-band">' + s.band + '</span><span>' + tellsUs + '</span></div></div>' +
 
-    '<div class="hs-build"><h3>What your build looks like</h3><dl>' +
-      '<div><dt>Package</dt><dd>' + s.name + ': ' + s.who + '.</dd></div>' +
-      '<div><dt>Size</dt><dd>' + s.modules + ' configured to your programs.</dd></div>' +
-      '<div><dt>Time to go-live</dt><dd>' + s.weeks + (s.phased ? ', in waves: the first programs go live, then the next, so nobody waits for everything' : '') + '.</dd></div>' +
-      '<div><dt>Review rounds</dt><dd>' + (s.essentials ? 'Two' : 'Three') + ' included, with your program leads.</dd></div>' +
-    '</dl><p>Software is the easy part. Every build starts with your impact model: we sit down with your team and sort out the logic model, the referral pathways, the automations, the workflows and the reporting, then configure Mareto to match. Our team comes from social impact, program evaluation and systems planning, and we hold your hand from discovery to go-live and after. Nothing here is a template you squeeze into.</p></div>' +
+    '<div class="hs-build"><h3>What your build looks like</h3><div class="hs-journey">' +
+      '<div class="hs-node"><span class="hs-medallion">' + icon('layers') + '</span><div class="hs-node__v">' + s.name + '</div><div class="hs-node__l">Package</div><div class="hs-node__d">' + s.who.charAt(0).toUpperCase() + s.who.slice(1) + '.</div></div>' +
+      '<div class="hs-node"><span class="hs-medallion">' + icon('database') + '</span><div class="hs-node__v">' + s.modules.replace('about ', '~').replace('around ', '~').replace(' modules', '') + '</div><div class="hs-node__l">Modules</div><div class="hs-node__d">Configured to your programs, forms and reports.</div></div>' +
+      '<div class="hs-node"><span class="hs-medallion">' + icon('clock') + '</span><div class="hs-node__v">' + s.weeks.replace('about ', '~') + '</div><div class="hs-node__l">To go-live</div><div class="hs-node__d">' + (s.phased ? 'In waves: the first programs go live, then the next.' : 'Discovery, data model, build, review, training.') + '</div></div>' +
+      '<div class="hs-node"><span class="hs-medallion">' + icon('check') + '</span><div class="hs-node__v">' + (s.essentials ? '2' : '3') + '</div><div class="hs-node__l">Review rounds</div><div class="hs-node__d">With your program leads, before anything goes live.</div></div>' +
+    '</div><p class="hs-build__p">Software is the easy part. Every build starts with your impact model: we sit down with your team and sort out the logic model, the referral pathways, the automations, the workflows and the reporting, then configure Mareto to match. Our team comes from social impact, program evaluation and systems planning, and we hold your hand from discovery to go-live and after. Nothing here is a template you squeeze into.</p></div>' +
 
     (cards.length ? '<div class="match-section"><h3>How Mareto answers what you named</h3>' + cards.join('') + '</div>' : '') +
 
@@ -290,12 +306,13 @@ function updateCalc() {
   document.getElementById('calcUsersVal').textContent = users;
   const e = estimate(users, term);
   document.getElementById('calcResult').innerHTML =
-    '<div class="result-item"><div class="result-num">' + fmt(e.s.setup) + '</div><div class="result-label">Setup, ' + e.s.band + '</div></div>' +
-    '<div class="result-item"><div class="result-num">' + fmt(e.monthly) + '</div><div class="result-label">Licence a month, ' + e.billed + ' users' + (users < 10 ? ' (10 minimum)' : '') + '</div></div>' +
-    '<div class="result-item"><div class="result-num">' + fmt(e.annualLicence) + '</div><div class="result-label">Licence, year one' + (term === 2 ? ', prepaid' : '') + '</div></div>' +
-    '<div class="result-item"><div class="result-num">' + fmt(e.firstYear) + '</div><div class="result-label">Year one, all in</div></div>' +
-    '<div class="result-item"><div class="result-num">' + fmt(e.signing) + '</div><div class="result-label">Due on signing</div></div>' +
-    '<div class="result-item"><div class="result-num">$' + e.rate + '</div><div class="result-label">Per user a month at your size</div></div>';
+    '<div class="hs-est"><div class="hs-est__group"><div class="hs-est__h">One time</div>' +
+      '<div class="result-item"><div class="result-label">Setup, ' + e.s.band + '</div><div class="result-num">' + fmt(e.s.setup) + '</div></div>' +
+      '<div class="result-item"><div class="result-label">Due on signing</div><div class="result-num">' + fmt(e.signing) + '</div></div></div>' +
+    '<div class="hs-est__group"><div class="hs-est__h">Every month</div>' +
+      '<div class="result-item"><div class="result-label">Licence, ' + e.billed + ' users' + (users < 10 ? ' (10 minimum)' : '') + '</div><div class="result-num">' + fmt(e.monthly) + '<small>/month</small></div></div>' +
+      '<div class="result-item"><div class="result-label">Per user at your size</div><div class="result-num">$' + e.rate + '<small>/month</small></div></div></div></div>' +
+    '<div class="hs-est__total"><div><div class="hs-est__eyebrow">Year one, all in</div><div class="hs-est__big">' + fmt(e.firstYear) + '</div></div><div class="hs-est__note">Setup ' + fmt(e.s.setup) + ' plus licence ' + fmt(e.annualLicence) + (term === 2 ? ' prepaid, 5% off' : ' billed monthly') + '. From year two, the licence only.</div></div>';
 }
 
 function submitContact() {
