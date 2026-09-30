@@ -155,6 +155,11 @@ def donuts_to_bars(t: str) -> tuple[str, int]:
         n += 1
     # a legend that still sits beside converted bars (tips case) is redundant: drop legends immediately preceding hs-bars
     t = re.sub(r'<div class="rep-legend"[^>]*>(?:\s*<div class="rep-legend-item">.*?</div>)+\s*</div>\s*(?=<div class="rep-chart-wrap">\s*<div class="hs-bars">)', "", t, flags=re.S)
+    # a legend block that sits right before or after converted rows says the same thing twice: drop it
+    legend_block = r'<div(?:\s[^>]*)?>(?:\s*<div class="(?:rep-)?legend-item">(?:<div[^>]*></div>)?[^<]*</div>)+\s*</div>'
+    rows_block = r'(<div class="hs-bars">(?:<div class="hs-bar">(?:<span[^>]*>(?:<span[^>]*></span>)?[^<]*</span>)+</div>)+</div>(?:<div class="hs-bars--total">[^<]*</div>)?)'
+    t = re.sub(rows_block + r'\s*' + legend_block, r'\1', t)
+    t = re.sub(legend_block + r'\s*(?=<div class="hs-bars">)', '', t)
     return t, n
 
 

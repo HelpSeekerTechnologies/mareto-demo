@@ -156,6 +156,43 @@ tr+tr td{box-shadow:inset 0 1px 0 rgba(11,31,51,.06)}
 .bed-cell{border:0;border-radius:var(--hs-radius-small);box-shadow:var(--control-inset)}
 .bed-cell.occupied{background:var(--hs-pale)}.bed-cell.available{background:var(--hs-surface)}
 .toast,.hs-toast{background:var(--hs-navy);color:#fff;border-radius:var(--hs-radius-field);box-shadow:var(--sh4)}
+/* the strategic report was themed dark by id; it is a light page like every other page */
+#page-strategic{background:transparent!important;color:var(--hs-text)!important;border-radius:0;margin:0;padding:0}
+#page-strategic .hero{margin-bottom:20px;border-radius:var(--hs-radius-card)}
+#page-strategic .strat-wrap{padding:0}
+#page-strategic .strat-header{color:var(--hs-navy);background:var(--hs-surface);border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:20px 22px;margin-bottom:16px}
+#page-strategic .strat-header .strat-cat{color:var(--hs-pine);font-weight:700;letter-spacing:.06em;font-size:11px}
+#page-strategic .strat-header h2{color:var(--hs-navy)}
+#page-strategic .strat-header .strat-sub,#page-strategic .strat-updated-label,#page-strategic .strat-updated-date{color:var(--hs-muted)}
+#page-strategic .text-tabs{border-bottom:0;margin-bottom:16px}
+#page-strategic .text-tab{color:var(--hs-navy);font-weight:700;padding:0 16px}
+#page-strategic .text-tab.active{color:var(--hs-pine);background:var(--hs-tint-strong)}
+#page-strategic .strat-kpi,#page-strategic .strat-chart-card,#page-strategic .strat-action-col{background:var(--hs-surface);border:0;border-radius:var(--hs-radius-card);box-shadow:var(--sh1);color:var(--hs-text)}
+#page-strategic .strat-kpi .sk-icon{display:none}
+#page-strategic .strat-kpi .sk-label,#page-strategic .strat-chart-card h4,#page-strategic .strat-action-col h4{color:var(--hs-navy)}
+#page-strategic .strat-kpi .sk-sub,#page-strategic .strat-chart-card .legend-item,#page-strategic .strat-hbar-label,#page-strategic .strat-hbar-val,#page-strategic .strat-vbar-label,#page-strategic .strat-metric-text,#page-strategic .strat-action-col p{color:var(--hs-muted)}
+#page-strategic .strat-kpi.danger .sk-value{background:none;-webkit-text-fill-color:var(--hs-slate);color:var(--hs-slate)}
+#page-strategic .strat-insight,#page-strategic .strat-insight-dark,#page-strategic .strat-insight.danger{border-left:0;background:var(--hs-mist);color:var(--hs-text);border-radius:var(--hs-radius-field);box-shadow:none}
+#page-strategic .strat-insight p,#page-strategic .strat-insight-dark p,#page-strategic .strat-insight-dark{color:var(--hs-text)}
+#page-strategic .strat-insight h4,#page-strategic .strat-insight.danger h4{color:var(--hs-pine)}
+#page-strategic .risk-bar-label{color:var(--hs-navy)}
+#page-strategic .risk-bar-track,#page-strategic .strat-hbar-track{background:var(--hs-mist);border-radius:var(--hs-radius-control);height:10px}
+#page-strategic .risk-bar-fill,#page-strategic .strat-hbar-fill{border-radius:var(--hs-radius-control);background:var(--hs-slate)!important}
+#page-strategic .risk-bar-num{color:var(--hs-pine)}
+#page-strategic .strat-vbar{background:var(--hs-slate);border-radius:var(--hs-radius-small) var(--hs-radius-small) 0 0}
+#page-strategic .strat-vbar-grid{border-left:0}
+#page-strategic .strat-metric-val{color:var(--hs-pine)}
+#page-strategic .strat-metric-val.warn{color:var(--hs-slate)}
+#page-strategic .strat-pill{border-radius:var(--hs-radius-control)}
+#page-strategic .strat-pill.yes{background:var(--hs-dark-tint);color:var(--hs-slate)}
+#page-strategic .strat-pill.no{background:var(--hs-tint-strong);color:var(--hs-pine)}
+#page-strategic .strat-pill.na{background:var(--hs-mist);color:var(--hs-muted)}
+#page-strategic .strat-action-col p{border-bottom:0;padding-bottom:0}
+#page-strategic .strat-footer{border-top:0;color:var(--hs-muted)}
+#page-strategic .strat-chart-crosshair{background:rgba(11,31,51,.3)}
+#page-strategic [style*="linear-gradient"]{background:var(--hs-mist)!important;color:var(--hs-navy)!important;border-radius:var(--hs-radius-control)!important}
+#page-strategic svg text{fill:var(--hs-muted)}
+#page-strategic svg line,#page-strategic svg path[stroke="#ffffff"],#page-strategic svg path[stroke="rgba(255,255,255,0.2)"]{stroke:rgba(11,31,51,.15)}
 /* phone: the sidebar is a drawer behind a menu button; the board never scrolled sideways on a phone before this */
 .hs-menu{display:none;border:0;background:var(--hs-mist);color:var(--hs-navy);border-radius:var(--hs-radius-control);width:var(--nv-tap);height:var(--nv-tap);align-items:center;justify-content:center;box-shadow:var(--control-inset);cursor:pointer;flex:none}
 .hs-menu svg{width:22px;height:22px;stroke:var(--hs-navy);fill:none;stroke-width:2}
