@@ -985,6 +985,12 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
 
 /* story layer: card top-align */
 #page-case .card-row>.card{justify-content:flex-start}
+
+/* story layer: qa-btn */
+.quick-actions .qa-btn{border:0;border-radius:999px;padding:12px 18px;font-weight:700;font-size:13.5px;font-family:inherit;cursor:pointer;background:var(--hs-mist);color:var(--hs-navy);box-shadow:none}
+.quick-actions .qa-btn:first-child{grid-column:1/-1;background:var(--hs-action-gradient);color:#fff;box-shadow:var(--sh1)}
+.quick-actions .qa-btn:nth-child(2){background:linear-gradient(135deg,#0B7770,#14AEC4);color:#fff}
+.quick-actions .qa-btn:hover{opacity:.92}
 /* the strategic report was themed dark by id; it is a light page like every other page */
 #page-strategic{background:transparent!important;color:var(--hs-text)!important;border-radius:0;margin:0;padding:0}
 #page-strategic .hero{margin-bottom:20px;border-radius:var(--hs-radius-card)}
@@ -1089,7 +1095,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
 .hotspot-dot:hover{transform:scale(1.08)}
 .hotspot-ring{display:none}
 .hotspot.open .hotspot-dot{background:var(--hs-medallion-gradient);box-shadow:var(--focus),0 0 0 6px rgba(255,255,255,.35);transform:scale(1.08)}
-.hotspot-card{border-radius:var(--hs-radius-menu);box-shadow:var(--sh3);border-left:0;color:var(--hs-ink);width:300px}
+.hotspot-card{background:var(--hs-surface,#fff);border-radius:var(--hs-radius-menu);box-shadow:var(--sh3);border-left:0;color:var(--hs-ink);width:300px;z-index:60}
 .hotspot-card strong{color:var(--hs-navy)}
 .hotspot-card::before{content:attr(data-n);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--hs-pale);color:var(--hs-pine);font-size:11px;font-weight:700;margin-bottom:6px}
 .hs-callouts{list-style:none;margin:0 auto 20px;padding:0;max-width:960px;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
@@ -4730,6 +4736,7 @@ function openPersonModal(idx){
 
 
 
+
 <div class="modal-section">Overview</div>
     ${riskHtml}
     <div class="modal-grid">
@@ -7415,7 +7422,7 @@ function updateTransitionSummary() {
     if (persona === 'counsellor' || persona === 'manager') { const prog = personaProgram || PROGRAMS[0]; fill(personData, people.filter((p) => p._program === prog)); fill(eventData, events.filter((e) => e._case.program === prog)); } else { fill(personData, people); fill(eventData, events); }
     try { renderPersonTable(); renderEventTable(); } catch (e) {}
     try { renderStatic((persona === 'counsellor' || persona === 'manager') ? (personaProgram || PROGRAMS[0]) : null); } catch (e) { console.warn('story: scope', e); }
-    if (persona === 'board' || persona === 'researcher') { navigateTo('reportstudio'); } else navigateTo('home');
+    if (persona === 'board' || persona === 'researcher') { navigateTo($('#page-reportstudio') ? 'reportstudio' : 'reporting'); } else navigateTo('home');
   };
   const screener = () => {
     let o = $('#hsPersona'); if (o) o.remove(); o = document.createElement('div'); o.id = 'hsPersona'; o.className = 'hs-persona'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true');

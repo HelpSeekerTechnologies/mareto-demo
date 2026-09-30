@@ -73,7 +73,7 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .card{background:var(--card-bg);border:0;border-radius:8px;box-shadow:var(--card-shadow);padding:20px;margin-bottom:16px;}
 .card-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
 .card-row>.card{flex:1;min-width:140px;}
-.kpi{text-align:center;}
+
 .kpi .kpi-label{font-size:13px;color:#4A5568;margin-bottom:4px;}
 .kpi .kpi-value{font-size:48px;font-weight:700;color:var(--teal);line-height:1;}
 .kpi .kpi-sub{font-size:11px;color:#4A5568;margin-top:4px;}
@@ -93,8 +93,8 @@ body{font-family:'Lato',sans-serif;background:#F9FAFB;color:#2D3748;overflow:hid
 .btn-full:hover{opacity:.9;}
 
 /* Quick action buttons row */
-.quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;justify-content:center;}
-.quick-actions .qa-btn{background:var(--teal);color:#fff;border:none;border-radius:9999px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Lato',sans-serif;}
+
+
 .quick-actions .qa-btn:hover{opacity:.85;}
 
 /* Pill Tabs */
@@ -461,6 +461,91 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
 .pill-tabs{margin-left:auto;margin-right:auto;display:flex;width:max-content;max-width:100%}
 
 .report-section-bar{background:var(--hs-mist)!important;color:var(--hs-navy)!important;border-radius:var(--hs-radius-control);font-weight:700;text-align:left;padding:10px 22px;box-shadow:none}
+
+/* story layer: persona screener, calendars, report studio columns, record tabs */
+.hs-persona{position:fixed;inset:0;z-index:3000;background:rgba(11,31,51,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.hs-persona__card{position:relative;background:#fff;border-radius:var(--hs-radius-modal);box-shadow:var(--sh5);padding:34px 36px 30px;max-width:820px;width:100%;max-height:92vh;overflow:auto}
+.hs-persona__card h2{font-size:26px;margin:0 0 8px}
+.hs-persona__lede{color:var(--hs-muted);margin:0 0 18px;font-size:14px;max-width:640px}
+.hs-persona__x{position:absolute;top:14px;right:14px;width:40px;height:40px;border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);color:var(--hs-slate);font-size:22px;cursor:pointer}
+.hs-persona__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.hs-persona__grid--sm{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.hs-persona__opt{text-align:left;border:0;background:var(--hs-mist);border-radius:var(--hs-radius-card);padding:16px 18px;cursor:pointer;display:grid;gap:4px;min-height:74px;font-family:inherit}
+.hs-persona__opt b{color:var(--hs-navy);font-size:15px}.hs-persona__opt span{color:var(--hs-muted);font-size:12.5px}
+.hs-persona__opt:hover{background:var(--hs-pale);box-shadow:var(--sh2)}.hs-persona__opt.on{background:var(--hs-pale);box-shadow:var(--sh2)}
+.hs-persona__prog{margin-top:18px}.hs-persona__prog p{margin:0 0 10px;font-weight:700;color:var(--hs-slate)}
+.hs-persona-badge{margin-left:14px;border:0;background:var(--hs-pale);color:var(--hs-pine);border-radius:var(--hs-radius-control);padding:7px 14px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hs-persona-badge u{text-decoration:none;color:var(--hs-link);margin-left:6px}
+.hs-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--hs-muted);margin:0 0 10px}
+.hs-legend span{display:inline-flex;align-items:center;gap:6px}
+.hs-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none;background:var(--hs-slate)}
+.hs-dot--appt{background:var(--hs-teal)}.hs-dot--review{background:var(--hs-slate)}.hs-dot--consent{background:var(--hs-azure)}.hs-dot--plan{background:var(--hs-pine)}
+.hs-dot--files{background:var(--hs-slate)}.hs-dot--events{background:var(--hs-teal)}
+.hs-cal-item{font-size:11px;color:var(--hs-ink);display:flex;align-items:center;gap:5px;margin-top:3px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hs-cal-more{font-size:10.5px;color:var(--hs-muted);margin-top:2px}
+.cal-day.has{background:var(--hs-surface)}
+.hs-minical .cal-day{min-height:58px;padding:6px}
+.hs-minical .hs-cal-item{gap:3px}
+.hs-minical-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;color:var(--hs-navy)}
+.hs-cal-nav{border:0;background:var(--hs-mist);border-radius:var(--hs-radius-control);width:32px;height:32px;font-size:18px;color:var(--hs-navy);cursor:pointer}
+.hs-insight{margin:12px 0 0;padding:12px 14px;background:var(--hs-mist);border-radius:var(--hs-radius-field);color:var(--hs-ink);font-size:13px;line-height:1.5}
+.hs-story{display:flex;gap:16px;align-items:center;position:relative;overflow:hidden;background:var(--hs-navy) var(--hs-hero-image) center/cover no-repeat;color:#fff;border-radius:var(--hs-radius-card);box-shadow:var(--sh2);padding:18px 24px;margin:0 0 16px;font-size:14px;line-height:1.5}
+.hs-story b{display:block;margin-bottom:2px}.hs-story div{position:relative;z-index:1}
+.hs-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
+.hs-col__v{font-size:11px;font-weight:700;color:var(--hs-navy)}
+.hs-col__bars{display:flex;gap:3px;align-items:flex-end;width:100%;justify-content:center}
+.hs-col__bar{width:38%;max-width:22px;background:var(--hs-slate);border-radius:var(--hs-radius-small) var(--hs-radius-small) 0 0}
+.hs-col__bar--ev{background:var(--hs-teal)}
+.hs-col__l{flex:1;text-align:center;font-size:10.5px;color:var(--hs-muted)}
+#rs-bar-labels{display:flex;flex-wrap:wrap}#rs-bar-labels .hs-legend--chart{width:100%;justify-content:center;margin-top:8px}
+.hs-select{width:100%;border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);min-height:36px;padding:0 14px;color:var(--hs-navy);font-weight:700;font-family:inherit;font-size:13.5px}
+.hs-rec-tabs{margin:0 20px 14px}
+.hs-rec-pane{padding-bottom:12px}
+.hs-hint{margin:4px 20px 12px;color:var(--hs-muted);font-size:12.5px}
+.hs-stages{display:flex;gap:6px;padding:0 20px 16px;flex-wrap:wrap}
+.hs-stage{flex:1;min-width:120px;text-align:center;padding:10px 12px;border-radius:var(--hs-radius-control);background:var(--hs-mist);color:var(--hs-muted);font-weight:700;font-size:13px}
+.hs-stage.on{background:var(--hs-action-gradient);color:#fff;box-shadow:var(--sh1)}
+.modal-body .hs-table{margin:0 20px 16px;width:calc(100% - 40px);background:var(--hs-surface);border-radius:var(--hs-radius-card);overflow:hidden;box-shadow:var(--sh1)}
+.modal-hero>div{position:relative;z-index:1}
+body.hs-persona-open{overflow:hidden}
+
+/* story layer: case tiles */
+.hs-kpi-line{display:flex;align-items:baseline;gap:10px;margin:2px 0 10px}
+.hs-kpi-n{font-size:34px;font-weight:700;background:linear-gradient(135deg,#336FB5,#3D9B96);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.hs-kpi-t{font-size:12.5px;color:var(--hs-muted)}
+ul.hs-mini{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+ul.hs-mini li{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:7px 10px;border-radius:var(--hs-radius-field);background:var(--hs-mist);cursor:pointer;font-size:12.5px;line-height:1.3}
+ul.hs-mini li:hover{background:var(--hs-pale)}
+ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li span{grid-column:2;color:var(--hs-muted);font-size:11.5px}ul.hs-mini li em{grid-column:3;grid-row:1/3;font-style:normal;font-weight:700;color:var(--hs-pine);white-space:nowrap}
+.hs-case-actions{display:flex;gap:10px;margin:0 0 16px}
+.hs-case-actions .btn-primary{background:var(--hs-action-gradient);color:#fff;border:0;border-radius:999px;padding:11px 22px;font-weight:700;font-family:inherit;font-size:13.5px;cursor:pointer;box-shadow:var(--sh1)}
+.hs-case-actions .btn-mist{background:var(--hs-mist);color:var(--hs-navy);border:0;border-radius:999px;padding:11px 22px;font-weight:700;font-family:inherit;font-size:13.5px;cursor:pointer}
+#page-case .card h4{font-size:15px;color:var(--hs-navy);margin:0 0 10px;text-align:left}
+
+/* story layer: calendar fit */
+.cal-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+.cal-day,.cal-day-header{min-width:0;overflow:hidden}
+.hs-cal-item{min-width:0}
+#page-appointment .card,#page-calendar .card,.card-row>.card{min-width:0}
+.table-header h3 svg{display:none}
+
+/* story layer: person flags */
+.hs-flags{display:inline-flex;gap:3px;margin-right:8px;vertical-align:middle;min-width:24px}
+.hs-flags .hs-dot{width:7px;height:7px}
+.hs-legend--table{margin:-4px 0 12px}
+.pag-btns{display:inline-flex;gap:6px;margin-left:12px}.pag-btn{border:0;background:var(--hs-mist);border-radius:999px;width:30px;height:30px;color:var(--hs-navy);cursor:pointer;font-size:16px}
+
+/* story layer: phone stacking */
+@media (max-width:700px){#page-case .card-row,#page-appointment .card-row{flex-direction:column}#page-case .card-row>.card,#page-appointment .card-row>.card{flex:none!important;width:100%}.hs-case-actions{flex-wrap:wrap}.hs-case-actions button{flex:1}}
+
+/* story layer: card top-align */
+#page-case .card-row>.card{justify-content:flex-start}
+
+/* story layer: qa-btn */
+.quick-actions .qa-btn{border:0;border-radius:999px;padding:12px 18px;font-weight:700;font-size:13.5px;font-family:inherit;cursor:pointer;background:var(--hs-mist);color:var(--hs-navy);box-shadow:none}
+.quick-actions .qa-btn:first-child{grid-column:1/-1;background:var(--hs-action-gradient);color:#fff;box-shadow:var(--sh1)}
+.quick-actions .qa-btn:nth-child(2){background:linear-gradient(135deg,#0B7770,#14AEC4);color:#fff}
+.quick-actions .qa-btn:hover{opacity:.92}
 /* the strategic report was themed dark by id; it is a light page like every other page */
 #page-strategic{background:transparent!important;color:var(--hs-text)!important;border-radius:0;margin:0;padding:0}
 #page-strategic .hero{margin-bottom:20px;border-radius:var(--hs-radius-card)}
@@ -565,7 +650,7 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
 .hotspot-dot:hover{transform:scale(1.08)}
 .hotspot-ring{display:none}
 .hotspot.open .hotspot-dot{background:var(--hs-medallion-gradient);box-shadow:var(--focus),0 0 0 6px rgba(255,255,255,.35);transform:scale(1.08)}
-.hotspot-card{border-radius:var(--hs-radius-menu);box-shadow:var(--sh3);border-left:0;color:var(--hs-ink);width:300px}
+.hotspot-card{background:var(--hs-surface,#fff);border-radius:var(--hs-radius-menu);box-shadow:var(--sh3);border-left:0;color:var(--hs-ink);width:300px;z-index:60}
 .hotspot-card strong{color:var(--hs-navy)}
 .hotspot-card::before{content:attr(data-n);display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--hs-pale);color:var(--hs-pine);font-size:11px;font-weight:700;margin-bottom:6px}
 .hs-callouts{list-style:none;margin:0 auto 20px;padding:0;max-width:960px;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
@@ -738,7 +823,7 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
         <div class="badge">3</div>
       </div>
-      <div class="avatar">NC</div>
+      <div class="avatar">DA</div>
     </div>
   </div>
   <div class="content-area">
@@ -746,8 +831,8 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
     <!-- ==================== HOME ==================== -->
     <div class="page active" id="page-home">
       <div class="card" style="text-align:center;padding:16px;">
-        <div style="font-size:15px;color:#4A5568;">Good afternoon, Nicole Croft (HelpSeeker)! Welcome to your homepage.</div>
-        <div style="font-size:12px;color:#4A5568;margin-top:4px;">Thursday · July 23, 2026 at 3:22 PM</div>
+        <div style="font-size:15px;color:#4A5568;">Good afternoon. Welcome to your homepage.</div>
+        <div style="font-size:12px;color:#4A5568;margin-top:4px;">Wednesday · September 30, 2026 at 3:22 PM</div>
       </div>
 
       <div class="quick-actions">
@@ -883,7 +968,7 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
     <!-- ==================== CASE MANAGEMENT ==================== -->
     <div class="page" id="page-casemanagement">
       <div class="card-row">
-        <div class="card kpi" style="flex:1"><div class="kpi-label">Caseloads - Nicole Croft (HelpSeeker)</div><div class="kpi-value">6</div></div>
+        <div class="card kpi" style="flex:1"><div class="kpi-label">Caseloads - Demo Admin</div><div class="kpi-value">6</div></div>
         <div class="card kpi" style="flex:1"><div class="kpi-label">Incidents</div><div class="kpi-value">9</div></div>
       </div>
       <button class="btn-full">+ New Case</button>
@@ -1042,13 +1127,13 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
           <th>Created by</th>
         </tr></thead>
         <tbody>
-          <tr onclick="openEventViewModal(0)"><td>Threatening behavior</td><td><span class="status-badge status-low">Low</span></td><td>No</td><td>Feb 12, 2026 9:14 AM</td><td>Aluko Jolaoso</td></tr>
-          <tr onclick="openEventViewModal(1)"><td>Fight between residents</td><td><span class="status-badge status-high">High</span></td><td>Yes</td><td>Feb 12, 2026 9:10 AM</td><td>Aluko Jolaoso</td></tr>
-          <tr onclick="openEventViewModal(2)"><td>Substance-Related</td><td><span class="status-badge status-high">High</span></td><td>Yes</td><td>Nov 28, 2025 5:31 AM</td><td>Travis Turner</td></tr>
-          <tr onclick="openEventViewModal(3)"><td>Fight between residents</td><td><span class="status-badge status-low">Low</span></td><td>Yes</td><td>Nov 27, 2025 9:43 AM</td><td>Demo 2 Manager</td></tr>
-          <tr onclick="openEventViewModal(4)"><td>Physical assault (resident to resident)</td><td><span class="status-badge status-high">High</span></td><td>Yes</td><td>Nov 16, 2025 8:42 PM</td><td>Aluko Jolaoso</td></tr>
-          <tr onclick="openEventViewModal(11)"><td>Fight / Physical assault</td><td><span class="status-badge status-medium">Medium</span></td><td>No</td><td>Nov 13, 2025 9:01 PM</td><td>Aluko Jolaoso</td></tr>
-          <tr onclick="openEventViewModal(12)"><td>Unauthorized person on property</td><td><span class="status-badge status-low">Low</span></td><td>No</td><td>Nov 13, 2025 8:47 PM</td><td>Aluko Jolaoso</td></tr>
+          <tr onclick="openEventViewModal(0)"><td>Threatening behavior</td><td><span class="status-badge status-low">Low</span></td><td>No</td><td>Feb 12, 2026 9:14 AM</td><td>Marcus Webb</td></tr>
+          <tr onclick="openEventViewModal(1)"><td>Fight between residents</td><td><span class="status-badge status-high">High</span></td><td>Yes</td><td>Feb 12, 2026 9:10 AM</td><td>Marcus Webb</td></tr>
+          <tr onclick="openEventViewModal(2)"><td>Substance-Related</td><td><span class="status-badge status-high">High</span></td><td>Yes</td><td>Nov 28, 2025 5:31 AM</td><td>Priya Raman</td></tr>
+          <tr onclick="openEventViewModal(3)"><td>Fight between residents</td><td><span class="status-badge status-low">Low</span></td><td>Yes</td><td>Nov 27, 2025 9:43 AM</td><td>Shift manager</td></tr>
+          <tr onclick="openEventViewModal(4)"><td>Physical assault (resident to resident)</td><td><span class="status-badge status-high">High</span></td><td>Yes</td><td>Nov 16, 2025 8:42 PM</td><td>Marcus Webb</td></tr>
+          <tr onclick="openEventViewModal(11)"><td>Fight / Physical assault</td><td><span class="status-badge status-medium">Medium</span></td><td>No</td><td>Nov 13, 2025 9:01 PM</td><td>Marcus Webb</td></tr>
+          <tr onclick="openEventViewModal(12)"><td>Unauthorized person on property</td><td><span class="status-badge status-low">Low</span></td><td>No</td><td>Nov 13, 2025 8:47 PM</td><td>Marcus Webb</td></tr>
         </tbody></table>
         <div class="pagination"><div class="pag-info"><span>1 - 7 of 7 records</span></div></div>
       </div>
@@ -1080,9 +1165,9 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
         <table>
           <thead><tr><th></th><th>Title</th><th>Comment</th><th>Created at</th><th>Created by</th></tr></thead>
           <tbody>
-            <tr onclick="openDailyLogViewModal(0)"><td></td><td></td><td></td><td>Monday, July 6, 2026 at 10:18 AM</td><td>Nicole Croft (HelpSeeker)</td></tr>
-            <tr onclick="openDailyLogViewModal(1)"><td></td><td><strong>Room 105 - Bed B Repairs needed</strong></td><td>Room 105 - Bed B Repairs needed <span style="color:var(--teal);font-weight:700;">@Taj Gill</span> please treat as urgent</td><td>Sunday, November 16, 2025 at 8:45 PM</td><td>Aluko Jolaoso (HelpSeeker)</td></tr>
-            <tr onclick="openDailyLogViewModal(2)"><td></td><td><strong>Shetima fought with AJ</strong></td><td><span style="color:var(--teal);font-weight:700;">@Travis Turner (HelpSeeker)</span> should we call the CPS?</td><td>Thursday, November 13, 2025 at 10:09 PM</td><td>Aluko Jolaoso (HelpSeeker)</td></tr>
+            <tr onclick="openDailyLogViewModal(0)"><td></td><td></td><td></td><td>Monday, July 6, 2026 at 10:18 AM</td><td>Demo Admin</td></tr>
+            <tr onclick="openDailyLogViewModal(1)"><td></td><td><strong>Room 105 - Bed B Repairs needed</strong></td><td>Room 105 - Bed B Repairs needed <span style="color:var(--teal);font-weight:700;">@Taj Gill</span> please treat as urgent</td><td>Sunday, November 16, 2025 at 8:45 PM</td><td>Marcus Webb</td></tr>
+            <tr onclick="openDailyLogViewModal(2)"><td></td><td><strong>Shetima fought with AJ</strong></td><td><span style="color:var(--teal);font-weight:700;">@Priya Raman</span> should we call the CPS?</td><td>Thursday, November 13, 2025 at 10:09 PM</td><td>Marcus Webb</td></tr>
           </tbody>
         </table>
         <div class="pagination"><span>3 records</span><span>Previous &nbsp; Next</span></div>
@@ -1104,14 +1189,14 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
             <table>
               <thead><tr><th></th><th>Client name</th><th>Appointment Date</th></tr></thead>
               <tbody>
-                <tr onclick="openApptViewModal(0)"><td></td><td style="color:var(--teal);font-weight:700;">Tester, Shetima</td><td>Feb 12, 2026</td></tr>
-                <tr onclick="openApptViewModal(1)"><td></td><td style="color:var(--teal);font-weight:700;">Tester, Shetima</td><td>Nov 28, 2025</td></tr>
+                <tr onclick="openApptViewModal(0)"><td></td><td style="color:var(--teal);font-weight:700;">Example, Sam</td><td>Feb 12, 2026</td></tr>
+                <tr onclick="openApptViewModal(1)"><td></td><td style="color:var(--teal);font-weight:700;">Example, Sam</td><td>Nov 28, 2025</td></tr>
                 <tr onclick="openApptViewModal(2)"><td></td><td style="color:var(--teal);font-weight:700;">Lopez, Maria</td><td>Nov 28, 2025</td></tr>
                 <tr onclick="openApptViewModal(3)"><td></td><td style="color:var(--teal);font-weight:700;">James, Debola</td><td>Nov 16, 2025</td></tr>
                 <tr onclick="openApptViewModal(4)"><td></td><td style="color:var(--teal);font-weight:700;">Brown, Sasha</td><td>Nov 27, 2025</td></tr>
                 <tr onclick="openApptViewModal(5)"><td></td><td style="color:var(--teal);font-weight:700;">Test, AJ</td><td>Nov 27, 2025</td></tr>
-                <tr onclick="openApptViewModal(6)"><td></td><td style="color:var(--teal);font-weight:700;">Tester, Shetima</td><td>Nov 19, 2025</td></tr>
-                <tr onclick="openApptViewModal(7)"><td></td><td style="color:var(--teal);font-weight:700;">Tester, Shetima</td><td>Nov 13, 2025</td></tr>
+                <tr onclick="openApptViewModal(6)"><td></td><td style="color:var(--teal);font-weight:700;">Example, Sam</td><td>Nov 19, 2025</td></tr>
+                <tr onclick="openApptViewModal(7)"><td></td><td style="color:var(--teal);font-weight:700;">Example, Sam</td><td>Nov 13, 2025</td></tr>
               </tbody>
             </table>
           </div>
@@ -1585,51 +1670,51 @@ td:first-child{font-weight:700;color:var(--hs-navy)}
 <script>
 // ==================== DATA ====================
 const intakeData = [
-  {name:'Turner, Bob - Nov, 7 2008',date:'11/28/2025 05:19 AM',staff:'Travis Turner (HelpSeeker)',source:'Self-Referral',followup:'',safe:'No',phone:'999-999-9999',alert:true,preferred:'',gender:'Gender Diverse',email:'',location:'Brampton',race:'White / European',diverted:'',divWorker:'N/A',bestTime:'',declined:'',completed:'',income:'',notes:'',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Turner, Sally - Nov, 2 2010',date:'11/20/2025 02:00 AM',staff:'Travis Turner (HelpSeeker)',source:'Police',followup:'11/24/2025',safe:'No',phone:'777-777-7777',alert:false,preferred:'Sally',gender:'Female',email:'sally.t@example.com',location:'Brampton',race:'White / European',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'',notes:'sibling of Bob Turner',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Turner, Bob - Nov, 7 2008',date:'11/28/2025 05:19 AM',staff:'Priya Raman',source:'Self-Referral',followup:'',safe:'No',phone:'999-999-9999',alert:true,preferred:'',gender:'Gender Diverse',email:'',location:'Brampton',race:'White / European',diverted:'',divWorker:'N/A',bestTime:'',declined:'',completed:'',income:'',notes:'',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Turner, Sally - Nov, 2 2010',date:'11/20/2025 02:00 AM',staff:'Priya Raman',source:'Police',followup:'11/24/2025',safe:'No',phone:'777-777-7777',alert:false,preferred:'Sally',gender:'Female',email:'sally.t@example.com',location:'Brampton',race:'White / European',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'',notes:'sibling of Bob Turner',immig:'Canadian Citizen',risk:'Yes'},
   {name:'James, Debola - Nov, 16 2012',date:'11/16/2025 08:27 PM',staff:'Taj Gill',source:'Crisis Line',followup:'11/07/2025',safe:'No',phone:'777-779-9999',alert:false,preferred:'Deb',gender:'Female',email:'',location:'Mississauga',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Evening',declined:'No',completed:'Pending',income:'',notes:'unaccompanied minor, CAS notified',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Reid, Mo - Apr, 4 1981',date:'11/08/2025 12:02 PM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Family Member',followup:'11/18/2025',safe:'No',phone:'(555) 884-4112',alert:true,preferred:'Mo',gender:'Male',email:'mo.reid@example.net',location:'Downtown Toronto',race:'South Asian',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'Social Assistance',notes:'scared',immig:'Permanent Resident',risk:'Yes'},
-  {name:'Ahmed, Zara - Nov, 11 1990',date:'11/05/2025 01:03 PM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Self-Referral',followup:'11/23/2025',safe:'Yes',phone:'(555) 332-2118',alert:false,preferred:'Zara',gender:'Female',email:'zara.ahmed@example.com',location:'Mississauga',race:'Black / African Descent',diverted:'Yes',divWorker:'Aluko Jolaoso (HelpSeeker)',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'connected to community housing wait list',immig:'Refugee',risk:'No'},
-  {name:'Carter, Evan - Feb, 2 1993',date:'11/03/2025 04:04 AM',staff:'Alina Turner (HelpSeeker)',source:'Child Protection Services',followup:'11/21/2025',safe:'No',phone:'(555) 112-2774',alert:false,preferred:'',gender:'Male',email:'evan.c@example.com',location:'Brampton',race:'White / European',diverted:'No',divWorker:'Alina Turner (HelpSeeker)',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'CPS referral, fleeing unsafe home',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Stone, Ivy - Mar, 22 2003',date:'11/05/2025 01:03 PM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Self-Referral',followup:'11/28/2025',safe:'Yes',phone:'(555) 667-7881',alert:false,preferred:'Ivy',gender:'Female',email:'ivy.stone@example.com',location:'Caledon',race:'Indigenous (unspecified)',diverted:'Yes',divWorker:'Aluko Jolaoso (HelpSeeker)',bestTime:'Anytime',declined:'No',completed:'Yes',income:'Employment',notes:'diverted to family reconnection program',immig:'Canadian Citizen',risk:'No'},
-  {name:'White, Paul - Jul, 30 1989',date:'11/03/2025 04:04 AM',staff:'Travis Turner (HelpSeeker)',source:'Child Protection Services',followup:'11/21/2025',safe:'Yes',phone:'(555) 112-2445',alert:false,preferred:'',gender:'Male',email:'paul.w@example.com',location:'Downtown Toronto',race:'White / European',diverted:'Yes',divWorker:'Travis Turner (HelpSeeker)',bestTime:'Weekdays Only',declined:'No',completed:'Yes',income:'Disability',notes:'stable, connected to ODSP worker',immig:'Canadian Citizen',risk:'No'},
-  {name:'Davis, Sonia - May, 5 1975',date:'11/05/2025 01:03 PM',staff:'Travis Turner (HelpSeeker)',source:'Self-Referral',followup:'11/16/2025',safe:'No',phone:'(555) 224-4667',alert:true,preferred:'Sonia',gender:'Female',email:'sonia.d@example.com',location:'Brampton',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'Social Assistance',notes:'fleeing DV, needs safety plan',immig:'Permanent Resident',risk:'Yes'},
-  {name:'Ali, Jamal - Jan, 24 1996',date:'11/13/2025 01:58 PM',staff:'Travis Turner (HelpSeeker)',source:'Outreach Team',followup:'11/19/2025',safe:'Yes',phone:'(555) 332-2456',alert:false,preferred:'Jamal',gender:'Male',email:'jamal.ali@example.com',location:'Downtown Toronto',race:'Black / African Descent',diverted:'Yes',divWorker:'Travis Turner (HelpSeeker)',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'outreach contact, stable housing found',immig:'Refugee',risk:'No'},
-  {name:'Nguyen, Kim - Oct, 17 1984',date:'10/04/2025 09:09 AM',staff:'Travis Turner (HelpSeeker)',source:'Hospital/Emergency',followup:'11/18/2025',safe:'No',phone:'(555) 998-8771',alert:true,preferred:'Kim',gender:'Female',email:'',location:'Mississauga',race:'South Asian',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'hospital discharge, no housing plan',immig:'Temporary',risk:'Yes'},
-  {name:'Martinez, Leo - Aug, 13 1999',date:'11/13/2025 01:58 PM',staff:'Travis Turner (HelpSeeker)',source:'Outreach Team',followup:'11/24/2025',safe:'Yes',phone:'(555) 332-2114',alert:false,preferred:'Leo',gender:'Male',email:'leo.m@example.com',location:'Downtown Toronto',race:'First Nations (Status)',diverted:'Yes',divWorker:'Travis Turner (HelpSeeker)',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'connected to employment support',immig:'Canadian Citizen',risk:'No'},
-  {name:'Young, Tara - Feb, 9 2000',date:'11/03/2025 04:04 AM',staff:'Travis Turner (HelpSeeker)',source:'Child Protection Services',followup:'11/30/2025',safe:'Yes',phone:'(555) 775-5441',alert:true,preferred:'Tara',gender:'Female',email:'tara.y@example.net',location:'Brampton',race:'Métis',diverted:'No',divWorker:'Travis Turner (HelpSeeker)',bestTime:'Evening',declined:'No',completed:'Pending',income:'No Income',notes:'aging out of care, needs transitional support',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Hassan, Omar - Mar, 1 1986',date:'11/03/2025 04:04 AM',staff:'Travis Turner (HelpSeeker)',source:'Child Protection Services',followup:'11/21/2025',safe:'No',phone:'(555) 667-7221',alert:false,preferred:'Omar',gender:'Male',email:'omar.h@example.com',location:'Mississauga',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Weekdays Only',declined:'No',completed:'Pending',income:'Social Assistance',notes:'eviction notice, 3 children in home',immig:'Refugee',risk:'Yes'},
-  {name:'Brown, Sasha - Jun, 15 1997',date:'11/13/2025 01:58 PM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Self-Referral',followup:'11/25/2025',safe:'Yes',phone:'(555) 441-1990',alert:false,preferred:'Sasha',gender:'Non-binary',email:'sasha.b@example.com',location:'Downtown Toronto',race:'White / European',diverted:'Yes',divWorker:'Aluko Jolaoso (HelpSeeker)',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'rent bank application submitted',immig:'Canadian Citizen',risk:'No'},
-  {name:'Singh, Raj - Dec, 3 1985',date:'10/28/2025 10:30 AM',staff:'Travis Turner (HelpSeeker)',source:'Hospital/Emergency',followup:'11/10/2025',safe:'No',phone:'(555) 556-6334',alert:true,preferred:'Raj',gender:'Male',email:'raj.s@example.com',location:'Brampton',race:'South Asian',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'Disability',notes:'mental health crisis, psych discharge',immig:'Permanent Resident',risk:'Yes'},
-  {name:'Patel, Anita - Apr, 19 1992',date:'10/22/2025 03:15 PM',staff:'Alina Turner (HelpSeeker)',source:'Self-Referral',followup:'11/05/2025',safe:'Yes',phone:'(555) 887-7112',alert:false,preferred:'Anita',gender:'Female',email:'anita.p@example.com',location:'Mississauga',race:'South Asian',diverted:'Yes',divWorker:'Alina Turner (HelpSeeker)',bestTime:'Anytime',declined:'No',completed:'Yes',income:'Employment',notes:'connected to settlement services',immig:'Permanent Resident',risk:'No'},
+  {name:'Reid, Mo - Apr, 4 1981',date:'11/08/2025 12:02 PM',staff:'Marcus Webb',source:'Family Member',followup:'11/18/2025',safe:'No',phone:'(555) 884-4112',alert:true,preferred:'Mo',gender:'Male',email:'mo.reid@example.net',location:'Downtown Toronto',race:'South Asian',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'Social Assistance',notes:'scared',immig:'Permanent Resident',risk:'Yes'},
+  {name:'Ahmed, Zara - Nov, 11 1990',date:'11/05/2025 01:03 PM',staff:'Marcus Webb',source:'Self-Referral',followup:'11/23/2025',safe:'Yes',phone:'(555) 332-2118',alert:false,preferred:'Zara',gender:'Female',email:'zara.ahmed@example.com',location:'Mississauga',race:'Black / African Descent',diverted:'Yes',divWorker:'Marcus Webb',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'connected to community housing wait list',immig:'Refugee',risk:'No'},
+  {name:'Carter, Evan - Feb, 2 1993',date:'11/03/2025 04:04 AM',staff:'Hannah Lindqvist',source:'Child Protection Services',followup:'11/21/2025',safe:'No',phone:'(555) 112-2774',alert:false,preferred:'',gender:'Male',email:'evan.c@example.com',location:'Brampton',race:'White / European',diverted:'No',divWorker:'Hannah Lindqvist',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'CPS referral, fleeing unsafe home',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Stone, Ivy - Mar, 22 2003',date:'11/05/2025 01:03 PM',staff:'Marcus Webb',source:'Self-Referral',followup:'11/28/2025',safe:'Yes',phone:'(555) 667-7881',alert:false,preferred:'Ivy',gender:'Female',email:'ivy.stone@example.com',location:'Caledon',race:'Indigenous (unspecified)',diverted:'Yes',divWorker:'Marcus Webb',bestTime:'Anytime',declined:'No',completed:'Yes',income:'Employment',notes:'diverted to family reconnection program',immig:'Canadian Citizen',risk:'No'},
+  {name:'White, Paul - Jul, 30 1989',date:'11/03/2025 04:04 AM',staff:'Priya Raman',source:'Child Protection Services',followup:'11/21/2025',safe:'Yes',phone:'(555) 112-2445',alert:false,preferred:'',gender:'Male',email:'paul.w@example.com',location:'Downtown Toronto',race:'White / European',diverted:'Yes',divWorker:'Priya Raman',bestTime:'Weekdays Only',declined:'No',completed:'Yes',income:'Disability',notes:'stable, connected to ODSP worker',immig:'Canadian Citizen',risk:'No'},
+  {name:'Davis, Sonia - May, 5 1975',date:'11/05/2025 01:03 PM',staff:'Priya Raman',source:'Self-Referral',followup:'11/16/2025',safe:'No',phone:'(555) 224-4667',alert:true,preferred:'Sonia',gender:'Female',email:'sonia.d@example.com',location:'Brampton',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'Social Assistance',notes:'fleeing DV, needs safety plan',immig:'Permanent Resident',risk:'Yes'},
+  {name:'Ali, Jamal - Jan, 24 1996',date:'11/13/2025 01:58 PM',staff:'Priya Raman',source:'Outreach Team',followup:'11/19/2025',safe:'Yes',phone:'(555) 332-2456',alert:false,preferred:'Jamal',gender:'Male',email:'jamal.ali@example.com',location:'Downtown Toronto',race:'Black / African Descent',diverted:'Yes',divWorker:'Priya Raman',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'outreach contact, stable housing found',immig:'Refugee',risk:'No'},
+  {name:'Nguyen, Kim - Oct, 17 1984',date:'10/04/2025 09:09 AM',staff:'Priya Raman',source:'Hospital/Emergency',followup:'11/18/2025',safe:'No',phone:'(555) 998-8771',alert:true,preferred:'Kim',gender:'Female',email:'',location:'Mississauga',race:'South Asian',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'hospital discharge, no housing plan',immig:'Temporary',risk:'Yes'},
+  {name:'Martinez, Leo - Aug, 13 1999',date:'11/13/2025 01:58 PM',staff:'Priya Raman',source:'Outreach Team',followup:'11/24/2025',safe:'Yes',phone:'(555) 332-2114',alert:false,preferred:'Leo',gender:'Male',email:'leo.m@example.com',location:'Downtown Toronto',race:'First Nations (Status)',diverted:'Yes',divWorker:'Priya Raman',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'connected to employment support',immig:'Canadian Citizen',risk:'No'},
+  {name:'Young, Tara - Feb, 9 2000',date:'11/03/2025 04:04 AM',staff:'Priya Raman',source:'Child Protection Services',followup:'11/30/2025',safe:'Yes',phone:'(555) 775-5441',alert:true,preferred:'Tara',gender:'Female',email:'tara.y@example.net',location:'Brampton',race:'Métis',diverted:'No',divWorker:'Priya Raman',bestTime:'Evening',declined:'No',completed:'Pending',income:'No Income',notes:'aging out of care, needs transitional support',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Hassan, Omar - Mar, 1 1986',date:'11/03/2025 04:04 AM',staff:'Priya Raman',source:'Child Protection Services',followup:'11/21/2025',safe:'No',phone:'(555) 667-7221',alert:false,preferred:'Omar',gender:'Male',email:'omar.h@example.com',location:'Mississauga',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Weekdays Only',declined:'No',completed:'Pending',income:'Social Assistance',notes:'eviction notice, 3 children in home',immig:'Refugee',risk:'Yes'},
+  {name:'Brown, Sasha - Jun, 15 1997',date:'11/13/2025 01:58 PM',staff:'Marcus Webb',source:'Self-Referral',followup:'11/25/2025',safe:'Yes',phone:'(555) 441-1990',alert:false,preferred:'Sasha',gender:'Non-binary',email:'sasha.b@example.com',location:'Downtown Toronto',race:'White / European',diverted:'Yes',divWorker:'Marcus Webb',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'rent bank application submitted',immig:'Canadian Citizen',risk:'No'},
+  {name:'Singh, Raj - Dec, 3 1985',date:'10/28/2025 10:30 AM',staff:'Priya Raman',source:'Hospital/Emergency',followup:'11/10/2025',safe:'No',phone:'(555) 556-6334',alert:true,preferred:'Raj',gender:'Male',email:'raj.s@example.com',location:'Brampton',race:'South Asian',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'Disability',notes:'mental health crisis, psych discharge',immig:'Permanent Resident',risk:'Yes'},
+  {name:'Patel, Anita - Apr, 19 1992',date:'10/22/2025 03:15 PM',staff:'Hannah Lindqvist',source:'Self-Referral',followup:'11/05/2025',safe:'Yes',phone:'(555) 887-7112',alert:false,preferred:'Anita',gender:'Female',email:'anita.p@example.com',location:'Mississauga',race:'South Asian',diverted:'Yes',divWorker:'Hannah Lindqvist',bestTime:'Anytime',declined:'No',completed:'Yes',income:'Employment',notes:'connected to settlement services',immig:'Permanent Resident',risk:'No'},
   {name:'Thompson, Jake - Sep, 8 2004',date:'10/15/2025 11:45 AM',staff:'Taj Gill',source:'Police',followup:'10/29/2025',safe:'No',phone:'(555) 223-3556',alert:false,preferred:'Jake',gender:'Male',email:'',location:'Caledon',race:'White / European',diverted:'No',divWorker:'Taj Gill',bestTime:'Evening',declined:'No',completed:'Pending',income:'No Income',notes:'police brought in, found sleeping rough',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Williams, Dana - Jul, 22 1988',date:'10/10/2025 09:00 AM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Family Member',followup:'10/24/2025',safe:'Yes',phone:'(555) 998-8223',alert:false,preferred:'Dana',gender:'Female',email:'dana.w@example.com',location:'Brampton',race:'Black / African Descent',diverted:'Yes',divWorker:'Aluko Jolaoso (HelpSeeker)',bestTime:'Morning',declined:'No',completed:'Yes',income:'Employment',notes:'family mediation successful, returned home',immig:'Canadian Citizen',risk:'No'},
-  {name:'Chen, Li - Nov, 30 2001',date:'10/05/2025 02:30 PM',staff:'Travis Turner (HelpSeeker)',source:'Outreach Team',followup:'10/19/2025',safe:'Yes',phone:'(555) 443-3778',alert:false,preferred:'Li',gender:'Male',email:'li.chen@example.com',location:'Downtown Toronto',race:'',diverted:'Yes',divWorker:'Travis Turner (HelpSeeker)',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'outreach, housing application submitted',immig:'Temporary',risk:'No'},
-  {name:'Robinson, Mike - Feb, 28 1979',date:'09/30/2025 08:00 AM',staff:'Travis Turner (HelpSeeker)',source:'Self-Referral',followup:'10/14/2025',safe:'No',phone:'(555) 112-2998',alert:true,preferred:'Mike',gender:'Male',email:'',location:'Brampton',race:'White / European',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'chronic homelessness, health concerns',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Garcia, Rosa - Aug, 5 1994',date:'09/25/2025 04:45 PM',staff:'Alina Turner (HelpSeeker)',source:'Crisis Line',followup:'10/09/2025',safe:'No',phone:'(555) 667-7445',alert:false,preferred:'Rosa',gender:'Female',email:'rosa.g@example.com',location:'Mississauga',race:'',diverted:'No',divWorker:'Alina Turner (HelpSeeker)',bestTime:'Evening',declined:'No',completed:'Pending',income:'Social Assistance',notes:'crisis call, DV safety plan needed',immig:'Temporary',risk:'Yes'},
+  {name:'Williams, Dana - Jul, 22 1988',date:'10/10/2025 09:00 AM',staff:'Marcus Webb',source:'Family Member',followup:'10/24/2025',safe:'Yes',phone:'(555) 998-8223',alert:false,preferred:'Dana',gender:'Female',email:'dana.w@example.com',location:'Brampton',race:'Black / African Descent',diverted:'Yes',divWorker:'Marcus Webb',bestTime:'Morning',declined:'No',completed:'Yes',income:'Employment',notes:'family mediation successful, returned home',immig:'Canadian Citizen',risk:'No'},
+  {name:'Chen, Li - Nov, 30 2001',date:'10/05/2025 02:30 PM',staff:'Priya Raman',source:'Outreach Team',followup:'10/19/2025',safe:'Yes',phone:'(555) 443-3778',alert:false,preferred:'Li',gender:'Male',email:'li.chen@example.com',location:'Downtown Toronto',race:'',diverted:'Yes',divWorker:'Priya Raman',bestTime:'Afternoon',declined:'No',completed:'Yes',income:'Employment',notes:'outreach, housing application submitted',immig:'Temporary',risk:'No'},
+  {name:'Robinson, Mike - Feb, 28 1979',date:'09/30/2025 08:00 AM',staff:'Priya Raman',source:'Self-Referral',followup:'10/14/2025',safe:'No',phone:'(555) 112-2998',alert:true,preferred:'Mike',gender:'Male',email:'',location:'Brampton',race:'White / European',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'chronic homelessness, health concerns',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Garcia, Rosa - Aug, 5 1994',date:'09/25/2025 04:45 PM',staff:'Hannah Lindqvist',source:'Crisis Line',followup:'10/09/2025',safe:'No',phone:'(555) 667-7445',alert:false,preferred:'Rosa',gender:'Female',email:'rosa.g@example.com',location:'Mississauga',race:'',diverted:'No',divWorker:'Hannah Lindqvist',bestTime:'Evening',declined:'No',completed:'Pending',income:'Social Assistance',notes:'crisis call, DV safety plan needed',immig:'Temporary',risk:'Yes'},
   {name:'Kim, Soo - Mar, 12 1990',date:'09/20/2025 01:00 PM',staff:'Taj Gill',source:'Hospital/Emergency',followup:'10/04/2025',safe:'Yes',phone:'(555) 556-6001',alert:false,preferred:'Soo',gender:'Female',email:'soo.kim@example.com',location:'Downtown Toronto',race:'',diverted:'Yes',divWorker:'Taj Gill',bestTime:'Anytime',declined:'No',completed:'Yes',income:'Employment',notes:'hospital discharge, housing secured',immig:'Temporary',risk:'No'},
-  {name:'Jackson, Tre - Jan, 7 2003',date:'09/15/2025 10:15 AM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Child Protection Services',followup:'09/29/2025',safe:'No',phone:'(555) 334-4112',alert:true,preferred:'Tre',gender:'Male',email:'',location:'Brampton',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'No Income',notes:'youth aging out of care, urgent placement needed',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Jackson, Tre - Jan, 7 2003',date:'09/15/2025 10:15 AM',staff:'Marcus Webb',source:'Child Protection Services',followup:'09/29/2025',safe:'No',phone:'(555) 334-4112',alert:true,preferred:'Tre',gender:'Male',email:'',location:'Brampton',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'No Income',notes:'youth aging out of care, urgent placement needed',immig:'Canadian Citizen',risk:'Yes'},
   // Case clients (shelter residents + closed cases)
-  {name:'Tester, Shetima - Nov, 6 2025',date:'11/06/2025 02:30 PM',staff:'Travis Turner (HelpSeeker)',source:'Self-Referral',followup:'11/20/2025',safe:'No',phone:'(555) 221-3344',alert:false,preferred:'Shetima',gender:'Female',email:'shetima.t@example.com',location:'Brampton',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'Social Assistance',notes:'enrolled in case management, multiple goals',immig:'Canadian Citizen',risk:'No'},
-  {name:'Wilson, Andre - Sep, 23 1982',date:'10/14/2025 09:30 AM',staff:'Travis Turner (HelpSeeker)',source:'Outreach Team',followup:'11/01/2025',safe:'Yes',phone:'(555) 778-8901',alert:true,preferred:'Andre',gender:'Male',email:'a.wilson@example.com',location:'Downtown Toronto',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'Room 102 - Bed B, chronic homelessness',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Chen, David - Jul, 29 2001',date:'10/20/2025 11:00 AM',staff:'Alina Turner (HelpSeeker)',source:'Hospital/Emergency',followup:'11/05/2025',safe:'Yes',phone:'(555) 445-5667',alert:false,preferred:'David',gender:'Male',email:'d.chen@example.com',location:'Mississauga',race:'',diverted:'No',divWorker:'N/A',bestTime:'Anytime',declined:'No',completed:'Pending',income:'Employment',notes:'Room 100 - Bed B, employment training referral',immig:'Temporary',risk:'No'},
-  {name:'Lopez, Maria - Dec, 4 2009',date:'10/01/2025 04:15 PM',staff:'Travis Turner (HelpSeeker)',source:'Child Protection Services',followup:'10/18/2025',safe:'No',phone:'(555) 889-9012',alert:true,preferred:'Maria',gender:'Female',email:'',location:'Brampton',race:'',diverted:'No',divWorker:'N/A',bestTime:'Evening',declined:'No',completed:'Pending',income:'No Income',notes:'Room 103 - Bed B, secure stable housing goal',immig:'Permanent Resident',risk:'Yes'},
-  {name:'Miller, Jason - Jun, 7 1991',date:'10/04/2025 09:09 AM',staff:'Travis Turner (HelpSeeker)',source:'Hospital/Emergency',followup:'11/19/2025',safe:'No',phone:'(555) 334-4556',alert:true,preferred:'Jay',gender:'Male',email:'j.miller@example.org',location:'Downtown Toronto',race:'',diverted:'No',divWorker:'N/A',bestTime:'Evening',declined:'No',completed:'Pending',income:'',notes:'triggering',immig:'Canadian Citizen',risk:'Yes'},
-  {name:'Test, AJ - Nov, 6 2025',date:'11/06/2025 03:00 PM',staff:'Aluko Jolaoso (HelpSeeker)',source:'Self-Referral',followup:'11/20/2025',safe:'Yes',phone:'(555) 112-9988',alert:true,preferred:'AJ',gender:'Male',email:'',location:'Caledon',race:'First Nations (Status)',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'Social Assistance',notes:'test record',immig:'Canadian Citizen',risk:'Yes'}
+  {name:'Example, Sam - Nov, 6 2025',date:'11/06/2025 02:30 PM',staff:'Priya Raman',source:'Self-Referral',followup:'11/20/2025',safe:'No',phone:'(555) 221-3344',alert:false,preferred:'Shetima',gender:'Female',email:'shetima.t@example.com',location:'Brampton',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'Social Assistance',notes:'enrolled in case management, multiple goals',immig:'Canadian Citizen',risk:'No'},
+  {name:'Wilson, Andre - Sep, 23 1982',date:'10/14/2025 09:30 AM',staff:'Priya Raman',source:'Outreach Team',followup:'11/01/2025',safe:'Yes',phone:'(555) 778-8901',alert:true,preferred:'Andre',gender:'Male',email:'a.wilson@example.com',location:'Downtown Toronto',race:'Black / African Descent',diverted:'No',divWorker:'N/A',bestTime:'Morning',declined:'No',completed:'Pending',income:'No Income',notes:'Room 102 - Bed B, chronic homelessness',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Chen, David - Jul, 29 2001',date:'10/20/2025 11:00 AM',staff:'Hannah Lindqvist',source:'Hospital/Emergency',followup:'11/05/2025',safe:'Yes',phone:'(555) 445-5667',alert:false,preferred:'David',gender:'Male',email:'d.chen@example.com',location:'Mississauga',race:'',diverted:'No',divWorker:'N/A',bestTime:'Anytime',declined:'No',completed:'Pending',income:'Employment',notes:'Room 100 - Bed B, employment training referral',immig:'Temporary',risk:'No'},
+  {name:'Lopez, Maria - Dec, 4 2009',date:'10/01/2025 04:15 PM',staff:'Priya Raman',source:'Child Protection Services',followup:'10/18/2025',safe:'No',phone:'(555) 889-9012',alert:true,preferred:'Maria',gender:'Female',email:'',location:'Brampton',race:'',diverted:'No',divWorker:'N/A',bestTime:'Evening',declined:'No',completed:'Pending',income:'No Income',notes:'Room 103 - Bed B, secure stable housing goal',immig:'Permanent Resident',risk:'Yes'},
+  {name:'Miller, Jason - Jun, 7 1991',date:'10/04/2025 09:09 AM',staff:'Priya Raman',source:'Hospital/Emergency',followup:'11/19/2025',safe:'No',phone:'(555) 334-4556',alert:true,preferred:'Jay',gender:'Male',email:'j.miller@example.org',location:'Downtown Toronto',race:'',diverted:'No',divWorker:'N/A',bestTime:'Evening',declined:'No',completed:'Pending',income:'',notes:'triggering',immig:'Canadian Citizen',risk:'Yes'},
+  {name:'Test, AJ - Nov, 6 2025',date:'11/06/2025 03:00 PM',staff:'Marcus Webb',source:'Self-Referral',followup:'11/20/2025',safe:'Yes',phone:'(555) 112-9988',alert:true,preferred:'AJ',gender:'Male',email:'',location:'Caledon',race:'First Nations (Status)',diverted:'No',divWorker:'N/A',bestTime:'Afternoon',declined:'No',completed:'Pending',income:'Social Assistance',notes:'test record',immig:'Canadian Citizen',risk:'Yes'}
 ];
 
 const caseData = {
   active: [
-    {person:'Tester, Shetima - Nov, 6 2025',caseName:'Tester, S - 00030',status:'Active: Enrolled and receiving services',room:'',worker:'',goals:'Access income or disability assistance\nNavigate health or mental health services\nIncrease community connection and belonging'},
-    {person:'Tester, Shetima - Nov, 6 2025',caseName:'Tester, S - 00028',status:'Active: Enrolled and receiving services',room:'',worker:'',goals:'Strengthen confidence and self-determination'},
-    {person:'Wilson, Andre - Sep, 23 1982',caseName:'Wilson, A - 00027',status:'Active: Enrolled and receiving services',room:'Room 102 - Bed B',worker:'Travis Turner (HelpSeeker)',goals:'',alert:true},
-    {person:'Chen, David - Jul, 29 2001',caseName:'Chen, D - 00026',status:'Active: Enrolled and receiving services',room:'Room 100 - Bed B',worker:'Demo 2 Manager',goals:'Engage in employment, training, or education'},
-    {person:'Lopez, Maria - Dec, 4 2009',caseName:'Housing',status:'Active: Enrolled and receiving services',room:'Room 103 - Bed B',worker:'Travis Turner (HelpSeeker)',goals:'Secure stable and safe housing',alert:true},
-    {person:'Miller, Jason - Jun, 7 1991',caseName:'Miller, J - 00019',status:'Active: Enrolled and receiving services',room:'Room 104 - Bed B',worker:'Aluko Jolaoso (HelpSeeker)',goals:'',alert:true}
+    {person:'Example, Sam - Nov, 6 2025',caseName:'Example, S - 00030',status:'Active: Enrolled and receiving services',room:'',worker:'',goals:'Access income or disability assistance\nNavigate health or mental health services\nIncrease community connection and belonging'},
+    {person:'Example, Sam - Nov, 6 2025',caseName:'Example, S - 00028',status:'Active: Enrolled and receiving services',room:'',worker:'',goals:'Strengthen confidence and self-determination'},
+    {person:'Wilson, Andre - Sep, 23 1982',caseName:'Wilson, A - 00027',status:'Active: Enrolled and receiving services',room:'Room 102 - Bed B',worker:'Priya Raman',goals:'',alert:true},
+    {person:'Chen, David - Jul, 29 2001',caseName:'Chen, D - 00026',status:'Active: Enrolled and receiving services',room:'Room 100 - Bed B',worker:'Shift manager',goals:'Engage in employment, training, or education'},
+    {person:'Lopez, Maria - Dec, 4 2009',caseName:'Housing',status:'Active: Enrolled and receiving services',room:'Room 103 - Bed B',worker:'Priya Raman',goals:'Secure stable and safe housing',alert:true},
+    {person:'Miller, Jason - Jun, 7 1991',caseName:'Miller, J - 00019',status:'Active: Enrolled and receiving services',room:'Room 104 - Bed B',worker:'Marcus Webb',goals:'',alert:true}
   ],
   closed: [
-    {person:'Brown, Sasha - Jun, 15 1997',caseName:'Brown, S - 00015',status:'Closed: Successfully housed',room:'',worker:'Travis Turner (HelpSeeker)',goals:'Secure stable housing'},
-    {person:'Williams, Dana - Jul, 22 1988',caseName:'Williams, D - 00012',status:'Closed: Transferred',room:'',worker:'Alina Turner (HelpSeeker)',goals:'Access income assistance'}
+    {person:'Brown, Sasha - Jun, 15 1997',caseName:'Brown, S - 00015',status:'Closed: Successfully housed',room:'',worker:'Priya Raman',goals:'Secure stable housing'},
+    {person:'Williams, Dana - Jul, 22 1988',caseName:'Williams, D - 00012',status:'Closed: Transferred',room:'',worker:'Hannah Lindqvist',goals:'Access income assistance'}
   ]
 };
 
@@ -1767,13 +1852,13 @@ document.getElementById('navSearch').addEventListener('input',function(){
 // ==================== RENDER TABLES ====================
 function renderIntakeTable(){
   const body=document.getElementById('intakeTableBody');
-  body.innerHTML=intakeData.map(d=>`<tr onclick="openIntakeModal('${d.name.replace(/'/g,"\\'")}')"><td></td><td style="color:var(--teal);font-weight:700;">${d.name}${d.alert?' <span class="alert-icon">⚠️</span>':''}</td><td>${d.date}</td><td>${d.staff}</td><td>${d.source}</td><td>${d.followup}</td><td>${d.safe}</td><td>${d.phone}</td></tr>`).join('');
+  body.innerHTML=intakeData.map(d=>`<tr onclick="openIntakeModal('${d.name.replace(/'/g,"\\'")}')"><td></td><td style="color:var(--teal);font-weight:700;">${d.name}${d.alert?' <span class="alert-icon"></span>':''}</td><td>${d.date}</td><td>${d.staff}</td><td>${d.source}</td><td>${d.followup}</td><td>${d.safe}</td><td>${d.phone}</td></tr>`).join('');
 }
 
 function renderCaseTable(tab){
   const body=document.getElementById('caseTableBody');
   const data=tab==='closed'?caseData.closed:caseData.active;
-  body.innerHTML=data.map((d,i)=>`<tr onclick="openCaseViewModal(${i},'${tab||'active'}')"><td></td><td style="color:var(--teal);font-weight:700;">${d.person}${d.alert?' <span class="alert-icon">⚠️</span>':''}</td><td>${d.caseName}</td><td>${d.status}</td><td>${d.room}</td><td>${d.worker}</td><td style="white-space:pre-line;max-width:200px;">${d.goals}</td></tr>`).join('');
+  body.innerHTML=data.map((d,i)=>`<tr onclick="openCaseViewModal(${i},'${tab||'active'}')"><td></td><td style="color:var(--teal);font-weight:700;">${d.person}${d.alert?' <span class="alert-icon"></span>':''}</td><td>${d.caseName}</td><td>${d.status}</td><td>${d.room}</td><td>${d.worker}</td><td style="white-space:pre-line;max-width:200px;">${d.goals}</td></tr>`).join('');
   document.getElementById('caseCount').textContent=data.length+' records';
 }
 
@@ -2060,7 +2145,7 @@ function openBedViewModal(room,person,hasAlert,occupancy,updatedAt){
     // Main info card
     '<div style="background:#fff;border:0;border-radius:8px;padding:20px;margin-bottom:16px;">'+
       fv('Room Number',room)+
-      '<div style="margin-bottom:14px;"><div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:2px;">Person</div><div style="font-size:14px;">'+(person?'<a href="#" onclick="event.preventDefault();closeModal();setTimeout(function(){openPersonRecord(\''+person.replace(/'/g,"\\'")+'\')},200);" style="color:var(--teal);text-decoration:none;cursor:pointer;">'+person+(hasAlert?' ⚠️':'')+'</a>':'')+'</div></div>'+
+      '<div style="margin-bottom:14px;"><div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:2px;">Person</div><div style="font-size:14px;">'+(person?'<a href="#" onclick="event.preventDefault();closeModal();setTimeout(function(){openPersonRecord(\''+person.replace(/'/g,"\\'")+'\')},200);" style="color:var(--teal);text-decoration:none;cursor:pointer;">'+person+(hasAlert?' ':'')+'</a>':'')+'</div></div>'+
       fv('Occupancy Rate',occupancy+' %')+
     '</div>'+
     // Bed History table
@@ -2070,9 +2155,9 @@ function openBedViewModal(room,person,hasAlert,occupancy,updatedAt){
         '<thead><tr><th>#</th><th>Operation</th><th>User</th><th>Timestamp</th><th></th></tr></thead>'+
         '<tbody>'+
           '<tr><td>4</td><td>Updated</td><td>Workflow full admin rights DO NOT DELETE</td><td>'+updatedAt+' at 1:16 PM</td><td><span style="color:var(--teal);font-size:12px;cursor:pointer;">2 change(s) ⌄</span></td></tr>'+
-          '<tr><td>3</td><td>Updated</td><td>Travis Turner (HelpSeeker)</td><td>'+updatedAt+' at 12:18 PM</td><td><span style="color:var(--teal);font-size:12px;cursor:pointer;">2 change(s) ⌄</span></td></tr>'+
-          '<tr><td>2</td><td>Updated</td><td>Aluko Jolaoso (HelpSeeker)</td><td>'+updatedAt+' at 11:45 AM</td><td><span style="color:var(--teal);font-size:12px;cursor:pointer;">1 change(s) ⌄</span></td></tr>'+
-          '<tr><td>1</td><td>Created</td><td>Nicole Croft (HelpSeeker)</td><td>'+updatedAt+' at 9:00 AM</td><td></td></tr>'+
+          '<tr><td>3</td><td>Updated</td><td>Priya Raman</td><td>'+updatedAt+' at 12:18 PM</td><td><span style="color:var(--teal);font-size:12px;cursor:pointer;">2 change(s) ⌄</span></td></tr>'+
+          '<tr><td>2</td><td>Updated</td><td>Marcus Webb</td><td>'+updatedAt+' at 11:45 AM</td><td><span style="color:var(--teal);font-size:12px;cursor:pointer;">1 change(s) ⌄</span></td></tr>'+
+          '<tr><td>1</td><td>Created</td><td>Demo Admin</td><td>'+updatedAt+' at 9:00 AM</td><td></td></tr>'+
         '</tbody>'+
       '</table>'+
     '</div>'+
@@ -2095,14 +2180,14 @@ function openBedViewModal(room,person,hasAlert,occupancy,updatedAt){
 
 // Appointment data
 const apptData = [
-  {client:'Tester, Shetima',date:'Feb 12, 2026',startTime:'2:34 PM',endTime:'',description:'review case',address:'Shelter',status:'Scheduled',serviceType:'Case Management',staff:'',outcome:'',notes:'',followUp:'',contact:'In-Person'},
-  {client:'Tester, Shetima',date:'Nov 28, 2025',startTime:'10:00 AM',endTime:'10:45 AM',description:'intake follow-up',address:'Shelter - Office 2',status:'Completed',serviceType:'Case Management',staff:'Travis Turner (HelpSeeker)',outcome:'Service Delivered',notes:'Reviewed goals, updated housing plan',followUp:'Yes',contact:'In-Person'},
-  {client:'Lopez, Maria',date:'Nov 28, 2025',startTime:'1:00 PM',endTime:'1:30 PM',description:'housing assessment',address:'Shelter - Meeting Room',status:'Completed',serviceType:'Housing Assessment',staff:'Travis Turner (HelpSeeker)',outcome:'Service Delivered',notes:'Completed housing readiness checklist',followUp:'Yes',contact:'In-Person'},
+  {client:'Example, Sam',date:'Feb 12, 2026',startTime:'2:34 PM',endTime:'',description:'review case',address:'Shelter',status:'Scheduled',serviceType:'Case Management',staff:'',outcome:'',notes:'',followUp:'',contact:'In-Person'},
+  {client:'Example, Sam',date:'Nov 28, 2025',startTime:'10:00 AM',endTime:'10:45 AM',description:'intake follow-up',address:'Shelter - Office 2',status:'Completed',serviceType:'Case Management',staff:'Priya Raman',outcome:'Service Delivered',notes:'Reviewed goals, updated housing plan',followUp:'Yes',contact:'In-Person'},
+  {client:'Lopez, Maria',date:'Nov 28, 2025',startTime:'1:00 PM',endTime:'1:30 PM',description:'housing assessment',address:'Shelter - Meeting Room',status:'Completed',serviceType:'Housing Assessment',staff:'Priya Raman',outcome:'Service Delivered',notes:'Completed housing readiness checklist',followUp:'Yes',contact:'In-Person'},
   {client:'James, Debola',date:'Nov 16, 2025',startTime:'3:00 PM',endTime:'3:30 PM',description:'safety planning session',address:'Shelter - Private Room',status:'Completed',serviceType:'Case Management',staff:'Taj Gill',outcome:'Service Delivered',notes:'Developed initial safety plan with youth',followUp:'Yes',contact:'In-Person'},
-  {client:'Brown, Sasha',date:'Nov 27, 2025',startTime:'11:00 AM',endTime:'11:30 AM',description:'rent bank application review',address:'Virtual',status:'Completed',serviceType:'Case Management',staff:'Aluko Jolaoso (HelpSeeker)',outcome:'Service Delivered',notes:'Application submitted, awaiting approval',followUp:'No',contact:'Video Call'},
-  {client:'Test, AJ',date:'Nov 27, 2025',startTime:'2:00 PM',endTime:'2:30 PM',description:'check-in meeting',address:'Shelter',status:'Completed',serviceType:'Case Management',staff:'Aluko Jolaoso (HelpSeeker)',outcome:'Service Delivered',notes:'General check-in, stable condition',followUp:'No',contact:'In-Person'},
-  {client:'Tester, Shetima',date:'Nov 19, 2025',startTime:'9:30 AM',endTime:'10:00 AM',description:'employment support referral',address:'Shelter - Office 1',status:'Completed',serviceType:'Employment Support',staff:'Travis Turner (HelpSeeker)',outcome:'Service Delivered',notes:'Referred to employment training program',followUp:'Yes',contact:'In-Person'},
-  {client:'Tester, Shetima',date:'Nov 13, 2025',startTime:'4:00 PM',endTime:'4:45 PM',description:'initial intake assessment',address:'Shelter - Intake Office',status:'Completed',serviceType:'Case Management',staff:'Travis Turner (HelpSeeker)',outcome:'Service Delivered',notes:'Completed initial assessment, enrolled in services',followUp:'Yes',contact:'In-Person'}
+  {client:'Brown, Sasha',date:'Nov 27, 2025',startTime:'11:00 AM',endTime:'11:30 AM',description:'rent bank application review',address:'Virtual',status:'Completed',serviceType:'Case Management',staff:'Marcus Webb',outcome:'Service Delivered',notes:'Application submitted, awaiting approval',followUp:'No',contact:'Video Call'},
+  {client:'Test, AJ',date:'Nov 27, 2025',startTime:'2:00 PM',endTime:'2:30 PM',description:'check-in meeting',address:'Shelter',status:'Completed',serviceType:'Case Management',staff:'Marcus Webb',outcome:'Service Delivered',notes:'General check-in, stable condition',followUp:'No',contact:'In-Person'},
+  {client:'Example, Sam',date:'Nov 19, 2025',startTime:'9:30 AM',endTime:'10:00 AM',description:'employment support referral',address:'Shelter - Office 1',status:'Completed',serviceType:'Employment Support',staff:'Priya Raman',outcome:'Service Delivered',notes:'Referred to employment training program',followUp:'Yes',contact:'In-Person'},
+  {client:'Example, Sam',date:'Nov 13, 2025',startTime:'4:00 PM',endTime:'4:45 PM',description:'initial intake assessment',address:'Shelter - Intake Office',status:'Completed',serviceType:'Case Management',staff:'Priya Raman',outcome:'Service Delivered',notes:'Completed initial assessment, enrolled in services',followUp:'Yes',contact:'In-Person'}
 ];
 
 function openApptViewModal(idx){
@@ -2186,9 +2271,9 @@ function openApptViewModal(idx){
 
 // Daily Log data
 const dailyLogData = [
-  {title:'',comment:'',createdAt:'Monday, July 6, 2026 at 10:18 AM',createdBy:'Nicole Croft (HelpSeeker)',room:'',logType:'General Note'},
-  {title:'Room 105 - Bed B Repairs needed',comment:'Room 105 - Bed B Repairs needed <span style="color:var(--teal);font-weight:700;">@Taj Gill</span> please treat as urgent',createdAt:'Sunday, November 16, 2025 at 8:45 PM',createdBy:'Aluko Jolaoso (HelpSeeker)',room:'Room 105 - Bed B',logType:'Maintenance Request'},
-  {title:'Shetima fought with AJ',comment:'<span style="color:var(--teal);font-weight:700;">@Travis Turner (HelpSeeker)</span> should we call the CPS?',createdAt:'Thursday, November 13, 2025 at 10:09 PM',createdBy:'Aluko Jolaoso (HelpSeeker)',room:'',logType:'Safety Concern'}
+  {title:'',comment:'',createdAt:'Monday, July 6, 2026 at 10:18 AM',createdBy:'Demo Admin',room:'',logType:'General Note'},
+  {title:'Room 105 - Bed B Repairs needed',comment:'Room 105 - Bed B Repairs needed <span style="color:var(--teal);font-weight:700;">@Taj Gill</span> please treat as urgent',createdAt:'Sunday, November 16, 2025 at 8:45 PM',createdBy:'Marcus Webb',room:'Room 105 - Bed B',logType:'Maintenance Request'},
+  {title:'Shetima fought with AJ',comment:'<span style="color:var(--teal);font-weight:700;">@Priya Raman</span> should we call the CPS?',createdAt:'Thursday, November 13, 2025 at 10:09 PM',createdBy:'Marcus Webb',room:'',logType:'Safety Concern'}
 ];
 
 function openDailyLogViewModal(idx){
@@ -2225,10 +2310,10 @@ function openDailyLogViewModal(idx){
 
 // Outreach event data
 const outreachData = [
-  {items:'Snacks',emergency:'Yes',qty:5,participants:5,start:'Feb 10, 2026 6:00 PM',end:'Feb 10, 2026 8:30 PM',staff:'Travis Turner (HelpSeeker)',createdBy:'Travis Turner (HelpSeeker)',location:'Downtown Core',notes:'Quick evening run, distributed snacks to 5 individuals near transit hub',weather:'Clear, -5°C'},
-  {items:'Snacks, Hot drinks, Feminine hygiene products, Shampoo and conditioner',emergency:'Yes',qty:43,participants:15,start:'Feb 8, 2026 7:00 PM',end:'Feb 8, 2026 10:00 PM',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',location:'Encampment - River Trail',notes:'Large outreach to encampment. 15 individuals engaged. 2 expressed interest in shelter intake. 1 required emergency warming.',weather:'Snow, -12°C'},
-  {items:'Deodorant, Toothbrush and toothpaste, Snacks, Hot drinks',emergency:'Yes',qty:17,participants:42,start:'Feb 5, 2026 5:30 PM',end:'Feb 5, 2026 9:00 PM',staff:'Nicole Croft (HelpSeeker)',createdBy:'Nicole Croft (HelpSeeker)',location:'Drop-in Centre',notes:'Drop-in centre distribution. High turnout due to cold weather. Multiple requests for warm clothing.',weather:'Wind chill, -18°C'},
-  {items:'Snacks, Hot drinks',emergency:'Yes',qty:27,participants:23,start:'Feb 1, 2026 6:30 PM',end:'Feb 1, 2026 8:00 PM',staff:'Travis Turner (HelpSeeker)',createdBy:'Travis Turner (HelpSeeker)',location:'Bus Terminal',notes:'Regular outreach at bus terminal. Connected 3 individuals to shelter intake line.',weather:'Overcast, -8°C'}
+  {items:'Snacks',emergency:'Yes',qty:5,participants:5,start:'Feb 10, 2026 6:00 PM',end:'Feb 10, 2026 8:30 PM',staff:'Priya Raman',createdBy:'Priya Raman',location:'Downtown Core',notes:'Quick evening run, distributed snacks to 5 individuals near transit hub',weather:'Clear, -5°C'},
+  {items:'Snacks, Hot drinks, Feminine hygiene products, Shampoo and conditioner',emergency:'Yes',qty:43,participants:15,start:'Feb 8, 2026 7:00 PM',end:'Feb 8, 2026 10:00 PM',staff:'Marcus Webb',createdBy:'Marcus Webb',location:'Encampment - River Trail',notes:'Large outreach to encampment. 15 individuals engaged. 2 expressed interest in shelter intake. 1 required emergency warming.',weather:'Snow, -12°C'},
+  {items:'Deodorant, Toothbrush and toothpaste, Snacks, Hot drinks',emergency:'Yes',qty:17,participants:42,start:'Feb 5, 2026 5:30 PM',end:'Feb 5, 2026 9:00 PM',staff:'Demo Admin',createdBy:'Demo Admin',location:'Drop-in Centre',notes:'Drop-in centre distribution. High turnout due to cold weather. Multiple requests for warm clothing.',weather:'Wind chill, -18°C'},
+  {items:'Snacks, Hot drinks',emergency:'Yes',qty:27,participants:23,start:'Feb 1, 2026 6:30 PM',end:'Feb 1, 2026 8:00 PM',staff:'Priya Raman',createdBy:'Priya Raman',location:'Bus Terminal',notes:'Regular outreach at bus terminal. Connected 3 individuals to shelter intake line.',weather:'Overcast, -8°C'}
 ];
 
 function openOutreachViewModal(idx){
@@ -2279,19 +2364,19 @@ function openOutreachViewModal(idx){
 
 // Shelter Operations event data
 const shelterOpsData = [
-  {subtype:'Incident Report',person:'Lopez, Maria - Dec, 4 2009',alert:true,start:'Feb 12, 2026 9:07 AM',end:'Feb 12, 2026 9:13 AM',status:'Completed',eventName:'Incident Report - Hate Speech',case:'Housing',staff:'Alina Turner (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'6 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Threatening behavior',severity:'Low',location:'Mary J Lodge',context:'Lopez insulted Andre',witnesses:'Travis',riskLevel:'Violence or Aggression'},
-  {subtype:'Incident Report',person:'Wilson, Andre - Sep, 23 1982',alert:true,start:'Feb 12, 2026 9:10 AM',end:'Feb 12, 2026 9:18 AM',status:'Completed',eventName:'Incident Report - Fight',case:'Wilson, A - 00027',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'8 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Fight between residents',severity:'High',location:'Common Area',context:'Fight over TV remote in common room',witnesses:'Nicole Croft',riskLevel:'Violence or Aggression',emergencyCalled:'Yes'},
-  {subtype:'Incident Report',person:'Miller, Jason - Jun, 7 1991',alert:true,start:'Nov 28, 2025 5:31 AM',end:'Nov 28, 2025 5:45 AM',status:'Completed',eventName:'Substance Related Incident',case:'Miller, J - 00019',staff:'Travis Turner (HelpSeeker)',createdBy:'Travis Turner (HelpSeeker)',duration:'14 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Substance-Related',severity:'High',location:'Room 104',context:'Found paraphernalia during room check',witnesses:'',riskLevel:'Substance Use - Active use on premises',emergencyCalled:'Yes'},
-  {subtype:'Incident Report',person:'Wilson, Andre - Sep, 23 1982',alert:true,start:'Nov 27, 2025 9:43 AM',end:'Nov 27, 2025 9:55 AM',status:'Completed',eventName:'Resident Altercation',case:'Wilson, A - 00027',staff:'Demo 2 Manager',createdBy:'Demo 2 Manager',duration:'12 minutes',shiftType:'Afternoon 2PM-10PM',incidentType:'Fight between residents',severity:'Low',location:'Hallway',context:'Verbal argument over food',witnesses:'Aluko',riskLevel:'Violence or Aggression',emergencyCalled:'Yes'},
-  {subtype:'Incident Report',person:'Chen, David - Jul, 29 2001',alert:false,start:'Nov 16, 2025 8:42 PM',end:'Nov 16, 2025 8:55 PM',status:'Completed',eventName:'Physical Assault Report',case:'Chen, D - 00026',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'13 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Physical assault (resident to resident)',severity:'High',location:'Room 100',context:'Resident pushed by another during dispute',witnesses:'Travis Turner',riskLevel:'Violence or Aggression',emergencyCalled:'Yes'},
-  {subtype:'Shift Log',person:'',alert:false,start:'Feb 11, 2026 2:00 PM',end:'Feb 11, 2026 10:00 PM',status:'Completed',eventName:'Afternoon Shift Log',case:'',staff:'Travis Turner (HelpSeeker)',createdBy:'Travis Turner (HelpSeeker)',duration:'8 hours',shiftType:'Afternoon 2PM-10PM',issuesFlagged:'Yes',followUps:'Yes',shiftNotes:'Quiet afternoon. Room 102 resident requested extra blankets. Minor verbal disagreement resolved.'},
-  {subtype:'Room Check',person:'Lopez, Maria - Dec, 4 2009',alert:true,start:'Feb 11, 2026 3:15 PM',end:'Feb 11, 2026 3:25 PM',status:'Completed',eventName:'Room 103 Check',case:'Housing',staff:'Travis Turner (HelpSeeker)',createdBy:'Travis Turner (HelpSeeker)',duration:'10 minutes',clientPresent:'Present',roomScore:'78%',issuesFound:'Overflow Use – Used during capacity surge'},
-  {subtype:'Bed Check',person:'Miller, Jason - Jun, 7 1991',alert:true,start:'Feb 11, 2026 10:30 PM',end:'Feb 11, 2026 10:35 PM',status:'Completed',eventName:'Night Bed Check',case:'Miller, J - 00019',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'5 minutes',wellnessCheck:'Yes',clientPresent:'Present'},
-  {subtype:'Shift Log',person:'',alert:false,start:'Feb 11, 2026 10:00 PM',end:'Feb 12, 2026 6:00 AM',status:'Completed',eventName:'Evening Shift Log',case:'',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'8 hours',shiftType:'Evening 10PM-6AM',issuesFlagged:'Yes',followUps:'Yes',shiftNotes:'Two incidents during overnight. Bed checks completed. One resident had nightmare episode, comforted by staff.'},
-  {subtype:'Room Check',person:'Wilson, Andre - Sep, 23 1982',alert:true,start:'Feb 10, 2026 2:45 PM',end:'Feb 10, 2026 2:55 PM',status:'Completed',eventName:'Room 102 Check',case:'Wilson, A - 00027',staff:'Nicole Croft (HelpSeeker)',createdBy:'Nicole Croft (HelpSeeker)',duration:'10 minutes',clientPresent:'Present',roomScore:'23%',issuesFound:'Temporarily Reassigned – Used by staff or visitor'},
-  {subtype:'Bed Check',person:'Chen, David - Jul, 29 2001',alert:false,start:'Feb 10, 2026 10:45 PM',end:'Feb 10, 2026 10:50 PM',status:'Completed',eventName:'Night Bed Check',case:'Chen, D - 00026',staff:'Travis Turner (HelpSeeker)',createdBy:'Travis Turner (HelpSeeker)',duration:'5 minutes',wellnessCheck:'Yes',clientPresent:'Present'},
-  {subtype:'Incident Report',person:'Lopez, Maria - Dec, 4 2009',alert:true,start:'Nov 13, 2025 9:01 PM',end:'Nov 13, 2025 9:20 PM',status:'Completed',eventName:'Multiple Incident Types',case:'Housing',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'19 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Fight between residents / Physical assault',severity:'Medium',location:'Dining Area',context:'Escalated verbal argument turned physical',witnesses:'Travis, Nicole',riskLevel:'Violence or Aggression'},
-  {subtype:'Incident Report',person:'',alert:false,start:'Nov 13, 2025 8:47 PM',end:'Nov 13, 2025 8:55 PM',status:'Completed',eventName:'Trespasser Report',case:'',staff:'Aluko Jolaoso (HelpSeeker)',createdBy:'Aluko Jolaoso (HelpSeeker)',duration:'8 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Unauthorized person on property',severity:'Low',location:'Front Entrance',context:'Unknown individual attempted entry',witnesses:'Security camera',riskLevel:'Security Breach'}
+  {subtype:'Incident Report',person:'Lopez, Maria - Dec, 4 2009',alert:true,start:'Feb 12, 2026 9:07 AM',end:'Feb 12, 2026 9:13 AM',status:'Completed',eventName:'Incident Report - Hate Speech',case:'Housing',staff:'Hannah Lindqvist',createdBy:'Marcus Webb',duration:'6 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Threatening behavior',severity:'Low',location:'Mary J Lodge',context:'Lopez insulted Andre',witnesses:'Travis',riskLevel:'Violence or Aggression'},
+  {subtype:'Incident Report',person:'Wilson, Andre - Sep, 23 1982',alert:true,start:'Feb 12, 2026 9:10 AM',end:'Feb 12, 2026 9:18 AM',status:'Completed',eventName:'Incident Report - Fight',case:'Wilson, A - 00027',staff:'Marcus Webb',createdBy:'Marcus Webb',duration:'8 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Fight between residents',severity:'High',location:'Common Area',context:'Fight over TV remote in common room',witnesses:'Demo Admin',riskLevel:'Violence or Aggression',emergencyCalled:'Yes'},
+  {subtype:'Incident Report',person:'Miller, Jason - Jun, 7 1991',alert:true,start:'Nov 28, 2025 5:31 AM',end:'Nov 28, 2025 5:45 AM',status:'Completed',eventName:'Substance Related Incident',case:'Miller, J - 00019',staff:'Priya Raman',createdBy:'Priya Raman',duration:'14 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Substance-Related',severity:'High',location:'Room 104',context:'Found paraphernalia during room check',witnesses:'',riskLevel:'Substance Use - Active use on premises',emergencyCalled:'Yes'},
+  {subtype:'Incident Report',person:'Wilson, Andre - Sep, 23 1982',alert:true,start:'Nov 27, 2025 9:43 AM',end:'Nov 27, 2025 9:55 AM',status:'Completed',eventName:'Resident Altercation',case:'Wilson, A - 00027',staff:'Shift manager',createdBy:'Shift manager',duration:'12 minutes',shiftType:'Afternoon 2PM-10PM',incidentType:'Fight between residents',severity:'Low',location:'Hallway',context:'Verbal argument over food',witnesses:'Aluko',riskLevel:'Violence or Aggression',emergencyCalled:'Yes'},
+  {subtype:'Incident Report',person:'Chen, David - Jul, 29 2001',alert:false,start:'Nov 16, 2025 8:42 PM',end:'Nov 16, 2025 8:55 PM',status:'Completed',eventName:'Physical Assault Report',case:'Chen, D - 00026',staff:'Marcus Webb',createdBy:'Marcus Webb',duration:'13 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Physical assault (resident to resident)',severity:'High',location:'Room 100',context:'Resident pushed by another during dispute',witnesses:'Priya Raman',riskLevel:'Violence or Aggression',emergencyCalled:'Yes'},
+  {subtype:'Shift Log',person:'',alert:false,start:'Feb 11, 2026 2:00 PM',end:'Feb 11, 2026 10:00 PM',status:'Completed',eventName:'Afternoon Shift Log',case:'',staff:'Priya Raman',createdBy:'Priya Raman',duration:'8 hours',shiftType:'Afternoon 2PM-10PM',issuesFlagged:'Yes',followUps:'Yes',shiftNotes:'Quiet afternoon. Room 102 resident requested extra blankets. Minor verbal disagreement resolved.'},
+  {subtype:'Room Check',person:'Lopez, Maria - Dec, 4 2009',alert:true,start:'Feb 11, 2026 3:15 PM',end:'Feb 11, 2026 3:25 PM',status:'Completed',eventName:'Room 103 Check',case:'Housing',staff:'Priya Raman',createdBy:'Priya Raman',duration:'10 minutes',clientPresent:'Present',roomScore:'78%',issuesFound:'Overflow Use – Used during capacity surge'},
+  {subtype:'Bed Check',person:'Miller, Jason - Jun, 7 1991',alert:true,start:'Feb 11, 2026 10:30 PM',end:'Feb 11, 2026 10:35 PM',status:'Completed',eventName:'Night Bed Check',case:'Miller, J - 00019',staff:'Marcus Webb',createdBy:'Marcus Webb',duration:'5 minutes',wellnessCheck:'Yes',clientPresent:'Present'},
+  {subtype:'Shift Log',person:'',alert:false,start:'Feb 11, 2026 10:00 PM',end:'Feb 12, 2026 6:00 AM',status:'Completed',eventName:'Evening Shift Log',case:'',staff:'Marcus Webb',createdBy:'Marcus Webb',duration:'8 hours',shiftType:'Evening 10PM-6AM',issuesFlagged:'Yes',followUps:'Yes',shiftNotes:'Two incidents during overnight. Bed checks completed. One resident had nightmare episode, comforted by staff.'},
+  {subtype:'Room Check',person:'Wilson, Andre - Sep, 23 1982',alert:true,start:'Feb 10, 2026 2:45 PM',end:'Feb 10, 2026 2:55 PM',status:'Completed',eventName:'Room 102 Check',case:'Wilson, A - 00027',staff:'Demo Admin',createdBy:'Demo Admin',duration:'10 minutes',clientPresent:'Present',roomScore:'23%',issuesFound:'Temporarily Reassigned – Used by staff or visitor'},
+  {subtype:'Bed Check',person:'Chen, David - Jul, 29 2001',alert:false,start:'Feb 10, 2026 10:45 PM',end:'Feb 10, 2026 10:50 PM',status:'Completed',eventName:'Night Bed Check',case:'Chen, D - 00026',staff:'Priya Raman',createdBy:'Priya Raman',duration:'5 minutes',wellnessCheck:'Yes',clientPresent:'Present'},
+  {subtype:'Incident Report',person:'Lopez, Maria - Dec, 4 2009',alert:true,start:'Nov 13, 2025 9:01 PM',end:'Nov 13, 2025 9:20 PM',status:'Completed',eventName:'Multiple Incident Types',case:'Housing',staff:'Marcus Webb',createdBy:'Marcus Webb',duration:'19 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Fight between residents / Physical assault',severity:'Medium',location:'Dining Area',context:'Escalated verbal argument turned physical',witnesses:'Travis, Dana',riskLevel:'Violence or Aggression'},
+  {subtype:'Incident Report',person:'',alert:false,start:'Nov 13, 2025 8:47 PM',end:'Nov 13, 2025 8:55 PM',status:'Completed',eventName:'Trespasser Report',case:'',staff:'Marcus Webb',createdBy:'Marcus Webb',duration:'8 minutes',shiftType:'Evening 10PM-6AM',incidentType:'Unauthorized person on property',severity:'Low',location:'Front Entrance',context:'Unknown individual attempted entry',witnesses:'Security camera',riskLevel:'Security Breach'}
 ];
 
 function openEventViewModal(idx){
@@ -2306,7 +2391,7 @@ function openEventViewModal(idx){
     '<div class="section-bar">Required Data Elements</div>'+
     '<div style="background:#fff;border:0;border-radius:8px;padding:20px;margin-bottom:16px;">'+
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0 16px;">'+
-        '<div style="margin-bottom:14px;"><div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:2px;">Primary Person(s)</div><div style="font-size:14px;">'+(d.person?'<a href="#" onclick="event.preventDefault();closeModal();setTimeout(function(){openPersonRecord(\''+d.person.replace(/'/g,"\\'")+'\')},200);" style="color:var(--teal);">'+d.person+(d.alert?' ⚠️':'')+'</a>':'')+'</div></div>'+
+        '<div style="margin-bottom:14px;"><div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:2px;">Primary Person(s)</div><div style="font-size:14px;">'+(d.person?'<a href="#" onclick="event.preventDefault();closeModal();setTimeout(function(){openPersonRecord(\''+d.person.replace(/'/g,"\\'")+'\')},200);" style="color:var(--teal);">'+d.person+(d.alert?' ':'')+'</a>':'')+'</div></div>'+
         fv('Start Date & Time',d.start)+fv('End Date & Time',d.end)+fv('Created by',d.createdBy)+
       '</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0 16px;">'+
@@ -2478,14 +2563,14 @@ function switchModalTab(groupId,idx){
 }
 
 // Shared data for dropdowns
-const staffOptions=['Alina Turner (HelpSeeker)','Travis Turner (HelpSeeker)','Nicole Croft (HelpSeeker)','Aluko Jolaoso (HelpSeeker)','Danielle (HelpSeeker)','Demo 2 Manager'];
+const staffOptions=['Hannah Lindqvist','Priya Raman','Demo Admin','Marcus Webb',Jordan Ellis','Shift manager'];
 const referralOptions=['Self-Referral','Police','Hospital/Emergency','Child Protection Services','Family Member','Other Agency','Outreach Team','Crisis Line'];
 const genderOptions=['Male','Female','Non-binary','Two-Spirit','Prefer not to say','Transgender Male','Transgender Female','Gender Diverse','Other'];
 const locationOptions=['Brampton','Mississauga','Caledon','Downtown Toronto','Peel Region - Other','Unknown'];
 const raceOptions=['Inuit','First Nations (Status)','First Nations (Non-Status)','Métis','Métis-Inuit','Indigenous (unspecified)','Urban Indigenous','White / European','Black / African Descent','Other'];
 const bestTimeOptions=['Morning (8AM - 12PM)','Afternoon (12PM - 5PM)','Evening (5PM - 8PM)','Anytime','Weekends Only','Weekdays Only'];
 const yesNoOptions=['Yes','No'];
-const personOptions=['Tester, Shetima - Nov, 6 2025','Test, AJ - Nov, 6 2025','Lopez, Maria - Dec, 4 2009','Chen, David - Jul, 29 2001','Brown, Sasha - Apr, 19 1988','Wilson, Andre - Sep, 23 1982','Miller, Jason - Jun, 7 1991','Khan, Lila - Jan, 12 1997','Lee, Hannah - Mar, 15 2004','Patel, Nina - Dec, 30 1995'];
+const personOptions=['Example, Sam - Nov, 6 2025','Test, AJ - Nov, 6 2025','Lopez, Maria - Dec, 4 2009','Chen, David - Jul, 29 2001','Brown, Sasha - Apr, 19 1988','Wilson, Andre - Sep, 23 1982','Miller, Jason - Jun, 7 1991','Khan, Lila - Jan, 12 1997','Lee, Hannah - Mar, 15 2004','Patel, Nina - Dec, 30 1995'];
 const eventTypeOptions=['Outreach Events','Shelter Operations','Case Note','Client Contact','Intake'];
 const eventStatusOptions=['In Progress','Completed','Cancelled'];
 const caseStatusOptions=['Active: Enrolled and receiving services','Active: Waitlisted','Closed: Successfully housed','Closed: Transferred','Closed: Disengaged'];
@@ -2586,7 +2671,7 @@ function openCreateShelterOp(){
     '<div style="padding:0 20px;">'+
     '<div class="section-bar">Required Data Elements</div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">'+ddHtml('Primary Person(s)',personOptions,'',true,'e-pp')+datetimeHtml('Start Date & Time')+datetimeHtml('End Date & Time')+ddHtml('Event Type',eventTypeOptions,'',true,'e-et')+'</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">'+ddHtml('Event Status',eventStatusOptions,'Completed',false,'e-es')+inputHtml('Event Name')+ddHtml('Related Case(s)',['Tester, S - 00030','Wilson, A - 00027','Chen, D - 00026','Housing','Miller, J - 00019'],'',false,'e-rc')+ddHtml('Staff Involved',staffOptions,'',false,'e-si')+'</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">'+ddHtml('Event Status',eventStatusOptions,'Completed',false,'e-es')+inputHtml('Event Name')+ddHtml('Related Case(s)',['Example, S - 00030','Wilson, A - 00027','Chen, D - 00026','Housing','Miller, J - 00019'],'',false,'e-rc')+ddHtml('Staff Involved',staffOptions,'',false,'e-si')+'</div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'+staticHtml('Created by','N/A')+ddHtml('User Access',staffOptions,'Kim Harper',false,'e-ua')+'</div>'+
     inputHtml('Duration')+
     '<div class="section-bar" style="margin-top:16px;">Event Details</div>'+
@@ -2631,7 +2716,7 @@ function openCreateAppointment(){
     inputHtml('Address')+'<div style="font-size:11px;color:#4A5568;margin:-10px 0 14px;">Physical location or virtual meeting link</div>'+
     inputHtml('Virtual Meeting Link','Example URL: https://example.com')+
     ddHtml('Staff Assigned',staffOptions,'',false,'a-sa')+'<div style="font-size:11px;color:#4A5568;margin:-10px 0 14px;">Staff member(s) conducting this appointment</div>'+
-    ddHtml('Related Case',['Tester, S - 00030','Wilson, A - 00027','Chen, D - 00026','Housing','Miller, J - 00019'],'',false,'a-rc')+
+    ddHtml('Related Case',['Example, S - 00030','Wilson, A - 00027','Chen, D - 00026','Housing','Miller, J - 00019'],'',false,'a-rc')+
     ddHtml('Contact Method',['Phone','In-Person','Video Call','Email'],'',false,'a-cm')+
     inputHtml('Reminder Send Date(s)')+
     ddHtml('Interpreter Required',yesNoOptions,'',false,'a-ir')+
@@ -2666,7 +2751,7 @@ function openCreateCaseNote(){
   document.getElementById('modalBody').innerHTML=
     heroHtml('<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>','Case Note')+
     '<div style="padding:0 20px;">'+
-    ddHtml('Related Case',['Tester, S - 00030','Tester, S - 00028','Wilson, A - 00027','Chen, D - 00026','Housing','Miller, J - 00019'],'',true,'cn-case')+
+    ddHtml('Related Case',['Example, S - 00030','Example, S - 00028','Wilson, A - 00027','Chen, D - 00026','Housing','Miller, J - 00019'],'',true,'cn-case')+
     ddHtml('Case Note Type',['Progress Note','Phone Call','Home Visit','Meeting Notes','Assessment','Safety Plan','Referral','Other'],'',true,'cn-type')+
     datetimeHtml('Date & Time')+
     ddHtml('Staff',staffOptions,'Kim Harper',false,'cn-staff')+

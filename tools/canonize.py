@@ -249,7 +249,7 @@ def board_extras(t: str) -> str:
         if rb > 0:
             end = before.find("</div>", rb) + len("</div>")
             t = before[:end] + chr(10) + block + before[end:] + t[ap.end():]
-    is_board = 'id="page-reportstudio"' in t and 'id="page-strategic"' in t
+    is_board = 'id="caseKanban"' in t and 'id="page-strategic"' in t
     if "mareto-canon:story" in t:
         t = re.sub(r"<!-- mareto-canon:story -->[\s\S]*?<!-- /mareto-canon:story -->", lambda _: story_block(), t)
     elif is_board:

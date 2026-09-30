@@ -240,7 +240,7 @@
     if (persona === 'counsellor' || persona === 'manager') { const prog = personaProgram || PROGRAMS[0]; fill(personData, people.filter((p) => p._program === prog)); fill(eventData, events.filter((e) => e._case.program === prog)); } else { fill(personData, people); fill(eventData, events); }
     try { renderPersonTable(); renderEventTable(); } catch (e) {}
     try { renderStatic((persona === 'counsellor' || persona === 'manager') ? (personaProgram || PROGRAMS[0]) : null); } catch (e) { console.warn('story: scope', e); }
-    if (persona === 'board' || persona === 'researcher') { navigateTo('reportstudio'); } else navigateTo('home');
+    if (persona === 'board' || persona === 'researcher') { navigateTo($('#page-reportstudio') ? 'reportstudio' : 'reporting'); } else navigateTo('home');
   };
   const screener = () => {
     let o = $('#hsPersona'); if (o) o.remove(); o = document.createElement('div'); o.id = 'hsPersona'; o.className = 'hs-persona'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true');

@@ -308,6 +308,12 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
 
 /* story layer: card top-align */
 #page-case .card-row>.card{justify-content:flex-start}
+
+/* story layer: qa-btn */
+.quick-actions .qa-btn{border:0;border-radius:999px;padding:12px 18px;font-weight:700;font-size:13.5px;font-family:inherit;cursor:pointer;background:var(--hs-mist);color:var(--hs-navy);box-shadow:none}
+.quick-actions .qa-btn:first-child{grid-column:1/-1;background:var(--hs-action-gradient);color:#fff;box-shadow:var(--sh1)}
+.quick-actions .qa-btn:nth-child(2){background:linear-gradient(135deg,#0B7770,#14AEC4);color:#fff}
+.quick-actions .qa-btn:hover{opacity:.92}
 /* the strategic report was themed dark by id; it is a light page like every other page */
 #page-strategic{background:transparent!important;color:var(--hs-text)!important;border-radius:0;margin:0;padding:0}
 #page-strategic .hero{margin-bottom:20px;border-radius:var(--hs-radius-card)}
