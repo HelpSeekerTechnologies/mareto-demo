@@ -16,7 +16,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGE = ROOT / "mareto-general-product-tour.html"
-QUIZ = "https://helpseekertechnologies.github.io/mareto-demo/mareto-fit-finder.html"
+QUIZ = "./mareto-fit-finder.html"
 BOOK = "https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma"
 
 ICON = {

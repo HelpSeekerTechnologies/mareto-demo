@@ -19,8 +19,8 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGE = ROOT / "mareto-fit-finder.html"
 BOOK = "https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma"
-TOUR = "https://helpseekertechnologies.github.io/mareto-demo/mareto-general-product-tour.html"
-DEMO = "https://helpseekertechnologies.github.io/mareto-demo/mareto-interactive-demo.html"
+TOUR = "./mareto-general-product-tour.html"
+DEMO = "./mareto-interactive-demo.html"
 
 LANDING = '''  <div class="landing" id="landing">
     <img src="{logo}" alt="Mareto by HelpSeeker Technologies">
@@ -36,8 +36,8 @@ SCRIPT = r'''
 // 29 Sep pricing briefing; copy per Alina's rulings of 30 Sep 2026. Nothing about the visitor is stored until
 // they choose to send themselves the results.
 const BOOK = 'https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma';
-const TOUR = 'https://helpseekertechnologies.github.io/mareto-demo/mareto-general-product-tour.html';
-const DEMO = 'https://helpseekertechnologies.github.io/mareto-demo/mareto-interactive-demo.html';
+const TOUR = './mareto-general-product-tour.html';
+const DEMO = './mareto-interactive-demo.html';
 
 const questions = [
   { id: 'org_type', title: 'What kind of organization are you?', type: 'single', layout: 'list', options: [
