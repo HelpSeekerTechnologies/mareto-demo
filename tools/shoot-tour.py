@@ -28,7 +28,7 @@ os.environ.setdefault("PLAYWRIGHT_BROWSERS_PATH", r"C:\Users\alina\AppData\Local
 
 # step -> (board page id, [pin target selectors in pin order])
 SHOTS = {
-    1: ("home", [".quick-actions", "#page-home .card-row .card:nth-child(1)", "#page-home .bar-chart", "text=Special Announcements", ".sidebar .nav-list"]),
+    1: ("home", [".quick-actions", "#page-home .card-row .card:nth-child(1)", "#page-home .hs-bars", "text=Special Announcements", ".sidebar .nav-list"]),
     2: ("person", ["#page-person .card table", "#page-person .btn-add", "#page-person .card th:nth-child(3)"]),
     3: ("case", ["#page-case .card-row", "#page-case .btn-add", "#page-case .kanban, #page-case .kanban-board, #caseKanban"]),
     4: ("event", ["#eventTabs", "#event-records table, #page-event .card table"]),
@@ -69,8 +69,11 @@ def main() -> None:
         b = pw.chromium.launch()
         ctx = b.new_context(viewport={"width": 1280, "height": 1000}, device_scale_factor=1.5)
         pg = ctx.new_page()
-        pg.goto(f"{BASE}/mareto-interactive-demo.html", wait_until="load")
+        pg.goto(f"{BASE}/mareto-interactive-demo.html", wait_until="domcontentloaded", timeout=120000)
         pg.wait_for_timeout(1200)
+        # the tour is shot from the director seat: the whole agency, no program filter
+        if pg.query_selector('.hs-persona__opt[data-id="director"]'):
+            pg.click('.hs-persona__opt[data-id="director"]'); pg.wait_for_timeout(800)
         for step, (pid, targets) in SHOTS.items():
             go(pg, pid)
             active = pg.evaluate(f"!!document.querySelector('#page-{pid}.active')")
