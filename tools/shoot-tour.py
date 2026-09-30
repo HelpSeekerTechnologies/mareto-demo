@@ -91,6 +91,9 @@ def main() -> None:
                     continue
                 left = round(100 * bx[0] / 1280, 1); top = round(100 * bx[1] / 1000, 1)
                 t, k = re.subn(rf'(<div class="slide" data-step="{step}">[\s\S]*?<div class="hotspot" style=")top:[0-9.]+%;left:[0-9.]+%(" data-n="{n}")', rf'\g<1>top:{top}%;left:{left}%\g<2>', t, count=1)
+                # the card opens away from the nearer edge
+                side = 'right: 34px; top: -8px;' if left > 58 else 'left: 34px; top: -8px;'
+                t = re.sub(rf'(<div class="slide" data-step="{step}">[\s\S]*?<div class="hotspot-card" data-n="{n}" style=")[^"]*(")', rf'\g<1>{side}\g<2>', t, count=1)
                 if not k:
                     print(f"  pin {n}: hotspot markup not found")
         b.close()

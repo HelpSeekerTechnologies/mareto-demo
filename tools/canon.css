@@ -297,7 +297,7 @@ tr+tr td{box-shadow:inset 0 1px 0 rgba(11,31,51,.06)}
 .hs-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .hs-btn-secondary{display:inline-flex;align-items:center;gap:8px;min-height:var(--nv-tap);padding:0 22px;border-radius:var(--hs-radius-control);background:var(--hs-mist);color:var(--hs-navy);font-weight:700;text-decoration:none;box-shadow:var(--control-inset)}
 .hs-btn-secondary:hover{background:var(--hs-pale)}
-@media(max-width:767px){.hotspot-card{width:min(260px,calc(100vw - 48px))}.screenshot-wrap{overflow:hidden}}
+@media(max-width:767px){.hotspot-card{display:none!important}.screenshot-wrap{overflow:hidden}.hotspot-dot{width:32px;height:32px;font-size:13px}}
 
 /* ===================== fit finder ===================== */
 .quiz-container .landing{min-height:0}

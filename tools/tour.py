@@ -178,7 +178,7 @@ LANDING = '''<div class="landing" id="landing">
 JS_EXTRA = '''
 function openHotspot(step,n){const s=document.querySelector('.slide[data-step="'+step+'"]');if(!s)return;closeAllHotspots();const h=s.querySelector('.hotspot[data-n="'+n+'"]');if(h){h.classList.add('open');h.scrollIntoView({block:'center',behavior:'smooth'})}syncCallouts()}
 function syncCallouts(){document.querySelectorAll('.hs-callouts li').forEach(li=>li.classList.remove('on'));const o=document.querySelector('.hotspot.open');if(o){const li=o.closest('.slide').querySelector('.hs-callouts li[data-n="'+o.getAttribute('data-n')+'"]');if(li)li.classList.add('on')}}
-document.addEventListener('click',()=>setTimeout(syncCallouts,0));
+document.addEventListener('click',e=>{setTimeout(syncCallouts,0);const h=e.target.closest('.hotspot');if(h&&window.innerWidth<768){const li=h.closest('.slide').querySelector('.hs-callouts li[data-n="'+h.getAttribute('data-n')+'"]');if(li)setTimeout(()=>li.scrollIntoView({block:'center',behavior:'smooth'}),50)}});
 '''
 
 
