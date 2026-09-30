@@ -77,7 +77,9 @@ def fold_weights(t: str) -> str:
 def drop_dividers(t: str) -> str:
     """No lines as separators (canon README §4): a one-sided border in the page's own CSS or inline styles becomes
     none; cards and controls are separated by tone, shadow and space in canon.css."""
-    return re.sub(r"border-(top|right|bottom|left):\s*[0-9.]+px\s+(solid|dashed|dotted)[^;\"}]*", r"border-:0", t)
+    t = re.sub(r"border-(top|right|bottom|left):\s*[0-9.]+px\s+(solid|dashed|dotted)[^;\"}]*", r"border-\1:0", t)
+    # full outlines on buttons, inputs and cards go the same way (canon: no button has a border; cards carry shadow)
+    return re.sub(r"(?<![a-z-])border:\s*[0-9.]+px\s+(solid|dashed|dotted)[^;\"}]*", "border:0", t)
 
 
 def drop_uppercase(t: str) -> str:
