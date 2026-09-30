@@ -1,4 +1,4 @@
-"""Domain work for the buyer journey (SEO lane recommendation, 30 Sep 2026: mareto.helpseeker.org on the same
+"""Domain work for the buyer journey (SEO lane recommendation, 30 Sep 2026: demo.helpseeker.org on the same
 GitHub Pages repo via CNAME).
 
   python tools/domain.py prepare   # safe on any host: HubSpot tracking on all three pages, relative internal
@@ -6,7 +6,7 @@ GitHub Pages repo via CNAME).
   python tools/domain.py cutover   # ONLY after the DNS CNAME resolves: writes the CNAME file, canonical tags,
                                    # absolute links in the results email, and a redirect note for old links.
 
-Never run cutover before `nslookup mareto.helpseeker.org` answers with helpseekertechnologies.github.io: with a
+Never run cutover before `nslookup demo.helpseeker.org` answers with helpseekertechnologies.github.io: with a
 CNAME file in the repo, GitHub Pages serves only the custom domain and the github.io URLs redirect to it.
 """
 from __future__ import annotations
@@ -16,7 +16,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-HOST = "mareto.helpseeker.org"
+HOST = "demo.helpseeker.org"
 OLD = "https://helpseekertechnologies.github.io/mareto-demo/"
 PAGES = ["mareto-general-product-tour.html", "mareto-fit-finder.html", "mareto-interactive-demo.html"]
 BOARDS = ["mareto-interactive-demo.html", "mareto-demo-cfs.html", "mareto-demo-housing.html"]
