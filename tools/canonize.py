@@ -38,6 +38,7 @@ HEX = {
     "#dcfce7": "#E0F0EE", "#e0e7ff": "#EDF5F4", "#e0f5f5": "#E0F0EE", "#e0f7f6": "#E0F0EE", "#e8e9ed": "#EDF5F4",
     "#e8f6f3": "#EDF5F4", "#ec4899": "#1E3A5F", "#f0f0f0": "#EDF5F4", "#f0fafa": "#F9FAFB", "#f39c12": "#4A8FD4",
     "#f7fafa": "#F9FAFB", "#fef9c3": "#EDF5F4", "#ff6b6b": "#1E3A5F", "#ffc107": "#4A8FD4", "#fff3cd": "#EDF5F4",
+    "#0284c7": "#275C99", "#1a3a5c": "#1E3A5F", "#64748b": "#4A5568", "#7ec8e3": "#7EDDD5", "#e0f2fe": "#EDF5F4",
     "#f3f4f6": "#EDF5F4", "#fafafa": "#F9FAFB", "#e2e6ec": "#E5E7EB", "#e5e7eb": "#E5E7EB", "#0f1e3a": "#0B1F33",
 }
 SHORT = {"#333": "#2D3748", "#555": "#4A5568", "#666": "#4A5568", "#888": "#4A5568", "#999": "#4A5568", "#aaa": "#4A5568", "#ccc": "#E5E7EB", "#ddd": "#E5E7EB", "#eee": "#EDF5F4"}
@@ -223,7 +224,7 @@ def run(path: pathlib.Path, dry: bool) -> None:
     t = map_colours(t)
     t, n_donuts = donuts_to_bars(t)
     t = inject_canon(t)
-    if "interactive-demo" in path.name:
+    if 'id="sidebar"' in t and ".top-bar" in t:
         t = board_extras(t)
     left = sorted(set(h.lower() for h in re.findall(r"#[0-9a-fA-F]{6}\b", re.sub(r"data:image/[^\"']+", "", t))))
     canon = {v.lower() for v in HEX.values()} | {"#ffffff", "#000000", "#336fb5", "#3d9b96", "#0e8c86", "#0fb9b1", "#4fd1c5", "#7eddd5", "#e0f0ee", "#edf5f4", "#0b7770", "#275c99", "#2c5282", "#4a8fd4", "#1e3a5f", "#102a43", "#0b1f33", "#2d3748", "#4a5568", "#f9fafb", "#e5e7eb"}
