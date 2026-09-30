@@ -237,6 +237,14 @@ def board_extras(t: str) -> str:
         i = t.index('id="page-programs"'); j = t.find('<div class="page"', i + 10)
         seg = t[i:j]; k = seg.rfind("</div>")  # the page's closing div
         t = t[:i] + seg[:k] + PROGRAMS + seg[k:] + t[j:]
+    # roles as pills in record lists; the record's action pills move up under the risk strip
+    t = re.sub(r"<td>(Client|Dependent|Child|Youth|Adult|Guardian|Parent)</td>", lambda m: '<td><span class="hs-role' + (' hs-role--client' if m.group(1) == 'Client' else '') + '">' + m.group(1) + '</span></td>', t)
+    ap = re.search(r'<div class="action-pills">[\s\S]*?</div>\s*(?=<)', t)
+    if ap:
+        block = ap.group(0); before = t[:ap.start()]; rb = before.rfind('<div class="risk-bar">')
+        if rb > 0:
+            end = before.find("</div>", rb) + len("</div>")
+            t = before[:end] + chr(10) + block + before[end:] + t[ap.end():]
     if "mareto-canon:drawer" in t:
         return t
     return t.replace("</body>", BOARD_DRAWER + "\n</body>", 1)

@@ -320,6 +320,45 @@ tbody tr:hover td{background:var(--hs-tint)}
 .bed-cell{border:0;border-radius:var(--hs-radius-small);box-shadow:var(--hs-inset)}
 .bed-cell.occupied{background:var(--hs-pale)}.bed-cell.available{background:var(--hs-surface)}
 .toast,.hs-toast{background:var(--hs-navy);color:#fff;border-radius:var(--hs-radius-field);box-shadow:var(--sh4)}
+
+/* charts: one series, one colour (canon: a single-series chart is one colour, never a rainbow) */
+.hs-bar__f,.hs-bar:nth-child(5n+2) .hs-bar__f,.hs-bar:nth-child(5n+3) .hs-bar__f,.hs-bar:nth-child(5n+4) .hs-bar__f,.hs-bar:nth-child(5n+5) .hs-bar__f{background:var(--hs-teal)}
+.bar-chart .bar,.bar-chart .bar-group:nth-child(2n) .bar,.bar-chart .bar[style]{background:var(--hs-teal)!important}
+.bar-chart .bar-val{color:var(--hs-pine)}
+.risk-bar-fill[style]{background:var(--hs-teal)!important;border-radius:var(--hs-radius-control)}
+/* announcement priority: quiet pills with an alert dot, never solid navy */
+.ann-badge{background:var(--hs-mist);color:var(--hs-slate);font-size:11px;padding:4px 12px 4px 10px;display:inline-flex;align-items:center;gap:6px}
+.ann-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--hs-slate)}
+.ann-badge.high{background:var(--hs-pale);color:var(--hs-pine)}.ann-badge.high::before{background:var(--hs-teal);box-shadow:0 0 0 3px rgba(15,185,177,.25)}
+.ann-badge.medium{background:var(--hs-mist);color:var(--hs-slate)}.ann-badge.medium::before{background:var(--hs-azure)}
+.ann-badge.low{background:var(--hs-page);color:var(--hs-muted)}.ann-badge.low::before{background:var(--hs-muted)}
+.ann-title{color:var(--hs-navy)}.ann-text{color:var(--hs-ink)}.ann-meta{color:var(--hs-muted)}
+/* toggle groups: a mist track with a white active pill (design board, radii and controls) */
+.pill-tabs{display:inline-flex;gap:4px;background:var(--hs-mist);border-radius:var(--hs-radius-control);padding:4px;flex-wrap:wrap}
+.pill-tab{background:transparent;min-height:32px;padding:0 16px}
+.pill-tab.active{background:#fff;color:var(--hs-navy);box-shadow:var(--sh1)}
+#calToday{background:var(--hs-navy);color:#fff;box-shadow:none}
+/* record lists: readable rows, the person as a link, roles as pills */
+tbody tr:nth-child(even) td{background:var(--hs-page)}
+tbody tr:hover td{background:var(--hs-pale)!important}
+td:first-child{font-weight:700;color:var(--hs-navy)}
+.hs-role{display:inline-block;background:var(--hs-mist);color:var(--hs-slate);border-radius:var(--hs-radius-control);padding:3px 10px;font-size:12px;font-weight:700}
+.hs-role--client{background:var(--hs-pale);color:var(--hs-pine)}
+/* the record view: risk strip in mist with a state dot, quiet field cards, actions up top */
+.risk-bar{background:var(--hs-mist);color:var(--hs-navy);border-radius:var(--hs-radius-control);box-shadow:none;padding:10px 18px;font-size:13px}
+.risk-label{font-weight:700;letter-spacing:0;text-transform:none}
+.risk-detail{color:var(--hs-slate);font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.risk-detail::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--hs-slate)}
+.no-risk{color:var(--hs-pine)}.no-risk::before{background:var(--hs-teal);box-shadow:0 0 0 3px rgba(15,185,177,.25)}
+.modal-field-card .field-label{color:var(--hs-slate);font-size:12px}
+.modal-field-card .field-value{color:var(--hs-ink);font-size:14px}
+.action-pills{display:flex;gap:10px;flex-wrap:wrap;margin:0 20px 16px}
+.action-pill{border:0;border-radius:var(--hs-radius-control);min-height:40px;padding:0 18px;font-weight:700;font-size:13px;background:var(--hs-mist);color:var(--hs-navy);box-shadow:none;cursor:pointer}
+.action-pill:first-child{background:var(--hs-action-gradient);color:#fff;box-shadow:var(--sh1)}
+.action-pill:hover{box-shadow:var(--sh2)}
+
+#page-strategic .text-tabs{justify-content:center}
+.pill-tabs{margin-left:auto;margin-right:auto;display:flex;width:max-content;max-width:100%}
 /* the strategic report was themed dark by id; it is a light page like every other page */
 #page-strategic{background:transparent!important;color:var(--hs-text)!important;border-radius:0;margin:0;padding:0}
 #page-strategic .hero{margin-bottom:20px;border-radius:var(--hs-radius-card)}
