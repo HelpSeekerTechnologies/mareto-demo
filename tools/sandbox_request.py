@@ -90,49 +90,72 @@ body{margin:0;background:var(--hs-page);color:var(--hs-ink);font-family:'Lato',s
 .sr-summary{display:grid;gap:8px;font-size:14px}
 .sr-summary div{display:grid;grid-template-columns:160px 1fr;gap:12px}
 .sr-summary b{color:var(--hs-slate);font-weight:700}
-@media(max-width:640px){.sr-role{grid-template-columns:1fr}.sr-summary div{grid-template-columns:1fr}.sr-step h2{font-size:22px}}
+
+.sr-landing{display:none;gap:22px}.sr-landing.active{display:grid}
+.sr-hero--step{padding:18px 22px;gap:18px;margin:0 0 18px}
+.sr-hero--step h2{color:#fff;font-size:22px;margin:0 0 3px}
+.sr-hero--step .hs-hero__eyebrow{margin-bottom:4px}
+.sr-hero--step p{font-size:13.5px}
+.sr-start{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.sr-start .note{color:var(--hs-muted);font-size:13px;margin:0}
+.sr-chips{display:flex;flex-wrap:wrap;gap:8px}
+.sr-chip{border:0;border-radius:999px;padding:10px 16px;background:var(--hs-mist);color:var(--hs-navy);font:inherit;font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:var(--hs-inset)}
+.sr-chip:hover{background:var(--hs-pale)}
+.sr-chip.on{background:var(--hs-medallion-gradient);color:#fff;box-shadow:0 3px 8px rgba(11,31,51,.18)}
+.sr-field.err .sr-chips .sr-chip{box-shadow:0 0 0 2px var(--hs-pine) inset}
+.sr-progress{margin:0 0 18px}
+@media(max-width:640px){.sr-wrap .hs-hero{flex-direction:column;align-items:flex-start;gap:14px;padding:20px}.sr-wrap .hs-hero h1{font-size:24px}.sr-wrap .hs-hero p{font-size:14px}.sr-role{grid-template-columns:1fr}.sr-summary div{grid-template-columns:1fr}.sr-step h2{font-size:22px}}
 </style>
 </head>
 <body>
 <div class="sr-wrap">
   <div class="sr-top"><img src="{logo}" alt="Mareto by HelpSeeker Technologies"><a href="{demo}">Back to the demo</a></div>
-  <div class="sr-progress" id="srProgress"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  
+  <section class="sr-step sr-landing active" data-step="0">
+    <div class="hs-hero"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Sandbox builds are in high demand</p><h1>Build my Mareto sandbox</h1><p>Tell us how your organization works and we build a Mareto instance shaped like you: your programs, your seats, your forms, with your impact model drafted alongside. Yours for 30 days. If it fits, it becomes your build and nothing is re-entered.</p></div></div>
+    <div class="hs-journey">
+      <div class="hs-node"><span class="hs-medallion"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span><div class="hs-node__l">1. Your organization</div><div class="hs-node__d">Name, province, who decides and when.</div></div>
+      <div class="hs-node"><span class="hs-medallion"><svg viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><div class="hs-node__l">2. Your programs</div><div class="hs-node__d">One block per program, with the outcomes you report.</div></div>
+      <div class="hs-node"><span class="hs-medallion"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="hs-node__l">3. Who does what</div><div class="hs-node__d">Six seats, so each person sees only their work.</div></div>
+      <div class="hs-node"><span class="hs-medallion"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span><div class="hs-node__l">4. Your forms</div><div class="hs-node__d">Up to three intake forms and one funder template.</div></div>
+      <div class="hs-node"><span class="hs-medallion"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span><div class="hs-node__l">5. A sample of your data</div><div class="hs-node__d">Headers and 20 rows. No real client names.</div></div>
+      <div class="hs-node"><span class="hs-medallion"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><div class="hs-node__l">6. Before we build</div><div class="hs-node__d">Check, agree, send. We start the same day.</div></div>
+    </div>
+    <div class="sr-start"><button class="sr-btn sr-btn--primary" type="button" onclick="startRequest()">Start, about 12 minutes</button><p class="note">Save and finish later with an email link at any step. Nothing is sent until the last screen.</p></div>
+  </section>
+  <div class="sr-progress" id="srProgress" style="display:none"><span></span><span></span><span></span><span></span><span></span><span></span></div>
 """
 
 STEPS = """
-  <section class="sr-step active" data-step="1">
-    <h2>Your organization</h2>
-    <p class="lede">We build the sandbox around who you are. Start typing your organization and we fill in what we already know from the Navigi directory; correct anything that is off.</p>
+  <section class="sr-step" data-step="1">
+    <div class="hs-hero sr-hero--step"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Step 1 of 6</p><h2>Your organization</h2><p>We build the sandbox around who you are. Start typing your organization and we fill in what we already know from the Navigi directory; correct anything that is off.</p></div></div>
     <div class="sr-card">
       <div class="sr-grid">
         <div class="sr-field" style="grid-column:1/-1"><label for="org">Organization name</label><input id="org" name="org" list="orgList" placeholder="Legal or operating name" autocomplete="organization" required><datalist id="orgList"></datalist><span class="hint" id="orgHint">Matches from the Navigi directory appear as you type.</span></div>
         <div class="sr-field"><label for="province">Province or territory</label><select id="province" name="province"><option value="">Choose</option><option>AB</option><option>BC</option><option>MB</option><option>NB</option><option>NL</option><option>NS</option><option>NT</option><option>NU</option><option>ON</option><option>PE</option><option>QC</option><option>SK</option><option>YT</option></select></div>
         <div class="sr-field"><label for="website">Website</label><input id="website" name="website" placeholder="yourorg.ca" inputmode="url"></div>
         <div class="sr-field"><label for="email">Your work email</label><input id="email" name="email" type="email" placeholder="you@yourorg.ca" required><span class="hint">The sandbox invite and your resume link go here. Personal mailboxes are not accepted.</span></div>
-        <div class="sr-field"><label for="role">Your role</label><select id="role" name="role"><option value="">Choose</option><option value="ed">Executive director or CEO</option><option value="director">Program director</option><option value="manager">Program manager</option><option value="data">Data, reporting or evaluation lead</option><option value="other">Other</option></select></div>
+        <div class="sr-field"><label for="role">Your role</label><input type="hidden" id="role" name="role"><div class="sr-chips" data-for="role"><button type="button" class="sr-chip" data-v="ed">Executive director or CEO</button><button type="button" class="sr-chip" data-v="director">Program director</button><button type="button" class="sr-chip" data-v="manager">Program manager</button><button type="button" class="sr-chip" data-v="data">Data, reporting or evaluation lead</button><button type="button" class="sr-chip" data-v="other">Other</button></div></div>
         <div class="sr-field"><label for="second">Who else should see this? (optional)</label><input id="second" name="second" placeholder="Name and role, for example Dana Reyes, program manager"><span class="hint">The invite goes to both of you.</span></div>
-        <div class="sr-field"><label for="timeline">When do you want to decide?</label><select id="timeline" name="timeline"><option value="">Choose</option><option value="now">This month</option><option value="3m">Within 3 months</option><option value="6m">Within 6 months</option><option value="fy">Next fiscal year</option></select></div>
+        <div class="sr-field"><label for="timeline">When do you want to decide?</label><input type="hidden" id="timeline" name="timeline"><div class="sr-chips" data-for="timeline"><button type="button" class="sr-chip" data-v="now">This month</button><button type="button" class="sr-chip" data-v="3m">Within 3 months</button><button type="button" class="sr-chip" data-v="6m">Within 6 months</button><button type="button" class="sr-chip" data-v="fy">Next fiscal year</button></div></div>
         <div class="sr-field"><label for="contract">If you have a current system, when does its contract end?</label><input id="contract" name="contract" type="month"></div>
       </div>
     </div>
   </section>
 
   <section class="sr-step" data-step="2">
-    <h2>Your programs</h2>
-    <p class="lede">One block per program. What you type here becomes the program list, the intake routes and the outcome fields in your sandbox. Three to five outcomes per program is plenty.</p>
+    <div class="hs-hero sr-hero--step"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Step 2 of 6</p><h2>Your programs</h2><p>One block per program. What you type here becomes the program list, the intake routes and the outcome fields in your sandbox. Three to five outcomes per program is plenty.</p></div></div>
     <div id="programs"></div>
     <button class="sr-add" type="button" onclick="addProgram()">+ Add another program</button>
   </section>
 
   <section class="sr-step" data-step="3">
-    <h2>Who does what</h2>
-    <p class="lede">Mareto shows each person only their own work. Tell us who sits in each seat and the sandbox opens with those seats ready.</p>
+    <div class="hs-hero sr-hero--step"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Step 3 of 6</p><h2>Who does what</h2><p>Mareto shows each person only their own work. Tell us who sits in each seat and the sandbox opens with those seats ready.</p></div></div>
     <div class="sr-card"><div class="sr-roles" id="roles"></div></div>
   </section>
 
   <section class="sr-step" data-step="4">
-    <h2>Your forms</h2>
-    <p class="lede">Up to three intake or assessment forms you use today, and one funder report template. We map their fields into the sandbox so the first screen your staff see is the form they already know.</p>
+    <div class="hs-hero sr-hero--step"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Step 4 of 6</p><h2>Your forms</h2><p>Up to three intake or assessment forms you use today, and one funder report template. We map their fields into the sandbox so the first screen your staff see is the form they already know.</p></div></div>
     <div class="sr-card">
       <div class="sr-drop" id="dropForms" tabindex="0"><b>Drop forms here or click to choose</b>PDF or Word, up to 10 MB each. Blank forms, not completed ones.</div>
       <input type="file" id="fileForms" accept=".pdf,.doc,.docx" multiple hidden>
@@ -141,20 +164,18 @@ STEPS = """
   </section>
 
   <section class="sr-step" data-step="5">
-    <h2>A sample of your data</h2>
-    <p class="lede">So the sandbox can show your migration receipt, give us the column headers and about 20 rows from each table you keep today: people, cases, notes, whatever you have. CSV or Excel.</p>
+    <div class="hs-hero sr-hero--step"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Step 5 of 6</p><h2>A sample of your data</h2><p>So the sandbox can show your migration receipt, give us the column headers and about 20 rows from each table you keep today: people, cases, notes, whatever you have. CSV or Excel.</p></div></div>
     <div class="sr-card">
       <div class="sr-note">No real client names. Replace names with Person 1, Person 2 and so on, and remove dates of birth, phone numbers and addresses before you export. Structure, counts and dates are all we need. Files that look like they carry real names are refused here in your browser and never uploaded.</div>
       <div class="sr-drop" id="dropData" tabindex="0" style="margin-top:14px"><b>Drop sample files here or click to choose</b>CSV or XLSX, headers plus up to 20 rows each.</div>
       <input type="file" id="fileData" accept=".csv,.xlsx,.xls" multiple hidden>
       <ul class="sr-files" id="listData"></ul>
-      <div class="sr-field" style="margin-top:14px"><label for="source">What runs your intake today?</label><select id="source" name="source"><option value="">Choose</option><option value="spreadsheets">Spreadsheets and forms</option><option value="product">A case management product</option><option value="portal">A funder portal</option><option value="paper">Paper files</option><option value="none">Nothing yet</option></select></div>
+      <div class="sr-field" style="margin-top:14px"><label for="source">What runs your intake today?</label><input type="hidden" id="source" name="source"><div class="sr-chips" data-for="source"><button type="button" class="sr-chip" data-v="spreadsheets">Spreadsheets and forms</button><button type="button" class="sr-chip" data-v="product">A case management product</button><button type="button" class="sr-chip" data-v="portal">A funder portal</button><button type="button" class="sr-chip" data-v="paper">Paper files</button><button type="button" class="sr-chip" data-v="none">Nothing yet</button></div></div>
     </div>
   </section>
 
   <section class="sr-step" data-step="6">
-    <h2>Before we build</h2>
-    <p class="lede">Check what you told us, then agree to the sandbox terms. We start building as soon as you send this.</p>
+    <div class="hs-hero sr-hero--step"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><div class="hs-hero__inner"><p class="hs-hero__eyebrow">Step 6 of 6</p><h2>Before we build</h2><p>Check what you told us, then agree to the sandbox terms. We start building as soon as you send this.</p></div></div>
     <div class="sr-card"><div class="sr-summary" id="summary"></div></div>
     <div class="sr-card"><div class="sr-agree">
       <label><input type="checkbox" id="agree1"> <span>The sandbox is yours for 30 days. It is hosted in Canada by HelpSeeker Technologies. On day 30 we either promote it to your own Mareto build or delete it; you can ask for a restore within 60 days.</span></label>
@@ -223,14 +244,23 @@ function addProgram(p) {
     <div class="sr-field"><label>Program name</label><input data-k="name" value="${esc(p.name)}" placeholder="Family support"></div>
     <div class="sr-field"><label>Who it serves</label><input data-k="serves" value="${esc(p.serves)}" placeholder="Parents of children under 6"></div>
     <div class="sr-field"><label>Main funder</label><input data-k="funder" value="${esc(p.funder)}" placeholder="Provincial ministry, United Way, municipal grant"></div>
-    <div class="sr-field"><label>How people come in</label><select data-k="intake"><option value="">Choose</option>${opt(p.intake, [['self', 'They contact us'], ['referral', 'Referred by another agency'], ['internal', 'Referred from another of our programs'], ['mandated', 'Mandated or court-ordered'], ['outreach', 'We find them through outreach']])}</select></div>
-    <div class="sr-field"><label>How you work</label><select data-k="model"><option value="">Choose</option>${opt(p.model, [['case', 'One worker, one file, over time'], ['group', 'Groups and sessions'], ['drop', 'Drop-in, no file'], ['mixed', 'A mix']])}</select></div>
+    <div class="sr-field" style="grid-column:1/-1"><label>How people come in</label>${chipGroup('intake', p.intake, [['self', 'They contact us'], ['referral', 'Referred by another agency'], ['internal', 'Referred from another of our programs'], ['mandated', 'Mandated or court-ordered'], ['outreach', 'We find them through outreach']])}</div>
+    <div class="sr-field" style="grid-column:1/-1"><label>How you work</label>${chipGroup('model', p.model, [['case', 'One worker, one file, over time'], ['group', 'Groups and sessions'], ['drop', 'Drop-in, no file'], ['mixed', 'A mix']])}</div>
     <div class="sr-field" style="grid-column:1/-1"><label>Three to five outcomes you report on</label><textarea data-k="outcomes" placeholder="Housed at 6 months; completed the parenting course; reduced crisis calls">${esc(p.outcomes)}</textarea></div>
   </div>`;
   document.getElementById('programs').appendChild(d);
   d.querySelectorAll('input,select,textarea').forEach((e) => e.addEventListener('change', save));
+  wireChips(d);
 }
 function renumber() { document.querySelectorAll('.sr-program h3').forEach((h, i) => (h.textContent = 'Program ' + (i + 1))); }
+function chipGroup(key, cur, list) { return '<input type="hidden" data-k="' + key + '" value="' + esc(cur) + '"><div class="sr-chips" data-k="' + key + '">' + list.map(([k, l]) => '<button type="button" class="sr-chip' + (cur === k ? ' on' : '') + '" data-v="' + k + '">' + l + '</button>').join('') + '</div>'; }
+function wireChips(root) {
+  (root || document).querySelectorAll('.sr-chips').forEach((g) => { if (g.dataset.wired) return; g.dataset.wired = '1';
+    const input = g.dataset.for ? document.getElementById(g.dataset.for) : g.previousElementSibling;
+    g.querySelectorAll('.sr-chip').forEach((b) => b.addEventListener('click', () => { g.querySelectorAll('.sr-chip').forEach((x) => x.classList.remove('on')); b.classList.add('on'); input.value = b.dataset.v; input.dispatchEvent(new Event('change', { bubbles: true })); save(); }));
+    if (input && input.value) { const on = g.querySelector('.sr-chip[data-v="' + input.value + '"]'); if (on) on.classList.add('on'); } });
+}
+function startRequest() { step = 1; show(); }
 function opt(cur, list) { return list.map(([k, l]) => `<option value="${k}"${cur === k ? ' selected' : ''}>${l}</option>`).join(''); }
 function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
@@ -294,7 +324,8 @@ function go(d) {
 function show() {
   document.querySelectorAll('.sr-step').forEach((s) => s.classList.toggle('active', +s.dataset.step === step));
   document.querySelectorAll('#srProgress span').forEach((b, i) => { b.className = i + 1 < step ? 'done' : i + 1 === step ? 'on' : ''; });
-  document.getElementById('srNav').style.display = step === 7 ? 'none' : '';
+  document.getElementById('srNav').style.display = (step === 7 || step === 0) ? 'none' : '';
+  document.getElementById('srProgress').style.display = step === 0 ? 'none' : '';
   document.getElementById('btnBack').style.visibility = step === 1 ? 'hidden' : '';
   document.getElementById('btnNext').textContent = step === 6 ? 'Build my sandbox' : 'Continue';
   if (step === 6) summary();
@@ -344,7 +375,8 @@ document.getElementById('org').addEventListener('change', async function () {
   wireDrop('dropForms', 'fileForms', 'listForms', 'forms'); wireDrop('dropData', 'fileData', 'listData', 'data');
   document.querySelectorAll('.sr-step input,.sr-step select').forEach((e) => e.addEventListener('change', save));
   try { const q = JSON.parse(localStorage.getItem('mareto-fit-finder') || 'null'); if (q && !draft.email && q.email) set('email', q.email); } catch (e) {}
-  if (draft.step && draft.step < 7) step = draft.step; show();
+  wireChips(document);
+  if (draft.step && draft.step > 0 && draft.step < 7) step = draft.step; else step = 0; show();
 })();
 </script>
 </body>
