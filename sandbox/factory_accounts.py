@@ -46,7 +46,8 @@ def main():
             pr = post(f"/api/system/users/{user['userID']}/password", {"password": pwd})
             if "success" not in pr and "response" not in pr:
                 print("  password route answered", str(pr)[:120])
-        call("POST", f"/api/system/roles/{role['roleID']}/member/{user['userID']}", {})
+        if role["roleID"] not in (get(f"/api/system/users/{user['userID']}/membership").get("response") or []):
+            call("POST", f"/api/system/roles/{role['roleID']}/member/{user['userID']}", {})
         # RBAC: the namespace, its modules and records, its pages. Read seats see everything, write seats also create and update.
         rules = [{"resource": f"corteza::compose:namespace/{nsid}", "operation": "read", "access": "allow"},
                  {"resource": f"corteza::compose:namespace/{nsid}", "operation": "modules.search", "access": "allow"},
