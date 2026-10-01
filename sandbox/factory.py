@@ -124,6 +124,7 @@ def main():
     post(f"/api/compose/namespace/{intake}/module/{reqmod}/record/{a.request}", {"values": vals, "updatedAt": live.get("updatedAt")})
     import subprocess
     subprocess.run([sys.executable, str(Path(__file__).resolve().parent / "factory_pages.py"), "--ns", sl, "--org", v["org"]], check=False)
+    subprocess.run([sys.executable, str(Path(__file__).resolve().parent / "factory_accounts.py"), "--ns", sl], check=False)
 
 
 if __name__ == "__main__":
