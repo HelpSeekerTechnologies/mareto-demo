@@ -242,8 +242,13 @@ function showResults() {
   if (a.org_type === 'indigenous') cards.push('<div class="match-card"><div class="match-icon">' + icon('map') + '</div><div><h4>Your community owns its data</h4><p>OCAP® principles apply: community-controlled access, Canada-only hosting, and full data portability. An Indigenous-governed organization gets a published rate off the licence.</p></div></div>');
   if (['3-5', '6-10', '10+'].includes(a.programs)) cards.push('<div class="match-card"><div class="match-icon">' + icon('layers') + '</div><div><h4>Many programs, one registry</h4><p>Each program gets its own forms, workflows and reporting on one shared person registry. The largest live build runs 19 programs this way.</p></div></div>');
 
+  // the answer-based half of the sandbox gate; CRA, Navigi and HubSpot signals apply in the queue after the request lands
+  const gatePts = ({ decision_maker: 3, evaluator: 2 }[a.role] || 0) + ({ immediate: 3, '3months': 3, '6months': 2 }[a.timeline] || 0) + ({ '15-40k': 3, '40k+': 3, '5-15k': 2, unknown: 1 }[budget] || 0);
+  const sandboxOffer = gatePts >= 6 && !lowBudget;
+  try { localStorage.setItem('mareto-fit-finder', JSON.stringify({ answers: a, gatePts, at: new Date().toISOString() })); } catch (e) {}
   let ctaMessage, ctaPrimary, ctaHref, ctaSecondary, ctaSecondaryHref;
-  if (lowBudget) { ctaMessage = 'A conversation costs nothing, and phasing and funding routes exist.'; ctaPrimary = 'Book a meeting'; ctaHref = BOOK; ctaSecondary = 'Or explore the interactive demo'; ctaSecondaryHref = DEMO; }
+  if (sandboxOffer) { ctaMessage = 'Sandbox builds are in high demand, and your answers qualify you for one: a Mareto instance shaped like your organization, your programs and your seats, yours for 30 days. Ten to fifteen minutes to tell us how you work.'; ctaPrimary = 'Build my sandbox'; ctaHref = './mareto-sandbox-request.html'; ctaSecondary = 'Or book a meeting first'; ctaSecondaryHref = BOOK; }
+  else if (lowBudget) { ctaMessage = 'A conversation costs nothing, and phasing and funding routes exist.'; ctaPrimary = 'Book a meeting'; ctaHref = BOOK; ctaSecondary = 'Or explore the interactive demo'; ctaSecondaryHref = DEMO; }
   else if (['immediate', '3months'].includes(a.timeline) && ['decision_maker', 'evaluator'].includes(a.role)) { ctaMessage = 'On your timeline, a 20-minute meeting is the fastest way to see Mareto configured for your programs and to firm up the estimate.'; ctaPrimary = 'Book a meeting'; ctaHref = BOOK; ctaSecondary = 'Or explore the interactive demo first'; ctaSecondaryHref = DEMO; }
   else { ctaMessage = 'No rush. Explore the interactive demo, and book a meeting when you want the estimate firmed up.'; ctaPrimary = 'Explore the interactive demo'; ctaHref = DEMO; ctaSecondary = 'Or book a meeting'; ctaSecondaryHref = BOOK; }
 
