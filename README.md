@@ -58,3 +58,7 @@ python tools/canonize.py mareto-general-product-tour.html
 - The HubSpot form carries only the sixteen fields it carries now; a new field needs the property created in
   HubSpot first, or the submission is rejected and the lead is lost.
 - Book a meeting goes to Travis's HubSpot link everywhere.
+
+## Where the engine lives
+
+The score, the intake on demo.mareto, the sandbox factory and the jobs moved to the private repo HelpSeekerTechnologies/mareto-sales-engine on 1 Oct 2026. This repo keeps the public pages only.
