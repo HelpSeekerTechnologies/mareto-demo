@@ -96,16 +96,25 @@ def main():
     mods = {m["handle"]: m for m in get(f"/api/compose/namespace/{nsid}/module/?limit=200")["response"]["set"]}
 
     # seed: the organization, one program type per care/service shape, one program per described program
-    def create(handle, vals):
+    def find(handle, key, val):
+        rows = get(f"/api/compose/namespace/{nsid}/module/{mods[handle]['moduleID']}/record/?limit=200")["response"]["set"]
+        for r in rows:
+            if {x.get("name"): x.get("value") for x in r["values"]}.get(key) == val:
+                return r["recordID"]
+    def create(handle, vals, key=None):
+        if key and vals.get(key) is not None:
+            found = find(handle, key, str(vals[key]))
+            if found:
+                return found
         r = post(f"/api/compose/namespace/{nsid}/module/{mods[handle]['moduleID']}/record/", {"values": [{"name": k, "value": str(val)} for k, val in vals.items() if val not in (None, "")]})
         return r.get("response", {}).get("recordID") or print("  seed failed", handle, str(r)[:200])
     org = get(f"/api/compose/namespace/{nsid}/module/{mods['organization']['moduleID']}/record/?limit=1")["response"]["set"]
     org_id = org[0]["recordID"] if org else create("organization", {"organization_name": v["org"], "organization_website": ("https://" + v["website"]) if v.get("website") and not v["website"].startswith("http") else v.get("website"), "organization_is_active": 1, "organization_email": v.get("email")})
-    pt = create("program_type", {"program_type_name": "Program", "program_type_category": "PROGRAM_KIND", "program_type_is_active": 1, "program_type_display_order": 1, "program_type_code": "PROGRAM"})
-    st = create("status_type", {"status_type_name": "Open for registration", "status_type_category": "PROGRAM_STATUS", "status_type_is_active": 1, "status_type_display_order": 1, "status_type_code": "OPEN"})
+    pt = create("program_type", {"program_type_name": "Program", "program_type_category": "PROGRAM_KIND", "program_type_is_active": 1, "program_type_display_order": 1, "program_type_code": "PROGRAM"}, key="program_type_code")
+    st = create("status_type", {"status_type_name": "Open for registration", "status_type_category": "PROGRAM_STATUS", "status_type_is_active": 1, "status_type_display_order": 1, "status_type_code": "OPEN"}, key="status_type_code")
     for i, p in enumerate(programs, 1):
         create("program", {"program_name": p.get("name"), "program_description": "; ".join(x for x in (p.get("serves"), p.get("funder") and "Funded by " + p["funder"], p.get("outcomes") and "Outcomes: " + p["outcomes"]) if x),
-                           "program_code": f"P{i:02d}", "program_type_id": pt, "status_type1_id": st, "organization_id": org_id, "program_notes": f"Intake: {p.get('intake','')}; model: {p.get('model','')}"})
+                           "program_code": f"P{i:02d}", "program_type_id": pt, "status_type1_id": st, "organization_id": org_id, "program_notes": f"Intake: {p.get('intake','')}; model: {p.get('model','')}"}, key="program_code")
     n_prog = len(get(f"/api/compose/namespace/{nsid}/module/{mods['program']['moduleID']}/record/?limit=50")["response"]["set"])
     print(f"seeded: organization 1, program types 1, programs {n_prog}")
     # write back on the request
