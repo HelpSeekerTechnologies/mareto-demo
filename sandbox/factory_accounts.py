@@ -28,6 +28,7 @@ def main():
     ns = get(f"/api/compose/namespace/?slug={a.ns}")["response"]["set"][0]; nsid = ns["namespaceID"]
     mods = get(f"/api/compose/namespace/{nsid}/module/?limit=200")["response"]["set"]
     pages = get(f"/api/compose/namespace/{nsid}/page/?limit=200")["response"]["set"]
+    layouts = {p["pageID"]: [l["pageLayoutID"] for l in (get(f"/api/compose/namespace/{nsid}/page/{p['pageID']}/layout/").get("response") or {}).get("set", [])] for p in pages}
     roles = {r["handle"]: r for r in get("/api/system/roles/?limit=500")["response"]["set"]}
     users = {u["email"]: u for u in get("/api/system/users/?limit=500")["response"]["set"]}
     out = {"namespace": a.ns, "namespaceID": nsid, "host": "https://demo.mareto.helpseeker.org", "seats": [], "made": time.strftime("%Y-%m-%d %H:%M")}
@@ -66,7 +67,10 @@ def main():
                 if mode == "write":
                     rules += [{"resource": f"corteza::compose:module-field/{nsid}/{m['moduleID']}/{f['fieldID']}", "operation": "record.value.update", "access": "allow"}]
         for p in pages:
-            rules.append({"resource": f"corteza::compose:page/{nsid}/{p['pageID']}", "operation": "read", "access": "allow"})
+            rules += [{"resource": f"corteza::compose:page/{nsid}/{p['pageID']}", "operation": "read", "access": "allow"},
+                      {"resource": f"corteza::compose:page/{nsid}/{p['pageID']}", "operation": "page-layouts.search", "access": "allow"}]
+            for l in layouts.get(p["pageID"], []):
+                rules.append({"resource": f"corteza::compose:page-layout/{nsid}/{p['pageID']}/{l}", "operation": "read", "access": "allow"})
         sys_rules = [r for r in rules if r["resource"].startswith("corteza::system")]
         comp_rules = [r for r in rules if not r["resource"].startswith("corteza::system")] + [{"resource": "corteza::compose/", "operation": "namespaces.search", "access": "allow"}]
         call("PATCH", f"/api/system/permissions/{role['roleID']}/rules", {"rules": sys_rules})
