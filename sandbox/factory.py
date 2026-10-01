@@ -122,7 +122,8 @@ def main():
     new = {"tenant_slug": sl, "status": "building", "notes": (values(live).get("notes") or "") + f"\nFactory: namespace {sl} ({nsid}), {len(mods)} modules, {n_prog} programs, {time.strftime('%Y-%m-%d %H:%M')}"}
     vals = [x for x in live["values"] if x.get("name") not in new] + [{"name": k, "value": val} for k, val in new.items()]
     post(f"/api/compose/namespace/{intake}/module/{reqmod}/record/{a.request}", {"values": vals, "updatedAt": live.get("updatedAt")})
-    print(f"open: https://demo.mareto.helpseeker.org/compose/ns/{sl}/pages")
+    import subprocess
+    subprocess.run([sys.executable, str(Path(__file__).resolve().parent / "factory_pages.py"), "--ns", sl, "--org", v["org"]], check=False)
 
 
 if __name__ == "__main__":
