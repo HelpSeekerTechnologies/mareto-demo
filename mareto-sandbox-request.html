@@ -703,7 +703,7 @@ body{margin:0;background:var(--hs-page);color:var(--hs-ink);font-family:'Lato',s
 <script>
 // Stage B of the Mareto buyer journey. Draft lives in this browser until it is sent. SANDBOX_API is the
 // gateway route on demo.mareto; until it is set the page keeps the draft locally so the flow can be reviewed.
-const SANDBOX_API = window.SANDBOX_API || '';
+const SANDBOX_API = window.SANDBOX_API || 'https://demo.mareto.helpseeker.org/api/gateway/sandbox-request';
 const NAVIGI_API = window.NAVIGI_API || '';
 const KEY = 'mareto-sandbox-request';
 const PUBLIC_MAIL = /@(gmail|yahoo|hotmail|outlook|live|icloud|me|aol|proton|protonmail)\./i;
@@ -824,11 +824,12 @@ function summary() {
 }
 async function submit() {
   save();
-  const fd = new FormData(); fd.append('request', JSON.stringify(draft));
-  files.forms.filter((x) => !x.bad).forEach((x) => fd.append('forms', x.file, x.file.name));
-  files.data.filter((x) => !x.bad).forEach((x) => fd.append('samples', x.file, x.file.name));
+  // files travel inside the JSON as base64 (10 MB forms cap, 2 MB samples cap); the gateway workflow stores them on the request record
+  const b64 = (f) => new Promise((res) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.readAsDataURL(f); });
+  draft.forms = await Promise.all(files.forms.filter((x) => !x.bad).map(async (x) => ({ name: x.file.name, type: x.file.type, size: x.file.size, data: await b64(x.file) })));
+  draft.samples = await Promise.all(files.data.filter((x) => !x.bad).map(async (x) => ({ name: x.file.name, type: x.file.type, size: x.file.size, data: await b64(x.file) })));
   if (SANDBOX_API) {
-    try { const r = await fetch(SANDBOX_API, { method: 'POST', body: fd }); if (!r.ok) throw new Error(r.status); }
+    try { const r = await fetch(SANDBOX_API, { method: 'POST', body: JSON.stringify(draft), headers: { 'content-type': 'text/plain' } }); if (!r.ok) throw new Error(r.status); }
     catch (e) { alert('We could not send this just now. Your answers are saved in this browser; try again in a minute.'); return; }
   }
   try { localStorage.setItem(KEY + ':sent', new Date().toISOString()); } catch (e) {}
