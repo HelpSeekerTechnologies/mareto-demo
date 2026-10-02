@@ -383,10 +383,10 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:0;white-space:nowrap;}
 /* Reporting sidebar */
 .report-section-bar{background:linear-gradient(135deg,#0B1F33 22%,#336FB5 100%);color:var(--navy);text-align:center;padding:10px;font-weight:700;font-size:14px;border-radius:6px;margin-bottom:12px;}
 .reporting-layout{display:flex;gap:0;min-height:360px;border:0;border-radius:8px;background:#fff;margin-bottom:20px;overflow:hidden;}
-.reporting-sidebar{width:220px;display:flex;flex-direction:column;gap:0;flex-shrink:0;border-right:0;background:#fff;}
-.reporting-sidebar .rep-tab{padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;color:#4A5568;transition:all .15s;border-left:0;}
-.reporting-sidebar .rep-tab:hover{background:#F9FAFB;color:var(--teal);}
-.reporting-sidebar .rep-tab.active{background:#EDF5F4;color:var(--teal);border-left-color:var(--teal);font-weight:700;}
+.reporting-sidebar{width:220px;display:flex;flex-direction:column;gap:8px;flex-shrink:0;border-right:0;background:#fff;padding:12px;}
+.reporting-sidebar .rep-tab{padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;color:var(--hs-navy);transition:all .15s;border-left:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);text-align:center;}
+.reporting-sidebar .rep-tab:hover{background:var(--hs-pale);color:var(--hs-pine);}
+.reporting-sidebar .rep-tab.active{background:var(--hs-pale);color:var(--hs-pine);font-weight:700;}
 .reporting-content{flex:1;padding:20px;position:relative;overflow:hidden;}
 .reporting-content .rep-panel{display:none;}
 .reporting-content .rep-panel.active{display:block;}
@@ -457,7 +457,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:0;white-space:nowrap;}
 .strat-chart-row{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
 .strat-chart-card{background:rgba(255,255,255,0.07);border:0;border-radius:8px;padding:24px;flex:1;min-width:280px;color:#fff;}
 .strat-chart-card h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;text-align:left;}
-.strat-chart-card .legend-item{color:rgba(255,255,255,0.7);font-size:12px;}
+.strat-chart-card .legend-item{color:var(--hs-muted);font-size:12px;}
 
 /* Strat insight box — dark theme */
 .strat-insight{border-left:0;padding:10px 14px;background:rgba(15,185,177,0.06);border-radius:6px;margin-bottom:12px;font-size:12px;color:#fff;line-height:1.5;}
@@ -478,27 +478,27 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:0;white-space:nowrap;}
 
 /* Strat horizontal bar chart */
 .strat-hbar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.strat-hbar-label{font-size:11px;color:rgba(255,255,255,0.7);min-width:110px;text-align:right;}
+.strat-hbar-label{font-size:11px;color:var(--hs-muted);min-width:110px;text-align:right;}
 .strat-hbar-track{flex:1;height:22px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
 .strat-hbar-fill{height:100%;border-radius:3px;background:#0B7770;}
-.strat-hbar-val{font-size:11px;color:rgba(255,255,255,0.7);min-width:20px;}
+.strat-hbar-val{font-size:11px;color:var(--hs-muted);min-width:20px;}
 
 /* Strat vertical bar chart */
 .strat-vbar-wrap{display:flex;align-items:flex-end;gap:4px;height:160px;padding:0 8px;}
-.strat-vbar{flex:1;background:#0B7770;border-radius:3px 3px 0 0;min-width:20px;position:relative;}
+.strat-vbar{flex:1;background:#1E3A5F;border-radius:3px 3px 0 0;min-width:20px;position:relative;}
 .strat-vbar-label{font-size:9px;color:rgba(255,255,255,0.6);text-align:center;margin-top:4px;}
 .strat-vbar-grid{position:relative;height:160px;border-left:0;}
 
 /* Strat action cards */
 .strat-action-col{flex:1;background:rgba(255,255,255,0.07);border:0;border-radius:8px;padding:24px;min-width:260px;}
 .strat-action-col h4{font-size:12px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px;}
-.strat-action-col p{font-size:12px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px;padding-bottom:12px;border-bottom:0;}
+.strat-action-col p{font-size:12px;color:var(--hs-text);line-height:1.5;margin-bottom:12px;padding-bottom:12px;border-bottom:0;}
 .strat-action-col p:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
 
 /* Strat metric row for What's Working / Watch Indicators */
 .strat-metric-row{display:flex;gap:12px;align-items:baseline;margin-bottom:10px;}
 .strat-metric-val{font-size:16px;font-weight:700;color:#0B7770;min-width:70px;}
-.strat-metric-text{font-size:12px;color:rgba(255,255,255,0.85);}
+.strat-metric-text{font-size:12px;color:var(--hs-text);}
 .strat-metric-val.warn{color:#4A8FD4;}
 
 /* Strat CFCSA pills */
@@ -506,7 +506,7 @@ tbody td{padding:10px 12px;font-size:13px;border-bottom:0;white-space:nowrap;}
 .strat-pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;}
 .strat-pill.yes{background:rgba(239,68,68,0.15);color:#1E3A5F;}
 .strat-pill.no{background:rgba(255,255,255,0.1);color:#fff;}
-.strat-pill.na{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);}
+.strat-pill.na{background:rgba(255,255,255,0.06);color:var(--hs-muted);}
 
 /* Strat footer — dark */
 .strat-footer{border-top:0;margin-top:32px;padding-top:24px;text-align:center;}
@@ -874,9 +874,9 @@ tbody tr:hover td{background:var(--hs-tint)}
 /* announcement priority: quiet pills with an alert dot, never solid navy */
 .ann-badge{background:var(--hs-mist);color:var(--hs-slate);font-size:11px;padding:4px 12px 4px 10px;display:inline-flex;align-items:center;gap:6px}
 .ann-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--hs-slate)}
-.ann-badge.high{background:var(--hs-pale);color:var(--hs-pine)}.ann-badge.high::before{background:var(--hs-teal);box-shadow:0 0 0 3px rgba(15,185,177,.25)}
-.ann-badge.medium{background:var(--hs-mist);color:var(--hs-slate)}.ann-badge.medium::before{background:var(--hs-azure)}
-.ann-badge.low{background:var(--hs-page);color:var(--hs-muted)}.ann-badge.low::before{background:var(--hs-muted)}
+.ann-badge.high{background:var(--hs-navy);color:#fff}.ann-badge.high::before{background:var(--hs-teal);box-shadow:0 0 0 3px rgba(15,185,177,.25)}
+.ann-badge.medium{background:var(--hs-slate);color:#fff}.ann-badge.medium::before{background:var(--hs-azure)}
+.ann-badge.low{background:var(--hs-muted);color:#fff}.ann-badge.low::before{background:#fff}
 .ann-title{color:var(--hs-navy)}.ann-text{color:var(--hs-ink)}.ann-meta{color:var(--hs-muted)}
 /* toggle groups: a mist track with a white active pill (design board, radii and controls) */
 .pill-tabs{display:inline-flex;gap:4px;background:var(--hs-mist);border-radius:var(--hs-radius-control);padding:4px;flex-wrap:wrap}
@@ -1024,10 +1024,17 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
 #page-strategic .strat-pill.na{background:var(--hs-mist);color:var(--hs-muted)}
 #page-strategic .strat-action-col p{border-bottom:0;padding-bottom:0}
 #page-strategic .strat-footer{border-top:0;color:var(--hs-muted)}
+#page-strategic .strat-footer span{color:var(--hs-muted)!important}
 #page-strategic .strat-chart-crosshair{background:rgba(11,31,51,.3)}
 #page-strategic [style*="linear-gradient"]{background:var(--hs-mist)!important;color:var(--hs-navy)!important;border-radius:var(--hs-radius-control)!important}
 #page-strategic svg text{fill:var(--hs-muted)}
 #page-strategic svg line,#page-strategic svg path[stroke="#ffffff"],#page-strategic svg path[stroke="rgba(255,255,255,0.2)"]{stroke:rgba(11,31,51,.15)}
+/* Fix white-on-white: override inline colors for light background */
+#page-strategic .strat-chart-card p{color:var(--hs-text)!important}
+#page-strategic .strat-chart-card svg polyline[stroke="#0B7770"]{stroke:var(--hs-slate)}
+#page-strategic .strat-chart-card svg polygon[fill="rgba(15,185,177,0.2)"]{fill:rgba(30,58,95,0.15)}
+#page-strategic .strat-chart-card svg circle[fill="#0B7770"]{fill:var(--hs-slate)}
+#page-strategic .strat-chart-card svg line[stroke="#0B7770"]{stroke:var(--hs-slate)}
 /* phone: the sidebar is a drawer behind a menu button; the board never scrolled sideways on a phone before this */
 .hs-menu{display:none;border:0;background:var(--hs-mist);color:var(--hs-navy);border-radius:var(--hs-radius-control);width:var(--nv-tap);height:var(--nv-tap);align-items:center;justify-content:center;box-shadow:var(--control-inset);cursor:pointer;flex:none}
 .hs-menu svg{width:22px;height:22px;stroke:var(--hs-navy);fill:none;stroke-width:2}
@@ -1517,14 +1524,15 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
         <h2>Intake</h2>
       </div>
-      <div class="card-row">
-        <div class="card kpi"><div class="kpi-label">Closed Intake - No Further Action</div><div class="kpi-value">3</div></div>
-        <div class="card">
-          <h4 style="text-align:center;color:var(--navy);margin-bottom:8px;font-size:14px;">Intakes by Referral Source</h4>
-          <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Self-Referral</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">10</span></div><div class="hs-bar"><span class="hs-bar__l">Police</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:79%"></span></span><span class="hs-bar__v">7</span></div><div class="hs-bar"><span class="hs-bar__l">Other Agency</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:64%"></span></span><span class="hs-bar__v">9</span></div><div class="hs-bar"><span class="hs-bar__l">Child Protection</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:54%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Outreach Team</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:36%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Crisis Line</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:25%"></span></span><span class="hs-bar__v">2</span></div></div>
-          
+      <div class="card-row" style="flex-wrap:nowrap;">
+        <div style="display:flex;flex-direction:column;gap:16px;flex-shrink:0;width:320px;align-self:stretch;">
+          <div class="card kpi" style="flex:1;"><div class="kpi-label">Closed, no further action</div><div class="kpi-value">5</div></div>
+          <div class="card kpi" style="flex:1;"><div class="kpi-label">In Process Intakes</div><div class="kpi-value">4</div></div>
         </div>
-        <div class="card kpi"><div class="kpi-label">In Process Intakes</div><div class="kpi-value">4</div></div>
+        <div class="card" style="flex:1;min-width:0;">
+          <h4 style="color:var(--hs-navy);margin-bottom:10px;font-size:14px;">Referral sources, this year</h4>
+          <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Community agency</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">20</span></div><div class="hs-bar"><span class="hs-bar__l">Police</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">20</span></div><div class="hs-bar"><span class="hs-bar__l">Crisis line</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:85%"></span></span><span class="hs-bar__v">17</span></div><div class="hs-bar"><span class="hs-bar__l">School counsellor</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:60%"></span></span><span class="hs-bar__v">12</span></div><div class="hs-bar"><span class="hs-bar__l">Family doctor</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:60%"></span></span><span class="hs-bar__v">12</span></div><div class="hs-bar"><span class="hs-bar__l">MCFD</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:60%"></span></span><span class="hs-bar__v">12</span></div><div class="hs-bar"><span class="hs-bar__l">Self-referral</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:55%"></span></span><span class="hs-bar__v">11</span></div><div class="hs-bar"><span class="hs-bar__l">Hospital social work</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:50%"></span></span><span class="hs-bar__v">10</span></div></div>
+        </div>
       </div>
       <button class="btn-gradient" style="margin-bottom:16px;" onclick="openIntakeModal()">Create Intake</button>
       <p style="font-size:13px;color:#4A5568;margin-bottom:16px;line-height:1.5;">Track and manage all active intakes from start to finish. Use the Add button to create a new intake, update the intake status as work progresses, and close it once it is moved to a case or no further action is required.</p>
@@ -1794,11 +1802,32 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         </div>
         <div class="reporting-content">
           <div class="rep-toolbar"><button onclick="showToast('Zoom available in full version.')">&#x1F50D;</button><button onclick="showToast('Filter available in full version.')">&#x25BC;</button><button onclick="showToast('Download available in full version.')">&#x2B07;</button></div>
-          <!-- Intake Referral Source (pie) -->
+          <!-- Intake Referral Source (donut) -->
           <div class="rep-panel active" id="rep-i-referral">
             <div class="rep-chart-title">Intake Referral Source</div>
+            <div class="rep-legend">
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#1E3A5F;"></div>Self-Referral (10)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0FB9B1;"></div>Crisis Line (9)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Not recorded (7)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#2C5282;"></div>Police (4)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#4FD1C5;"></div>Other Agency (3)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0E8C86;"></div>Outreach Team (2)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#4A8FD4;"></div>Child Protection Services (1)</div>
+            </div>
             <div class="rep-chart-wrap">
-              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Self-Referral</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">10</span></div><div class="hs-bar"><span class="hs-bar__l">Crisis Line</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:89%"></span></span><span class="hs-bar__v">9</span></div><div class="hs-bar"><span class="hs-bar__l">Not recorded</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:68%"></span></span><span class="hs-bar__v">7</span></div><div class="hs-bar"><span class="hs-bar__l">Police</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:39%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Other Agency</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Outreach Team</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:21%"></span></span><span class="hs-bar__v">2</span></div><div class="hs-bar"><span class="hs-bar__l">Child Protection Services</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:11%"></span></span><span class="hs-bar__v">1</span></div></div>
+              <div class="donut-wrap" style="width:280px;height:280px;">
+                <svg viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#e5e7eb" stroke-width="5"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#1E3A5F" stroke-width="5" stroke-dasharray="28 72" stroke-dashoffset="25" data-tip="Self-Referral|Count: 10"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0FB9B1" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="97" data-tip="Crisis Line|Count: 9"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0B1F33" stroke-width="5" stroke-dasharray="19 81" stroke-dashoffset="72" data-tip="Not recorded|Count: 7"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#2C5282" stroke-width="5" stroke-dasharray="11 89" stroke-dashoffset="53" data-tip="Police|Count: 4"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#4FD1C5" stroke-width="5" stroke-dasharray="8 92" stroke-dashoffset="42" data-tip="Other Agency|Count: 3"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0E8C86" stroke-width="5" stroke-dasharray="6 94" stroke-dashoffset="34" data-tip="Outreach Team|Count: 2"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#4A8FD4" stroke-width="5" stroke-dasharray="3 97" stroke-dashoffset="28" data-tip="Child Protection Services|Count: 1"/>
+                </svg>
+                <div class="donut-center"><div class="dc-val">36</div><div class="dc-label">Total</div></div>
+              </div>
             </div>
           </div>
           <!-- Intake Dates (table) -->
@@ -1820,25 +1849,38 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
             </table>
             <div class="rep-pager"><span>1 - 20 of 36 records</span><span><a>&laquo;</a> &nbsp; <a>&lsaquo; Previous</a> &nbsp; <a>Next &rsaquo;</a></span></div>
           </div>
-          <!-- Intake Indigenous Identity (pie) -->
+          <!-- Intake Indigenous Identity (donut) -->
           <div class="rep-panel" id="rep-i-indigenous">
             <div class="rep-chart-title">Intake Indigenous Identity</div>
+            <div class="rep-legend">
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>No (24)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0FB9B1;"></div>Yes (9)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#4A8FD4;"></div>Not recorded (3)</div>
+            </div>
             <div class="rep-chart-wrap">
-              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">No</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">24</span></div><div class="hs-bar"><span class="hs-bar__l">Yes</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:37%"></span></span><span class="hs-bar__v">9</span></div><div class="hs-bar"><span class="hs-bar__l">Not recorded</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:12%"></span></span><span class="hs-bar__v">3</span></div></div>
+              <div class="donut-wrap" style="width:280px;height:280px;">
+                <svg viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#e5e7eb" stroke-width="5"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0B1F33" stroke-width="5" stroke-dasharray="67 33" stroke-dashoffset="25" data-tip="No|Count: 24"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0FB9B1" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="58" data-tip="Yes|Count: 9"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#4A8FD4" stroke-width="5" stroke-dasharray="8 92" stroke-dashoffset="33" data-tip="Not recorded|Count: 3"/>
+                </svg>
+                <div class="donut-center"><div class="dc-val">36</div><div class="dc-label">Total</div></div>
+              </div>
             </div>
           </div>
-          <!-- Intake Status (bar) -->
+          <!-- Intake Status (vertical bars) -->
           <div class="rep-panel" id="rep-i-status">
             <div class="rep-chart-title">Intake Status</div>
-            <div class="rep-chart-wrap">
-              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Secure stable and safe housing</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Enhance personal safety</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Employment & Education</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:77%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Income & Benefits</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:57%"></span></span><span class="hs-bar__v">2</span></div></div>
-            </div>
-          </div>
-          <!-- Case Status (SVG funnel) -->
-          <div class="rep-panel" id="rep-c-status">
-            <div class="rep-chart-title">Case Status</div>
-            <div class="rep-chart-wrap">
-              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Project Parent</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">5</span></div><div class="hs-bar"><span class="hs-bar__l">Family Preservation</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:60%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Foster Family Support</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:20%"></span></span><span class="hs-bar__v">1</span></div><div class="hs-bar"><span class="hs-bar__l">Intake</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:20%"></span></span><span class="hs-bar__v">1</span></div></div>
+            <div class="rep-legend"><div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Intake Status</div></div>
+            <div class="rep-bar-wrap">
+              <div class="rep-bar-y"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div>
+              <div class="rep-bar-chart">
+                <div class="rep-bar-col"><div class="rep-bar" style="height:200px;background:#1E3A5F;" data-tip="Secure stable and safe housing|Count: 4"><span>4</span></div><div class="rep-bar-label">Stable Housing</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:200px;background:#0B1F33;" data-tip="Enhance personal safety|Count: 4"><span>4</span></div><div class="rep-bar-label">Personal Safety</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:150px;background:#2C5282;" data-tip="Employment &amp; Education|Count: 3"><span>3</span></div><div class="rep-bar-label">Employment &amp; Education</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:100px;background:#4A8FD4;" data-tip="Income &amp; Benefits|Count: 2"><span>2</span></div><div class="rep-bar-label">Income &amp; Benefits</div></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1858,43 +1900,86 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         </div>
         <div class="reporting-content">
           <div class="rep-toolbar"><button onclick="showToast('Zoom available in full version.')">&#x1F50D;</button><button onclick="showToast('Filter available in full version.')">&#x25BC;</button><button onclick="showToast('Download available in full version.')">&#x2B07;</button></div>
-          <!-- Outcomes Fully Met (bar) -->
+          <!-- Outcomes Fully Met (vertical bars) -->
           <div class="rep-panel active" id="rep-p-fullymet">
             <div class="rep-chart-title">All Programs - Fully Met Outcomes</div>
-            <div class="rep-chart-wrap">
-              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Direct</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">Hours: 58</span></div><div class="hs-bar"><span class="hs-bar__l">Indirect</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:21%"></span></span><span class="hs-bar__v">Hours: 12</span></div><div class="hs-bar"><span class="hs-bar__l">Not recorded</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:43%"></span></span><span class="hs-bar__v">Hours: 25</span></div></div>
-            </div>
-          </div>
-          <!-- Assessments Done -->
-          <div class="rep-panel" id="rep-a-assess">
-            <div class="rep-chart-title">Assessments Done</div>
-            <div class="rep-chart-wrap">
-              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Main office</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">12</span></div><div class="hs-bar"><span class="hs-bar__l">Client home</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:67%"></span></span><span class="hs-bar__v">8</span></div><div class="hs-bar"><span class="hs-bar__l">Grandmother's home</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:43%"></span></span><span class="hs-bar__v">5</span></div><div class="hs-bar"><span class="hs-bar__l">Community centre</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:33%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Elder's lodge</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:27%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Cultural centre</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:17%"></span></span><span class="hs-bar__v">2</span></div></div>
-            </div>
-          </div>
-          <!-- CFCSA Safety Factors -->
-          <div class="rep-panel" id="rep-a-cfcsa">
-            <div class="rep-chart-title">CFCSA Safety Factors</div>
-            <div class="rep-legend"><div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Factors Assessed</div></div>
+            <div class="rep-legend"><div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Outcomes Fully Met</div></div>
             <div class="rep-bar-wrap">
-              <div class="rep-bar-y"><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div>
+              <div class="rep-bar-y"><span>2</span><span>1</span><span>0</span></div>
               <div class="rep-bar-chart">
-                <div class="rep-bar-col"><div class="rep-bar" style="height:132px;" data-tip="Physical Harm|Count: 3"><span>3</span></div><div class="rep-bar-label">Physical Harm</div></div>
-                <div class="rep-bar-col"><div class="rep-bar" style="height:220px;" data-tip="Sexual Abuse|Count: 5"><span>5</span></div><div class="rep-bar-label">Sexual Abuse</div></div>
-                <div class="rep-bar-col"><div class="rep-bar" style="height:132px;" data-tip="Caregiver Agreement|Count: 3"><span>3</span></div><div class="rep-bar-label">Caregiver Agreement</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:200px;background:#0B1F33;" data-tip="Project Parent|Outcomes: 2"><span>2</span></div><div class="rep-bar-label">Project Parent</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:100px;background:#1E3A5F;" data-tip="Family Preservation|Outcomes: 1"><span>1</span></div><div class="rep-bar-label">Family Preservation</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:100px;background:#2C5282;" data-tip="Foster Family Support|Outcomes: 1"><span>1</span></div><div class="rep-bar-label">Foster Family Support</div></div>
+                <div class="rep-bar-col"><div class="rep-bar" style="height:100px;background:#4A8FD4;" data-tip="Intake|Outcomes: 1"><span>1</span></div><div class="rep-bar-label">Intake</div></div>
               </div>
             </div>
           </div>
-          <!-- Parenting Capacity Observation -->
-          <div class="rep-panel" id="rep-a-parenting">
-            <div class="rep-chart-title">Parenting Capacity Observation</div>
-            <div class="rep-legend"><div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Observations</div></div>
-            <div class="rep-bar-wrap">
-              <div class="rep-bar-y"><span>3</span><span>2</span><span>1</span><span>0</span></div>
-              <div class="rep-bar-chart">
-                <div class="rep-bar-col"><div class="rep-bar" style="height:220px;" data-tip="Positive|Count: 2"><span>2</span></div><div class="rep-bar-label">Positive</div></div>
-                <div class="rep-bar-col"><div class="rep-bar" style="height:110px;" data-tip="Acceptable|Count: 1"><span>1</span></div><div class="rep-bar-label">Acceptable</div></div>
+          <!-- Project Parent (donut) -->
+          <div class="rep-panel" id="rep-p-projparent">
+            <div class="rep-chart-title">Project Parent Case Outcomes</div>
+            <div class="rep-legend">
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Health &amp; Care Navigation (2)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#1E3A5F;"></div>Confidence &amp; Self-Advocacy (1)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0FB9B1;"></div>Employment Progress (1)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#4FD1C5;"></div>Income &amp; Benefits (1)</div>
+            </div>
+            <div class="rep-chart-wrap">
+              <div class="donut-wrap" style="width:280px;height:280px;">
+                <svg viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#e5e7eb" stroke-width="5"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0B1F33" stroke-width="5" stroke-dasharray="40 60" stroke-dashoffset="25" data-tip="Health &amp; Care Navigation|Count: 2"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#1E3A5F" stroke-width="5" stroke-dasharray="20 80" stroke-dashoffset="85" data-tip="Confidence &amp; Self-Advocacy|Count: 1"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0FB9B1" stroke-width="5" stroke-dasharray="20 80" stroke-dashoffset="65" data-tip="Employment Progress|Count: 1"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#4FD1C5" stroke-width="5" stroke-dasharray="20 80" stroke-dashoffset="45" data-tip="Income &amp; Benefits|Count: 1"/>
+                </svg>
+                <div class="donut-center"><div class="dc-val">5</div><div class="dc-label">Total</div></div>
               </div>
+            </div>
+          </div>
+          <!-- Family Preservation -->
+          <div class="rep-panel" id="rep-p-fampres">
+            <div class="rep-chart-title">Family Preservation Case Outcomes</div>
+            <div class="rep-chart-wrap">
+              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Social Connection</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">2</span></div></div>
+            </div>
+          </div>
+          <!-- Foster Family Support -->
+          <div class="rep-panel" id="rep-p-foster">
+            <div class="rep-chart-title">Foster Family Support Case Outcomes</div>
+            <div class="rep-chart-wrap">
+              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Income &amp; Benefits</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">1</span></div></div>
+            </div>
+          </div>
+          <!-- Parent-Teen (donut) -->
+          <div class="rep-panel" id="rep-p-parentteen">
+            <div class="rep-chart-title">Parent-Teen Mediation Case Outcomes</div>
+            <div class="rep-legend">
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0B1F33;"></div>Confidence &amp; Self-Advocacy (1)</div>
+              <div class="rep-legend-item"><div class="rep-legend-dot" style="background:#0FB9B1;"></div>Community Connection (1)</div>
+            </div>
+            <div class="rep-chart-wrap">
+              <div class="donut-wrap" style="width:280px;height:280px;">
+                <svg viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#e5e7eb" stroke-width="5"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0B1F33" stroke-width="5" stroke-dasharray="50 50" stroke-dashoffset="25" data-tip="Confidence &amp; Self-Advocacy|Count: 1"/>
+                  <circle cx="18" cy="18" r="14" fill="none" stroke="#0FB9B1" stroke-width="5" stroke-dasharray="50 50" stroke-dashoffset="75" data-tip="Community Connection|Count: 1"/>
+                </svg>
+                <div class="donut-center"><div class="dc-val">2</div><div class="dc-label">Total</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Intake -->
+          <div class="rep-panel" id="rep-p-intake">
+            <div class="rep-chart-title">Intake Case Outcomes</div>
+            <div class="rep-chart-wrap">
+              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Employment Progress</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">1</span></div></div>
+            </div>
+          </div>
+          <!-- Finance -->
+          <div class="rep-panel" id="rep-p-finance">
+            <div class="rep-chart-title">Finance Case Outcomes</div>
+            <div class="rep-chart-wrap">
+              <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Health &amp; Care Navigation</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">1</span></div></div>
             </div>
           </div>
         </div>
@@ -1971,42 +2056,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Intake Volume Over Time -->
           <div class="strat-chart-card">
             <h4>Intake Volume Over Time</h4>
-            <div style="position:relative;height:180px;padding:0 8px;">
-              <div style="position:absolute;left:0;top:0;bottom:24px;width:24px;display:flex;flex-direction:column;justify-content:space-between;">
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">8</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">6</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">4</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">2</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">0</span>
-              </div>
-              <div style="position:absolute;left:28px;right:0;top:0;bottom:24px;">
-                <div style="position:absolute;top:0;left:0;right:0;border-bottom:0;"></div>
-                <div style="position:absolute;top:25%;left:0;right:0;border-bottom:0;"></div>
-                <div style="position:absolute;top:50%;left:0;right:0;border-bottom:0;"></div>
-                <div style="position:absolute;top:75%;left:0;right:0;border-bottom:0;"></div>
-                <div style="position:absolute;bottom:0;left:0;right:0;border-bottom:0;"></div>
-                <svg viewBox="0 0 250 100" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
-                  <polygon points="0,75 42,75 83,62 125,50 167,12 208,25 250,37 250,100 0,100" fill="rgba(15,185,177,0.2)"/>
-                  <polyline points="0,75 42,75 83,62 125,50 167,12 208,25 250,37" fill="none" stroke="#0B7770" stroke-width="2"/>
-                  <line x1="0" y1="82" x2="250" y2="25" stroke="#0B7770" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
-                  <circle cx="0" cy="75" r="3" fill="#0B7770" data-tip="Sep 2025|Intakes: 2|Cases Opened: 1"/>
-                  <circle cx="42" cy="75" r="3" fill="#0B7770" data-tip="Oct 2025|Intakes: 2|Cases Opened: 2"/>
-                  <circle cx="83" cy="62" r="3" fill="#0B7770" data-tip="Nov 2025|Intakes: 3|Cases Opened: 2"/>
-                  <circle cx="125" cy="50" r="3" fill="#0B7770" data-tip="Dec 2025|Intakes: 4|Cases Opened: 3"/>
-                  <circle cx="167" cy="12" r="3" fill="#0B7770" data-tip="Jan 2026|Intakes: 7|Cases Opened: 5"/>
-                  <circle cx="208" cy="25" r="3" fill="#0B7770" data-tip="Feb 2026|Intakes: 6|Cases Opened: 4"/>
-                  <circle cx="250" cy="37" r="3" fill="#0B7770" data-tip="Feb 2026 (late)|Intakes: 5|Cases Opened: 3"/>
-                </svg>
-              </div>
-              <div style="position:absolute;bottom:0;left:28px;right:0;display:flex;justify-content:space-between;">
-                <span style="font-size:9px;color:rgba(255,255,255,0.5);">Sep 2025</span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.5);">Oct 2025</span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.5);">Nov 2025</span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.5);">Dec 2025</span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.5);">Jan 2026</span>
-                <span style="font-size:9px;color:rgba(255,255,255,0.5);">Feb 2026</span>
-              </div>
-            </div>
+            <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Jan 2026</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">7</span></div><div class="hs-bar"><span class="hs-bar__l">Feb 2026</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:86%"></span></span><span class="hs-bar__v">6</span></div><div class="hs-bar"><span class="hs-bar__l">Nov 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:43%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Dec 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:57%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Sep 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">2</span></div><div class="hs-bar"><span class="hs-bar__l">Oct 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">2</span></div></div>
             <div class="strat-insight-dark">January peak with 7 new intakes; monitor whether this reflects seasonal patterns or a reporting change.</div>
           </div>
 
@@ -2028,8 +2078,8 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
               <div class="risk-bar-row"><span class="risk-bar-label">High</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:#1E3A5F;width:7%;" data-tip="High Risk|Cases: 1"></div></div><span class="risk-bar-num">1</span></div>
               <h4 style="font-size:13px;color:#fff;font-weight:700;margin:16px 0 10px 0;text-align:left;">Risk Factors Identified</h4>
               <div class="risk-bar-row"><span class="risk-bar-label" style="min-width:120px;">Domestic Violence</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:#1E3A5F;width:70%;" data-tip="Domestic Violence|Occurrences: 14"></div></div><span class="risk-bar-num">14</span></div>
-              <div class="risk-bar-row"><span class="risk-bar-label" style="min-width:120px;">AWOL Risk</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:rgba(255,255,255,0.25);width:15%;" data-tip="AWOL Risk|Occurrences: 3"></div></div><span class="risk-bar-num">3</span></div>
-              <div class="risk-bar-row"><span class="risk-bar-label" style="min-width:120px;">Medical Vulnerability</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:rgba(255,255,255,0.25);width:15%;" data-tip="Medical Vulnerability|Occurrences: 3"></div></div><span class="risk-bar-num">3</span></div>
+              <div class="risk-bar-row"><span class="risk-bar-label" style="min-width:120px;">AWOL Risk</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:var(--hs-aqua);width:15%;" data-tip="AWOL Risk|Occurrences: 3"></div></div><span class="risk-bar-num">3</span></div>
+              <div class="risk-bar-row"><span class="risk-bar-label" style="min-width:120px;">Medical Vulnerability</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:var(--hs-azure);width:15%;" data-tip="Medical Vulnerability|Occurrences: 3"></div></div><span class="risk-bar-num">3</span></div>
             </div>
             <div class="strat-insight-dark">71% low risk is encouraging, but the single high-risk case requires dedicated safety planning and monitoring.</div>
           </div>
@@ -2058,10 +2108,10 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         <div class="strat-footer">
           <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,34 4,34" fill="none" stroke="#0B7770" stroke-width="2"/><polygon points="20,10 30,30 10,30" fill="none" stroke="#0B7770" stroke-width="1.5" opacity="0.6"/><polygon points="20,16 24,26 16,26" fill="#0B7770" opacity="0.4"/></svg>
-            <span style="font-size:18px;font-weight:700;color:#fff;">Mareto</span>
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);margin-left:4px;">Powered by HelpSeeker Technologies</span>
+            <span style="font-size:18px;font-weight:700;color:var(--hs-navy);">Mareto</span>
+            <span style="font-size:11px;color:var(--hs-muted);margin-left:4px;">Powered by HelpSeeker Technologies</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
+          <div style="font-size:12px;color:var(--hs-muted);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
         </div>
       </div>
 
@@ -2098,7 +2148,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
               <div class="strat-hbar"><span class="strat-hbar-label">Other Agency</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:37%;background:#102a43;" data-tip="Other Agency|Referrals: 3"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Outreach Team</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:37%;background:#102a43;" data-tip="Outreach Team|Referrals: 3"></div></div></div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,0.4);padding:0 0 0 120px;"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--hs-muted);padding:0 0 0 120px;"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span></div>
             <div class="strat-insight-dark">Police and Self-Referral dominate equally (33% each). Equal police referrals suggest strong interagency coordination but also that families are reaching crisis before engaging services.</div>
           </div>
           <!-- Intake Closure Destinations -->
@@ -2111,7 +2161,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
               <div class="strat-hbar"><span class="strat-hbar-label">Family Preservation</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:37%;" data-tip="Family Preservation|Cases: 3"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Other</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:37%;" data-tip="Other|Cases: 3"></div></div></div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,0.4);padding:0 0 0 120px;"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--hs-muted);padding:0 0 0 120px;"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span></div>
             <div class="strat-insight-dark">Family Support Services is the primary downstream program (33%), followed by Project Parent (25%). This mapping shows intentional alignment between intake assessment and program placement.</div>
           </div>
         </div>
@@ -2120,42 +2170,26 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Monthly Intake Volume -->
           <div class="strat-chart-card">
             <h4>Monthly Intake Volume</h4>
-            <div style="position:relative;height:180px;padding:0 8px;">
-              <div style="position:absolute;left:0;top:0;bottom:24px;width:24px;display:flex;flex-direction:column;justify-content:space-between;">
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">8</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">6</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">4</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">2</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">0</span>
-              </div>
-              <div style="position:absolute;left:32px;right:0;bottom:24px;top:0;display:flex;align-items:flex-end;gap:8px;padding:0 4px;">
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:25%;" data-tip="Sep 2025|Intakes: 2"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">Sep</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:25%;" data-tip="Oct 2025|Intakes: 2"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">Oct</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:50%;" data-tip="Nov 2025|Intakes: 4"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">Nov</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:50%;" data-tip="Dec 2025|Intakes: 4"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">Dec</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:87%;" data-tip="Jan 2026|Intakes: 7"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">Jan</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:75%;" data-tip="Feb 2026|Intakes: 6"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;">Feb</span></div>
-              </div>
-            </div>
+            <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Jan 2026</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">7</span></div><div class="hs-bar"><span class="hs-bar__l">Feb 2026</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:86%"></span></span><span class="hs-bar__v">6</span></div><div class="hs-bar"><span class="hs-bar__l">Nov 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:57%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Dec 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:57%"></span></span><span class="hs-bar__v">4</span></div><div class="hs-bar"><span class="hs-bar__l">Sep 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">2</span></div><div class="hs-bar"><span class="hs-bar__l">Oct 2025</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">2</span></div></div>
             <div class="strat-insight-dark">Sharp increase in January (7 intakes), a 75% spike over December. Investigate whether seasonal factors, new referral partnerships, or community awareness campaigns are driving volume.</div>
           </div>
           <!-- Intake Pipeline Insights -->
           <div class="strat-chart-card">
             <h4 style="color:#0B7770;letter-spacing:0.05em;font-size:12px;">Intake Pipeline Insights</h4>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Intake-to-case conversion is 67%. the remaining 33% were diverted, suggesting effective screening and community resource connections.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Police referrals matching self-referrals (8 each) indicates balanced discovery. families are seeking help proactively at the same rate as crisis interventions.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">6 urgent referrals (25%) concentrated on higher-risk cases. all linked to domestic violence or complex needs.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">Average intake-to-case conversion time is 3&ndash;14 days. this is within acceptable range for a child welfare system doing thorough assessment.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Intake-to-case conversion is 67%. the remaining 33% were diverted, suggesting effective screening and community resource connections.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Police referrals matching self-referrals (8 each) indicates balanced discovery. families are seeking help proactively at the same rate as crisis interventions.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">6 urgent referrals (25%) concentrated on higher-risk cases. all linked to domestic violence or complex needs.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;">Average intake-to-case conversion time is 3&ndash;14 days. this is within acceptable range for a child welfare system doing thorough assessment.</p>
           </div>
         </div>
 
         <div class="strat-footer">
           <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,34 4,34" fill="none" stroke="#0B7770" stroke-width="2"/><polygon points="20,10 30,30 10,30" fill="none" stroke="#0B7770" stroke-width="1.5" opacity="0.6"/><polygon points="20,16 24,26 16,26" fill="#0B7770" opacity="0.4"/></svg>
-            <span style="font-size:18px;font-weight:700;color:#fff;">Mareto</span>
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);margin-left:4px;">Powered by HelpSeeker Technologies</span>
+            <span style="font-size:18px;font-weight:700;color:var(--hs-navy);">Mareto</span>
+            <span style="font-size:11px;color:var(--hs-muted);margin-left:4px;">Powered by HelpSeeker Technologies</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
+          <div style="font-size:12px;color:var(--hs-muted);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
         </div>
       </div>
 
@@ -2225,26 +2259,26 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Case Outcomes Achieved -->
           <div class="strat-chart-card">
             <h4>Case Outcomes Achieved</h4>
-            <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Confidence &amp; Self-Advocacy</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v"></span></div><div class="hs-bar"><span class="hs-bar__l">Employment Progress</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v"></span></div><div class="hs-bar"><span class="hs-bar__l">Health &amp; Care Navigation</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v"></span></div><div class="hs-bar"><span class="hs-bar__l">Social Connection</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v"></span></div><div class="hs-bar"><span class="hs-bar__l">Income &amp; Benefits</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v"></span></div></div>
+            <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Confidence &amp; Self-Advocacy</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">2</span></div><div class="hs-bar"><span class="hs-bar__l">Employment Progress</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">2</span></div><div class="hs-bar"><span class="hs-bar__l">Health &amp; Care Navigation</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">2</span></div><div class="hs-bar"><span class="hs-bar__l">Social Connection</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:50%"></span></span><span class="hs-bar__v">1</span></div><div class="hs-bar"><span class="hs-bar__l">Income &amp; Benefits</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:50%"></span></span><span class="hs-bar__v">1</span></div></div>
             <div class="strat-insight-dark">Outcomes are distributed across 5 domains: confidence-building and employment progress lead with 2 each. For only 2 closed cases, this demonstrates meaningful, multi-domain impact per case.</div>
           </div>
           <!-- Case Management Gaps -->
           <div class="strat-chart-card">
             <h4 style="color:#0B7770;letter-spacing:0.05em;font-size:12px;">Case Management Gaps</h4>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Care plan coverage at 27% (4 of 15 cases). CFCSA compliance requires documented care plans. This is the most critical gap to address.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Session range of 0&ndash;18 shows high variance. cases with 0 sessions may indicate newly opened files, but verify no cases are falling through the cracks.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Only 2 closures in 7 months with 10 open cases suggests either complex, long-duration cases or a need to review case planning timelines and exit criteria.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">Closure reasons are strong: safety plan completed, service goals achieved, and appropriate external transfers. quality over quantity.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Care plan coverage at 27% (4 of 15 cases). CFCSA compliance requires documented care plans. This is the most critical gap to address.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Session range of 0&ndash;18 shows high variance. cases with 0 sessions may indicate newly opened files, but verify no cases are falling through the cracks.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Only 2 closures in 7 months with 10 open cases suggests either complex, long-duration cases or a need to review case planning timelines and exit criteria.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;">Closure reasons are strong: safety plan completed, service goals achieved, and appropriate external transfers. quality over quantity.</p>
           </div>
         </div>
 
         <div class="strat-footer">
           <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,34 4,34" fill="none" stroke="#0B7770" stroke-width="2"/><polygon points="20,10 30,30 10,30" fill="none" stroke="#0B7770" stroke-width="1.5" opacity="0.6"/><polygon points="20,16 24,26 16,26" fill="#0B7770" opacity="0.4"/></svg>
-            <span style="font-size:18px;font-weight:700;color:#fff;">Mareto</span>
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);margin-left:4px;">Powered by HelpSeeker Technologies</span>
+            <span style="font-size:18px;font-weight:700;color:var(--hs-navy);">Mareto</span>
+            <span style="font-size:11px;color:var(--hs-muted);margin-left:4px;">Powered by HelpSeeker Technologies</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
+          <div style="font-size:12px;color:var(--hs-muted);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
         </div>
       </div>
 
@@ -2273,21 +2307,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Events by Type -->
           <div class="strat-chart-card">
             <h4>Events by Type</h4>
-            <div style="position:relative;height:180px;padding:0 8px;">
-              <div style="position:absolute;left:0;top:0;bottom:24px;width:24px;display:flex;flex-direction:column;justify-content:space-between;">
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">60</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">45</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">30</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">15</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">0</span>
-              </div>
-              <div style="position:absolute;left:32px;right:0;bottom:24px;top:0;display:flex;align-items:flex-end;gap:16px;padding:0 8px;">
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:90%;" data-tip="Action - Activity|Events: 53"></div><span style="font-size:8px;color:rgba(255,255,255,0.5);margin-top:4px;text-align:center;">Action - Activity</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:20%;" data-tip="Allocation - Committed|Events: 12"></div><span style="font-size:8px;color:rgba(255,255,255,0.5);margin-top:4px;text-align:center;">Allocation - Committed</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:15%;" data-tip="Signal - Update|Events: 9"></div><span style="font-size:8px;color:rgba(255,255,255,0.5);margin-top:4px;text-align:center;">Signal - Update</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:3%;min-height:3px;" data-tip="Handoff - Assigned|Events: 1"></div><span style="font-size:8px;color:rgba(255,255,255,0.5);margin-top:4px;text-align:center;">Handoff - Assigned</span></div>
-              </div>
-            </div>
+            <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Action - Activity</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">53</span></div><div class="hs-bar"><span class="hs-bar__l">Allocation - Committed</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:23%"></span></span><span class="hs-bar__v">12</span></div><div class="hs-bar"><span class="hs-bar__l">Signal - Update</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:17%"></span></span><span class="hs-bar__v">9</span></div><div class="hs-bar"><span class="hs-bar__l">Handoff - Assigned</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:2%"></span></span><span class="hs-bar__v">1</span></div></div>
             <div class="strat-insight-dark">Action-Activity events dominate at 62%, which is expected for an active family services program. Governance-Decision events (19%) show structured decision-making. The single Handoff-Assigned event may indicate limited inter-team transfers.</div>
           </div>
           <!-- Service Delivery Locations -->
@@ -2297,12 +2317,12 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
               <div class="strat-hbar"><span class="strat-hbar-label">Client Home</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:100%;" data-tip="Client Home|Events: 12"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Main Office</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:75%;" data-tip="Main Office|Events: 9"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Community Centre</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:33%;" data-tip="Community Centre|Events: 4"></div></div></div>
-              <div class="strat-hbar"><span class="strat-hbar-label">Elder's Lodge</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:25%;"></div></div></div>
+              <div class="strat-hbar"><span class="strat-hbar-label">Elder's Lodge</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:25%;" data-tip="Elder's Lodge|Events: 3"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Cultural Centre</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:17%;" data-tip="Cultural Centre|Events: 2"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Virtual</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:8%;" data-tip="Virtual|Events: 1"></div></div></div>
               <div class="strat-hbar"><span class="strat-hbar-label">Other</span><div class="strat-hbar-track"><div class="strat-hbar-fill" style="width:8%;" data-tip="Other|Events: 1"></div></div></div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,0.4);padding:0 0 0 120px;"><span>0</span><span>3</span><span>6</span><span>9</span><span>12</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--hs-muted);padding:0 0 0 120px;"><span>0</span><span>3</span><span>6</span><span>9</span><span>12</span></div>
             <div class="strat-insight-dark">Client home visits lead at 33%, aligning with best practice for family services where in-home observation provides critical context. Office-based work at 22% for administrative needs. Community-based locations (Elder's Lodge, Cultural Centre) support culturally grounded practice.</div>
           </div>
         </div>
@@ -2312,15 +2332,15 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <div class="strat-chart-card">
             <h4>Parenting Capacity Observations</h4>
             <div style="padding:4px 0;font-size:11px;">
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Arrival &amp; Greeting</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Communication &amp; Play</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Physical Needs</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Developmental Level</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Age-Appropriate Consequences</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Emotional Needs</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Visit Separation</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Child Attachment</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#0B7770;height:14px;flex:2;border-radius:2px;"></div></div></div>
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:rgba(255,255,255,0.7);">Child Behaviour</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#0B7770;height:14px;flex:2;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Arrival &amp; Greeting</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Communication &amp; Play</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Physical Needs</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Developmental Level</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Age-Appropriate Consequences</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Emotional Needs</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Visit Separation</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#1E3A5F;height:14px;flex:1;border-radius:2px;"></div><div style="background:#0B7770;height:14px;flex:1;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Child Attachment</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#0B7770;height:14px;flex:2;border-radius:2px;"></div></div></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;"><span style="min-width:150px;color:var(--hs-muted);">Child Behaviour</span><div style="flex:1;display:flex;gap:2px;"><div style="background:#0B7770;height:14px;flex:2;border-radius:2px;"></div></div></div>
               <div style="display:flex;gap:16px;margin-top:8px;"><div class="legend-item"><div class="legend-dot" style="background:#1E3A5F;"></div>Positive</div><div class="legend-item"><div class="legend-dot" style="background:#0B7770;"></div>Acceptable</div></div>
             </div>
             <div class="strat-insight-dark">3 supervised visits completed, all showing Positive or Acceptable ratings across all domains. Strong indicator of family progress.</div>
@@ -2328,10 +2348,10 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Activity Patterns -->
           <div class="strat-chart-card">
             <h4 style="color:#0B7770;letter-spacing:0.05em;font-size:12px;">Activity Patterns</h4>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">78% direct service hours reflects strong client-facing engagement. well above typical benchmarks for child welfare programs.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Elder's Lodge and Cultural Centre visits demonstrate culturally grounded service delivery aligned with community values.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">8 assessments completed across the caseload. verify whether high-risk cases have received prioritized assessment scheduling.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">Virtual service delivery accounts for ~5% of events. appropriate for follow-ups while maintaining in-person relationship-building.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">78% direct service hours reflects strong client-facing engagement. well above typical benchmarks for child welfare programs.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Elder's Lodge and Cultural Centre visits demonstrate culturally grounded service delivery aligned with community values.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">8 assessments completed across the caseload. verify whether high-risk cases have received prioritized assessment scheduling.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;">Virtual service delivery accounts for ~5% of events. appropriate for follow-ups while maintaining in-person relationship-building.</p>
           </div>
           <!-- Sexual Exploitation Screening -->
           <div class="strat-chart-card">
@@ -2339,9 +2359,9 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
             <div style="padding:8px 0;">
               <div class="risk-bar-row"><span class="risk-bar-label">No</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:#0B7770;width:37%;" data-tip="No|Screenings: 3"></div></div><span class="risk-bar-num">3</span></div>
               <div class="risk-bar-row"><span class="risk-bar-label">Yes</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:#1E3A5F;width:37%;" data-tip="Yes (Positive)|Screenings: 3"></div></div><span class="risk-bar-num">3</span></div>
-              <div class="risk-bar-row"><span class="risk-bar-label">Undefined</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:rgba(255,255,255,0.25);width:25%;" data-tip="Undefined|Screenings: 2"></div></div><span class="risk-bar-num">2</span></div>
+              <div class="risk-bar-row"><span class="risk-bar-label">Undefined</span><div class="risk-bar-track"><div class="risk-bar-fill" style="background:var(--hs-azure);width:25%;" data-tip="Undefined|Screenings: 2"></div></div><span class="risk-bar-num">2</span></div>
             </div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin:8px 0;">8 screenings completed &middot; 2 undefined results require follow-up</div>
+            <div style="font-size:11px;color:var(--hs-muted);margin:8px 0;">8 screenings completed &middot; 2 undefined results require follow-up</div>
             <div class="strat-insight-dark" style="border-left-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.06);">3 of 8 screenings flagged positive, a 38% rate that requires clinical attention and potential specialized referral pathways.</div>
           </div>
         </div>
@@ -2349,10 +2369,10 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         <div class="strat-footer">
           <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,34 4,34" fill="none" stroke="#0B7770" stroke-width="2"/><polygon points="20,10 30,30 10,30" fill="none" stroke="#0B7770" stroke-width="1.5" opacity="0.6"/><polygon points="20,16 24,26 16,26" fill="#0B7770" opacity="0.4"/></svg>
-            <span style="font-size:18px;font-weight:700;color:#fff;">Mareto</span>
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);margin-left:4px;">Powered by HelpSeeker Technologies</span>
+            <span style="font-size:18px;font-weight:700;color:var(--hs-navy);">Mareto</span>
+            <span style="font-size:11px;color:var(--hs-muted);margin-left:4px;">Powered by HelpSeeker Technologies</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
+          <div style="font-size:12px;color:var(--hs-muted);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
         </div>
       </div>
 
@@ -2381,20 +2401,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Risk Factors Across Caseload -->
           <div class="strat-chart-card">
             <h4>Risk Factors Across Caseload</h4>
-            <div style="position:relative;height:200px;padding:0 8px;">
-              <div style="position:absolute;left:0;top:0;bottom:24px;width:24px;display:flex;flex-direction:column;justify-content:space-between;">
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">16</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">12</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">8</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">4</span>
-                <span style="font-size:10px;color:rgba(255,255,255,0.5);">0</span>
-              </div>
-              <div style="position:absolute;left:32px;right:0;bottom:24px;top:0;display:flex;align-items:flex-end;gap:24px;padding:0 16px;">
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#1E3A5F;border-radius:3px 3px 0 0;height:87%;" data-tip="Domestic Violence|Cases: 14"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">Domestic Violence</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:#0B7770;border-radius:3px 3px 0 0;height:19%;" data-tip="AWOL Risk|Cases: 3"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">AWOL Risk</span></div>
-                <div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div style="width:100%;background:rgba(255,255,255,0.3);border-radius:3px 3px 0 0;height:19%;" data-tip="Medical Vulnerability|Cases: 3"></div><span style="font-size:9px;color:rgba(255,255,255,0.5);margin-top:6px;">Medical Vulnerability</span></div>
-              </div>
-            </div>
+            <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Domestic Violence</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">14</span></div><div class="hs-bar"><span class="hs-bar__l">AWOL Risk</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:21%"></span></span><span class="hs-bar__v">3</span></div><div class="hs-bar"><span class="hs-bar__l">Medical Vulnerability</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:21%"></span></span><span class="hs-bar__v">3</span></div></div>
             <div class="strat-insight-dark">Domestic violence overwhelmingly dominates at 70% of identified risks. This concentration should drive specialized DV training, safety planning protocols, and partnership with DV-specific agencies.</div>
           </div>
           <!-- Reportable Circumstances by Program -->
@@ -2412,11 +2419,11 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <div class="strat-chart-card">
             <h4>CFCSA Safety Factor Assessment Results</h4>
             <div style="padding:4px 0;">
-              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:6px;">Physical Harm</div>
+              <div style="font-size:12px;font-weight:700;color:var(--hs-navy);margin-bottom:6px;">Physical Harm</div>
               <div class="strat-pills"><span class="strat-pill no">0 Yes</span><span class="strat-pill no">3 No</span><span class="strat-pill na">2 N/A</span></div>
-              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:6px;">Sexual Abuse</div>
+              <div style="font-size:12px;font-weight:700;color:var(--hs-navy);margin-bottom:6px;">Sexual Abuse</div>
               <div class="strat-pills"><span class="strat-pill yes">2 Yes</span><span class="strat-pill no">3 No</span></div>
-              <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:6px;">Caregiver Agreement</div>
+              <div style="font-size:12px;font-weight:700;color:var(--hs-navy);margin-bottom:6px;">Caregiver Agreement</div>
               <div class="strat-pills"><span class="strat-pill yes">2 Yes</span><span class="strat-pill no">1 No</span><span class="strat-pill na">2 N/A</span></div>
             </div>
             <div class="strat-insight-dark" style="border-left-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.06);">2 cases flagged for sexual abuse and 2 for caregiver agreement concerns. ensure these are tracked through to resolution with documented safety plans.</div>
@@ -2424,20 +2431,20 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Safety Priority Actions -->
           <div class="strat-chart-card">
             <h4 style="color:#1E3A5F;letter-spacing:0.05em;font-size:12px;">Safety Priority Actions</h4>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Domestic violence present in 70% of risk assessments. consider mandatory DV-informed practice training for all case workers and supervisors.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">41% of cases have reportable circumstances. this is high and requires robust documentation and supervisory review processes. Verify all reports are filed within legislated timelines.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:12px;">Sexual exploitation screening shows 38% positive rate. develop or strengthen referral pathways to specialized services and ensure clinical consultation is available.</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">Caregiver agreement concerns on 2 of 5 CFCSA assessments. may indicate instability in care arrangements requiring court or mediation intervention.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Domestic violence present in 70% of risk assessments. consider mandatory DV-informed practice training for all case workers and supervisors.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">41% of cases have reportable circumstances. this is high and requires robust documentation and supervisory review processes. Verify all reports are filed within legislated timelines.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;margin-bottom:12px;">Sexual exploitation screening shows 38% positive rate. develop or strengthen referral pathways to specialized services and ensure clinical consultation is available.</p>
+            <p style="font-size:12px;color:var(--hs-text);line-height:1.6;">Caregiver agreement concerns on 2 of 5 CFCSA assessments. may indicate instability in care arrangements requiring court or mediation intervention.</p>
           </div>
         </div>
 
         <div class="strat-footer">
           <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,34 4,34" fill="none" stroke="#0B7770" stroke-width="2"/><polygon points="20,10 30,30 10,30" fill="none" stroke="#0B7770" stroke-width="1.5" opacity="0.6"/><polygon points="20,16 24,26 16,26" fill="#0B7770" opacity="0.4"/></svg>
-            <span style="font-size:18px;font-weight:700;color:#fff;">Mareto</span>
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);margin-left:4px;">Powered by HelpSeeker Technologies</span>
+            <span style="font-size:18px;font-weight:700;color:var(--hs-navy);">Mareto</span>
+            <span style="font-size:11px;color:var(--hs-muted);margin-left:4px;">Powered by HelpSeeker Technologies</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
+          <div style="font-size:12px;color:var(--hs-muted);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
         </div>
       </div>
 
@@ -2446,7 +2453,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         <!-- Executive Summary -->
         <div class="strat-chart-card" style="border-color:rgba(15,185,177,0.3);margin-bottom:20px;">
           <h4 style="font-size:15px;font-weight:700;margin-bottom:12px;">Executive Summary</h4>
-          <p style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.7;">Over 7 months, the program has served 33 people with 22 cases across three programs. The caseload is characterized by high domestic violence prevalence (70% of risk factors), significant Indigenous representation (38% of intakes), and strong direct service engagement (78% of hours). The system demonstrates effective intake-to-program alignment and culturally grounded service delivery. Key gaps include care plan documentation (27% coverage), reportable circumstance volume in Project Parent (67% of all reports), and the need for specialized sexual exploitation response pathways. The data supports a strategic focus on three priorities: safety infrastructure, documentation compliance, and culturally responsive capacity building.</p>
+          <p style="font-size:12px;color:var(--hs-text);line-height:1.7;">Over 7 months, the program has served 33 people with 22 cases across three programs. The caseload is characterized by high domestic violence prevalence (70% of risk factors), significant Indigenous representation (38% of intakes), and strong direct service engagement (78% of hours). The system demonstrates effective intake-to-program alignment and culturally grounded service delivery. Key gaps include care plan documentation (27% coverage), reportable circumstance volume in Project Parent (67% of all reports), and the need for specialized sexual exploitation response pathways. The data supports a strategic focus on three priorities: safety infrastructure, documentation compliance, and culturally responsive capacity building.</p>
         </div>
 
         <!-- 3-column Action Items -->
@@ -2497,10 +2504,10 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
         <div class="strat-footer">
           <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
             <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><polygon points="20,4 36,34 4,34" fill="none" stroke="#0B7770" stroke-width="2"/><polygon points="20,10 30,30 10,30" fill="none" stroke="#0B7770" stroke-width="1.5" opacity="0.6"/><polygon points="20,16 24,26 16,26" fill="#0B7770" opacity="0.4"/></svg>
-            <span style="font-size:18px;font-weight:700;color:#fff;">Mareto</span>
-            <span style="font-size:11px;color:rgba(255,255,255,0.5);margin-left:4px;">Powered by HelpSeeker Technologies</span>
+            <span style="font-size:18px;font-weight:700;color:var(--hs-navy);">Mareto</span>
+            <span style="font-size:11px;color:var(--hs-muted);margin-left:4px;">Powered by HelpSeeker Technologies</span>
           </div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
+          <div style="font-size:12px;color:var(--hs-muted);">Child &amp; Family Services &middot; Strategic Insights Report &middot; Demo Data: Aug 2025 &ndash; Feb 2026</div>
         </div>
       </div>
       </div><!-- /strat-wrap -->
@@ -2908,10 +2915,10 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
             <button class="btn-outline" id="calNext">&gt;</button>
           </div>
           <div style="display:flex;gap:4px;">
-            <button class="pill-tab active" id="calViewMonth">Month</button>
-            <button class="pill-tab">Week</button>
-            <button class="pill-tab">Day</button>
-            <button class="pill-tab">Agenda</button>
+            <button class="pill-tab active" onclick="switchCalView(this)">Month</button>
+            <button class="pill-tab" onclick="switchCalView(this)">Week</button>
+            <button class="pill-tab" onclick="switchCalView(this)">Day</button>
+            <button class="pill-tab" onclick="switchCalView(this)">Agenda</button>
             <button class="btn-outline" id="calToday" style="margin-left:8px;">Today</button>
           </div>
         </div>
@@ -3292,8 +3299,12 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
       </div>
       <div class="card">
         <h4 style="font-size:14px;color:var(--navy);margin-bottom:16px;text-align:center;">Expense Breakdown</h4>
-        <div style="display:flex;align-items:center;justify-content:center;gap:32px;">
-          <div class="hs-bars"><div class="hs-bar"><span class="hs-bar__l">Salaries &amp; Benefits</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">$560,000|35%</span></div><div class="hs-bar"><span class="hs-bar__l">Program Delivery</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:71%"></span></span><span class="hs-bar__v">$400,000|25%</span></div><div class="hs-bar"><span class="hs-bar__l">Facilities</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:51%"></span></span><span class="hs-bar__v">$288,000|18%</span></div><div class="hs-bar"><span class="hs-bar__l">Admin &amp; Overhead</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:34%"></span></span><span class="hs-bar__v">$192,000|12%</span></div><div class="hs-bar"><span class="hs-bar__l">Supplies &amp; Equipment</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">$160,000|10%</span></div></div><div class="hs-bars--total">Total $1.6M</div>
+        <div style="display:flex;align-items:center;gap:32px;">
+          <div class="hs-bars" style="flex:1;min-width:0;"><div class="hs-bar" style="grid-template-columns:170px minmax(0,1fr) auto;"><span class="hs-bar__l">Salaries &amp; Benefits</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:100%"></span></span><span class="hs-bar__v">$560,000 | 35%</span></div><div class="hs-bar" style="grid-template-columns:170px minmax(0,1fr) auto;"><span class="hs-bar__l">Program Delivery</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:71%"></span></span><span class="hs-bar__v">$400,000 | 25%</span></div><div class="hs-bar" style="grid-template-columns:170px minmax(0,1fr) auto;"><span class="hs-bar__l">Facilities</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:51%"></span></span><span class="hs-bar__v">$288,000 | 18%</span></div><div class="hs-bar" style="grid-template-columns:170px minmax(0,1fr) auto;"><span class="hs-bar__l">Admin &amp; Overhead</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:34%"></span></span><span class="hs-bar__v">$192,000 | 12%</span></div><div class="hs-bar" style="grid-template-columns:170px minmax(0,1fr) auto;"><span class="hs-bar__l">Supplies &amp; Equipment</span><span class="hs-bar__t"><span class="hs-bar__f" style="width:29%"></span></span><span class="hs-bar__v">$160,000 | 10%</span></div></div>
+          <div style="text-align:center;flex-shrink:0;padding:0 16px;">
+            <div style="font-size:14px;font-weight:700;color:var(--hs-navy);">Total</div>
+            <div class="kpi-value" style="font-size:34px;">$1.6M</div>
+          </div>
         </div>
       </div>
     </div>
@@ -3710,7 +3721,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Bar chart: files opened by month -->
           <div class="rs-chart-card">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <div><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span style="font-weight:700;color:var(--navy);" id="rs-chart-title">Files opened by month — 2026</span></div>
+              <span style="font-weight:700;color:var(--navy);" id="rs-chart-title">Files opened by month — 2026</span>
               <span class="rs-live-badge">Live data</span>
             </div>
             <div style="font-size:12px;color:#4A5568;margin-bottom:12px;">Case start dates, live.</div>
@@ -3720,7 +3731,7 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
           <!-- Horizontal bar: files by program -->
           <div class="rs-chart-card">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-              <div><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span style="font-weight:700;color:var(--navy);">Open files by program</span></div>
+              <span style="font-weight:700;color:var(--navy);">Open files by program</span>
               <span class="rs-live-badge">Live data</span>
             </div>
             <div style="font-size:12px;color:#4A5568;margin-bottom:16px;" id="rs-prog-sub">2026 · respects your access</div>
@@ -4630,6 +4641,7 @@ function renderCalendar(){
 document.getElementById('calPrev').addEventListener('click',()=>{calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();});
 document.getElementById('calNext').addEventListener('click',()=>{calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();});
 document.getElementById('calToday').addEventListener('click',()=>{calYear=2026;calMonth=8;renderCalendar();});
+function switchCalView(btn){const parent=btn.parentElement;parent.querySelectorAll('.pill-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');if(btn.textContent!=='Month')showToast(btn.textContent+' view available in full version.');}
 
 // ==================== HOME FULL CALENDAR ====================
 let homeCalYear=2026,homeCalMonth=8;
@@ -7351,7 +7363,7 @@ function updateTransitionSummary() {
   // intake
   const inNew = $('#intakeNewTable tbody'); if (inNew) inNew.innerHTML = intakes.filter((i) => i.status !== 'Closed').map((i) => `<tr onclick="openIntakeModal('${i.person}')"><td>${i.person}</td><td>${pill(i.status, i.status === 'New' ? 'good' : '')}</td><td>${i.worker}</td><td>${i.source}</td><td>${fmt(i.date)}</td></tr>`).join('');
   const inClosed = $('#intake-closed tbody'); if (inClosed) inClosed.innerHTML = intakes.filter((i) => i.status === 'Closed').map((i) => `<tr><td>${i.person}</td><td>${pill('Closed')}</td><td>${i.worker}</td><td>${i.source}</td><td>${fmt(i.date)}</td></tr>`).join('');
-  setKpis('page-intake', [['Closed, no further action', intakes.filter((i) => i.status === 'Closed').length], null, ['In process', intakes.filter((i) => i.status !== 'Closed').length]]);
+  setKpis('page-intake', [['Closed, no further action', intakes.filter((i) => i.status === 'Closed').length], ['In process', intakes.filter((i) => i.status !== 'Closed').length]]);
   const intakeChart = $$('#page-intake .card').find((c) => $('h4', c)); if (intakeChart) { const rows = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]); intakeChart.innerHTML = `<h4>Referral sources, this year</h4>${bars(rows)}`; }
   // referrals
   const refNew = $('#refNewTable tbody'); if (refNew) refNew.innerHTML = referrals.filter((r) => r.status === 'Pending').map((r, i) => `<tr onclick="openReferralModal(${i})"><td>${r.person}</td><td>${r.type}</td><td>${pill(r.status)}</td><td>${r.receivingWorker}</td><td>${r.receivingProgram}</td><td>${r.referringWorker}</td><td>${r.date}</td></tr>`).join('');
@@ -7396,10 +7408,14 @@ function updateTransitionSummary() {
     const peak = series.slice().sort((a, b) => b[1] - a[1])[0], low = series.slice().sort((a, b) => a[1] - b[1])[0];
     const story1 = `${peak[0]} was the busiest month for new files (${peak[1]}), ${low[0]} the quietest (${low[1]}). Events run ahead of files: ${ev.filter((e) => inP(e._d)).length} logged against ${o} opened, about ${Math.round(ev.filter((e) => inP(e._d)).length / Math.max(op, 1))} per open file.`;
     const pb = $('#rs-prog-bars'); if (pb) { const rows = P ? Object.entries(cs.reduce((a, c) => ((a[c.worker] = (a[c.worker] || 0) + (c.status === 'Open' ? 1 : 0)), a), {})) : PROGRAMS.map((p) => [p.name, byProgramOpen[p.key]]); pb.innerHTML = bars(rows.sort((a, b) => b[1] - a[1]), op) + insight(P ? `${rows[0][0]} carries the most open files in ${P.name}.` : `Family Support carries ${Math.round(100 * byProgramOpen.family / openCases.length)}% of open files; Employment closes fastest.`); }
-    const st = $('#rs-donut-status'); if (st) { const rows = Object.entries(cs.reduce((a, c) => ((a[c.status] = (a[c.status] || 0) + 1), a), {})).sort((a, b) => b[1] - a[1]); st.outerHTML = `<div id="rs-donut-status">${bars(rows, cs.length)}${insight(`${Math.round(100 * (rows.find((r) => r[0] === 'Open') || [0, 0])[1] / cs.length)}% of files are open. Pending files older than seven days show on the home page as checkpoints.`)}</div>`; } const sl = $('#rs-donut-legend'); if (sl) sl.innerHTML = '';
-    const et = $('#rs-donut-events'); if (et) { const rows = Object.entries(ev.filter((e) => inP(e._d)).reduce((a, e) => ((a[e.type] = (a[e.type] || 0) + 1), a), {})).sort((a, b) => b[1] - a[1]).slice(0, 7); et.outerHTML = `<div id="rs-donut-events">${bars(rows)}${insight(rows.length ? `${rows[0][0]} is the most common contact (${rows[0][1]}). Direct contact makes up ${Math.round(100 * rows.filter((r) => !/phone|collateral/i.test(r[0])).reduce((a, r) => a + r[1], 0) / Math.max(1, rows.reduce((a, r) => a + r[1], 0)))}% of logged time.` : 'No events in this period.')}</div>`; } const el2 = $('#rs-donut-events-legend'); if (el2) el2.innerHTML = '';
+    const statusRows = Object.entries(cs.reduce((a, c) => ((a[c.status] = (a[c.status] || 0) + 1), a), {})).sort((a, b) => b[1] - a[1]);
+    const st = $('#rs-donut-status'); if (st) st.outerHTML = `<div id="rs-donut-status" style="flex:1;min-width:0;">${bars(statusRows, cs.length)}</div>`;
+    const sl = $('#rs-donut-legend'); if (sl) { sl.style.flex = '1'; sl.style.minWidth = '0'; sl.innerHTML = insight(`${Math.round(100 * (statusRows.find((r) => r[0] === 'Open') || [0, 0])[1] / cs.length)}% of files are open. Pending files older than seven days show on the home page as checkpoints.`); }
+    const eventRows = Object.entries(ev.filter((e) => inP(e._d)).reduce((a, e) => ((a[e.type] = (a[e.type] || 0) + 1), a), {})).sort((a, b) => b[1] - a[1]).slice(0, 7);
+    const et = $('#rs-donut-events'); if (et) et.outerHTML = `<div id="rs-donut-events" style="flex:1;min-width:0;">${bars(eventRows)}</div>`;
+    const el2 = $('#rs-donut-events-legend'); if (el2) { el2.style.flex = '1'; el2.style.minWidth = '0'; el2.innerHTML = insight(eventRows.length ? `${eventRows[0][0]} is the most common contact (${eventRows[0][1]}). Direct contact makes up ${Math.round(100 * eventRows.filter((r) => !/phone|collateral/i.test(r[0])).reduce((a, r) => a + r[1], 0) / Math.max(1, eventRows.reduce((a, r) => a + r[1], 0)))}% of logged time.` : 'No events in this period.'); }
     const stays = cs.filter((c) => c.status === 'Closed').map((c) => Math.round((c.last - c.opened) / 86400000)).sort((a, b) => a - b); set('rs-avg-stay', stays.length ? Math.round(stays.reduce((a, b) => a + b, 0) / stays.length) : 0); set('rs-min-stay', stays[0] || 0); set('rs-max-stay', stays[stays.length - 1] || 0); set('rs-med-stay', stays[Math.floor(stays.length / 2)] || 0);
-    let story = $('#hs-rs-story'); if (!story) { story = document.createElement('div'); story.id = 'hs-rs-story'; story.className = 'hs-story'; const anchor = $('#rs-chart-title'); if (anchor) anchor.parentElement.insertBefore(story, anchor); } story.innerHTML = `<span class="hs-medallion">${$('.hs-medallion svg') ? $('.hs-medallion').innerHTML : ''}</span><div><b>The story in ${label}</b>${story1} ${Object.entries(stages).sort((a, b) => b[1] - a[1])[0] ? `Of open files, ${Math.round(100 * (stages['Stable'] || 0) / Math.max(1, op))}% are rated stable or thriving on their goal stage.` : ''}</div>`;
+    let story = $('#hs-rs-story'); if (!story) { story = document.createElement('div'); story.id = 'hs-rs-story'; story.className = 'hs-story'; const anchor = $('#rs-chart-title'); if (anchor) anchor.parentElement.parentElement.insertBefore(story, anchor.parentElement); } story.innerHTML = `<span class="hs-medallion">${$('.hs-medallion svg') ? $('.hs-medallion').innerHTML : ''}</span><div><b>The story in ${label}</b>${story1} ${Object.entries(stages).sort((a, b) => b[1] - a[1])[0] ? `Of open files, ${Math.round(100 * (stages['Stable'] || 0) / Math.max(1, op))}% are rated stable or thriving on their goal stage.` : ''}</div>`;
   };
   try { const y = $('#rs-year'); if (y && !y.value) y.value = '2026'; updateReportStudio(); } catch (e) { console.warn('story: report studio', e); }
 
