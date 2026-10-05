@@ -154,8 +154,7 @@ CTA = f'''<div class="cta-slide" id="ctaSlide">
       <h2>Software is the easy part. We sort out the rest with you.</h2>
       <p>Every Mareto build starts with your impact model. We sit down with your team and work out the logic model, the referral pathways, the automations and the reporting, then configure the system to match. Our team comes from social impact, program evaluation and systems planning, and we hold your hand from discovery to go-live and after.</p>
       <div class="hs-actions">
-        <a class="book-btn" href="{QUIZ}">Find out if Mareto fits you</a>
-        <a class="hs-btn-secondary" href="{BOOK}" target="_blank" rel="noopener">Book a meeting</a>
+        <a class="book-btn" href="{QUIZ}">Find your fit</a>
       </div>
       <div class="cta-features">
         <div class="cta-feature"><div class="feat-icon">{svg("map-pin")}</div><strong>Data stays in Canada</strong>Hosted in Canada, two-factor sign-in on every login, export of your whole data model at any time at no cost.</div>
