@@ -251,13 +251,3 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
 .quick-actions .qa-btn:first-child{grid-column:1/-1;background:var(--hs-action-gradient);color:#fff;box-shadow:var(--sh1)}
 .quick-actions .qa-btn:nth-child(2){background:linear-gradient(135deg,#0B7770,#14AEC4);color:#fff}
 .quick-actions .qa-btn:hover{opacity:.92}
-
-/* story layer: the unlock gate (2 Oct standup), same overlay as the persona screener */
-.hs-gate__card{max-width:560px;text-align:center}.hs-gate__card .hs-medallion{margin:0 auto 14px}.hs-gate__card h2{margin:0 0 8px}.hs-gate__card .hs-persona__lede{margin:0 auto 18px}
-.hs-gate__row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px}
-.hs-gate__row input{border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);min-height:var(--nv-tap);padding:0 18px;color:var(--hs-ink);font:inherit;width:100%}
-.hs-gate__row input::placeholder{color:var(--hs-muted)}.hs-gate__row input:focus{background:#fff;box-shadow:var(--focus);outline:0}
-.hs-gate__go{border:0;background:var(--hs-action-gradient);color:#fff;font-weight:700;font-family:inherit;font-size:15px;min-height:var(--nv-tap);padding:0 28px;border-radius:999px;box-shadow:var(--sh1);cursor:pointer;margin-top:4px}.hs-gate__go:hover{box-shadow:var(--sh2)}
-.hs-gate__err{color:var(--hs-navy);font-weight:700;font-size:13px;margin:0 0 10px}.hs-gate__optin{color:var(--hs-muted);font-size:12.5px;margin:12px 0 0;line-height:1.5}
-.hs-gate__alt{color:var(--hs-slate);font-size:13px;margin:16px 0 0}.hs-gate__alt a{color:var(--hs-link);font-weight:700}
-@media(max-width:640px){.hs-gate__row{grid-template-columns:1fr}}

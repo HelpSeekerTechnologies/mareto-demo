@@ -95,6 +95,7 @@ function buildEmail(contact) {
   const calcTerm = p.mareto_calc_term || '';
   const fit = getFitLabel(score);
   const greeting = name ? `Hi ${name},` : 'Hi there,';
+  const pricing = getPricing(calcUsers, calcTerm, users, p.mareto_programs || '1-2', p.mareto_price_estimate || '');
 
   return `<!DOCTYPE html>
 <html>
@@ -147,7 +148,39 @@ function buildEmail(contact) {
   </table>
 </td></tr>
 
-<!-- Pricing: held back until the final pricing card lands (2 Oct 2026 standup) -->
+<!-- Pricing Breakdown -->
+<tr><td style="padding:0 40px 24px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0B1F33;border-radius:10px;">
+  <tr>
+    <td width="33%" style="padding:20px 16px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:700;color:#7EDDD5;">$${pricing.perUser.toFixed(2)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;">Per user a month</p>
+      <p style="margin:2px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.5px;">${pricing.tierName} package</p>
+    </td>
+    <td width="34%" style="padding:20px 16px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:700;color:#7EDDD5;">${fmtCAD(pricing.monthly)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;">Licence a month</p>
+      <p style="margin:2px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.5px;">${pricing.userCount} users billed</p>
+    </td>
+    <td width="33%" style="padding:20px 16px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:700;color:#7EDDD5;">${fmtCAD(pricing.annual)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;">Licence, year one</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" style="padding:4px 16px 20px;text-align:center;">
+      <p style="margin:0;font-size:22px;font-weight:700;color:#7EDDD5;">${fmtCAD(pricing.setup)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;">Setup</p>
+    </td>
+    <td colspan="2" style="padding:4px 16px 20px;text-align:center;">
+      <p style="margin:0;font-size:28px;font-weight:700;color:#7EDDD5;">${fmtCAD(pricing.firstYear)}</p>
+      <p style="margin:6px 0 0;font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1px;">Year one, all in</p>
+    </td>
+  </tr>
+  </table>${pricing.discountLabel ? `
+  <p style="margin:8px 0 0;font-size:12px;color:#0B7770;font-weight:700;">Based on ${pricing.termLabel}.</p>` : ''}
+  <p style="margin:${pricing.discountLabel ? '4' : '8'}px 0 0;font-size:12px;color:#4A5568;font-style:italic;">An estimate on our published card. The setup band is confirmed with you on the scoping call; your quote will reflect your specific configuration and needs.</p>
+</td></tr>
 
 <!-- CTA -->
 <tr><td style="padding:8px 40px 32px;text-align:center;">

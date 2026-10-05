@@ -3,22 +3,13 @@
 Three public pages on GitHub Pages, in the order a visitor meets them:
 
 1. **Product tour** `mareto-general-product-tour.html`: seven screens of the demo board with numbered pins, a
-   proof line per step, and a closing slide with one pill, "Find your fit". No meeting link.
-2. **Fit finder** `mareto-fit-finder.html`: fourteen questions (the six added on 2 Oct 2026 let the team read a
-   prospect before a meeting: what holds the records, how many records and where, funder reports, province,
-   total staff, public forms). The result is the size of build, what it looks like and how Mareto answers the
-   problems named. No price. The only call to action is the unlock card, "Get your interactive demo": name,
-   work email (personal mailboxes are refused), organization, title, and the marketing opt-in line. Submitting
-   posts the sixteen known HubSpot fields (the price fields empty), sends the full answer set to the engine's
-   quiz-capture route on demo.mareto, writes the unlock to the browser and shows the demo link, plus the sandbox
-   offer for qualifiers. `scripts/send-results-email.mjs` (run by the workflow in `.github/`) emails the fit and
-   build shape, without a pricing card.
-3. **Interactive demo** `mareto-interactive-demo.html`: the click-through board. Without the unlock it opens on
-   the same "Get your interactive demo" card; with it, on the persona screener. The top banner keeps the one
-   "Book a meeting" link of the whole journey. The tour's screenshots are taken from it.
-
-The order and the gate come from the Sales and Marketing standup of 2 Oct 2026: tour first, then the fit
-finder, no meeting button before the demo, the demo only after work details, one generalized board.
+   proof line per step, and a closing slide that sends people to the fit finder or to a meeting.
+2. **Fit finder** `mareto-fit-finder.html`: eight questions; the result is the size of build, what it looks like,
+   the year-one estimate on the published pricing card, how Mareto answers the problems named, then an email
+   capture. The capture posts to HubSpot; `scripts/send-results-email.mjs` (run by the workflow in `.github/`)
+   emails the same results with the same maths.
+3. **Interactive demo** `mareto-interactive-demo.html`: the click-through board. The tour's screenshots are
+   taken from it.
 
 `mareto-demo-cfs.html` and `mareto-demo-housing.html` are sector variants of the board and have not been put on
 the canon yet.
@@ -61,10 +52,9 @@ python tools/canonize.py mareto-general-product-tour.html
   "a youth shelter") and come from the migration explainers and the capability catalogue.
 - No competitor product names. "Your current system", "spreadsheets and forms".
 - No claim that is not live for a client today.
-- No price anywhere on the pages or in the results email until the final pricing card lands (2 Oct 2026
-  standup: the card on the board and the pricing page disagreed). When it lands, the estimate and the email's
-  pricing card come back on that card only. The build band (Essentials, Standard, Complex) still shows.
+- Pricing only from the current pricing briefing (`Products/Mareto/Pricing`, 29 Sep 2026): Essentials $5,000
+  setup plus $400 a month for up to 10 users; Standard and Complex setup by the scorecard; graduated licence
+  $40, $34, $32, $30, $27; annual prepay 5 percent as the only reduction. No multi-year discounts.
 - The HubSpot form carries only the sixteen fields it carries now; a new field needs the property created in
   HubSpot first, or the submission is rejected and the lead is lost.
-- The meeting link lives only in the demo board's top banner, after the unlock. The six new quiz answers
-  are not posted to HubSpot until the form has the properties; they go to the engine's quiz-capture route.
+- Book a meeting goes to Travis's HubSpot link everywhere.
