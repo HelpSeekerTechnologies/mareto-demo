@@ -93,3 +93,5 @@
 .hs-offer>div{position:relative;z-index:1}.hs-offer h3{color:#fff;font-size:20px;margin:0 0 6px}.hs-offer p{color:rgba(255,255,255,.9);font-size:14px;line-height:1.5;margin:0 0 14px;max-width:640px}
 .hs-offer .book-btn{display:inline-block;background:#fff;color:var(--hs-navy);box-shadow:var(--sh2);padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;margin:0}
 @media(max-width:640px){.hs-offer{flex-direction:column;text-align:center}}
+.contact-capture .book-btn:not(.hs-offer .book-btn){display:inline-flex;align-items:center;justify-content:center;background:var(--hs-action-gradient);color:#fff;border-radius:var(--hs-radius-control);box-shadow:var(--sh1);font-weight:700;font-size:15px;min-height:var(--nv-tap);padding:0 28px;text-decoration:none}
+.contact-capture .book-btn:not(.hs-offer .book-btn):hover{box-shadow:var(--sh2)}

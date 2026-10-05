@@ -562,3 +562,5 @@ ul.hs-mini li i{grid-row:1/3}ul.hs-mini li b{color:var(--hs-navy)}ul.hs-mini li 
 .hs-gate__err{color:var(--hs-navy);font-weight:700;font-size:13px;margin:0 0 10px}.hs-gate__optin{color:var(--hs-muted);font-size:12.5px;margin:12px 0 0;line-height:1.5}
 .hs-gate__alt{color:var(--hs-slate);font-size:13px;margin:16px 0 0}.hs-gate__alt a{color:var(--hs-link);font-weight:700}
 @media(max-width:640px){.hs-gate__row{grid-template-columns:1fr}}
+.contact-capture .book-btn:not(.hs-offer .book-btn){display:inline-flex;align-items:center;justify-content:center;background:var(--hs-action-gradient);color:#fff;border-radius:var(--hs-radius-control);box-shadow:var(--sh1);font-weight:700;font-size:15px;min-height:var(--nv-tap);padding:0 28px;text-decoration:none}
+.contact-capture .book-btn:not(.hs-offer .book-btn):hover{box-shadow:var(--sh2)}

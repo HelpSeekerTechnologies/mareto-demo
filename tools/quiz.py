@@ -78,7 +78,7 @@ const questions = [
   { id: 'source_system', title: 'What holds your client records today?', subtitle: 'Choose all that apply. This tells us what a move would involve.', type: 'multi', layout: 'list', options: [
       { value: 'spreadsheets', label: 'Spreadsheets', desc: 'Excel or Google Sheets, one per program or one big one' },
       { value: 'product', label: 'A case-management product', desc: 'A system you licence today' },
-      { value: 'funder_portal', label: 'A funder's portal', desc: 'You enter clients directly into a funder or government system' },
+      { value: 'funder_portal', label: 'A funder portal', desc: 'You enter clients directly into a funder or government system' },
       { value: 'paper', label: 'Paper files', desc: 'Intake forms and notes in binders' },
       { value: 'nothing', label: 'Nothing yet', desc: 'A new program, or no records kept so far' } ] },
   { id: 'records', title: 'How many client records would come across?', subtitle: 'People, families or cases you would want in Mareto on day one. A rough count is fine.', type: 'single', layout: 'grid', extra: { id: 'records_where', label: 'Where are they now, in a few words?', placeholder: 'For example: two spreadsheets and an old database' }, options: [
@@ -125,7 +125,7 @@ function buildQuestions() {
     div.innerHTML = '<div class="q-header"><div class="q-step">Question ' + (i + 1) + ' of ' + questions.length + '</div><div class="q-title">' + q.title + '</div>' +
       (q.subtitle ? '<div class="q-subtitle">' + q.subtitle + '</div>' : '') + '</div>' +
       '<div class="options' + gridClass + '">' + optionsHtml + '</div>' +
-      (q.extra ? '<div class="q-extra"><label for="x_' + q.extra.id + '">' + q.extra.label + '</label><input type="text" id="x_' + q.extra.id + '" placeholder="' + q.extra.placeholder + '" maxlength="160" oninput="answers['' + q.extra.id + '']=this.value"></div>' : '') +
+      (q.extra ? '<div class="q-extra"><label for="x_' + q.extra.id + '">' + q.extra.label + '</label><input type="text" id="x_' + q.extra.id + '" placeholder="' + q.extra.placeholder + '" maxlength="160" data-key="' + q.extra.id + '" oninput="answers[this.dataset.key]=this.value"></div>' : '') +
       '<div class="q-nav">' + backBtn + '<button class="next-btn" id="next_' + i + '" onclick="nextQuestion(' + i + ')">' + nextLabel +
       ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>';
     container.appendChild(div);
