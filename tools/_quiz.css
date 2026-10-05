@@ -81,3 +81,8 @@
 .hs-est__big{font-size:38px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
 .hs-est__note{font-size:13px;color:rgba(255,255,255,.9);max-width:380px}
 @media(max-width:600px){.hs-est{grid-template-columns:1fr}}
+
+.hs-offer{display:flex;gap:20px;align-items:center;background:var(--hs-navy) var(--hs-hero-image) center/cover no-repeat;color:#fff;border-radius:var(--hs-radius-card);box-shadow:var(--sh4);padding:24px 26px;margin:26px 0 8px;position:relative;overflow:hidden}
+.hs-offer>div{position:relative;z-index:1}.hs-offer h3{color:#fff;font-size:20px;margin:0 0 6px}.hs-offer p{color:rgba(255,255,255,.9);font-size:14px;line-height:1.5;margin:0 0 14px;max-width:640px}
+.hs-offer .book-btn{display:inline-block;background:#fff;color:var(--hs-navy);box-shadow:var(--sh2);padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700}.hs-offer .tour-link{text-decoration:none;font-weight:700}.hs-offer .tour-link{color:#fff;margin-left:12px}
+@media(max-width:640px){.hs-offer{flex-direction:column}}
