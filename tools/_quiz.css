@@ -81,3 +81,15 @@
 .hs-est__big{font-size:38px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
 .hs-est__note{font-size:13px;color:rgba(255,255,255,.9);max-width:380px}
 @media(max-width:600px){.hs-est{grid-template-columns:1fr}}
+
+/* 2 Oct standup: free-text line under a question, the unlock card, the sandbox offer */
+.q-extra{margin:14px 0 4px}.q-extra label{display:block;font-size:13px;font-weight:700;color:var(--hs-navy);margin:0 0 8px}
+.q-extra input{width:100%;border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);min-height:var(--nv-tap);padding:0 18px;color:var(--hs-ink);font:inherit}
+.q-extra input:focus{background:#fff;box-shadow:var(--focus);outline:0}
+.contact-capture{text-align:center;padding:30px 28px 26px}.contact-capture .hs-medallion{margin:0 auto 14px}
+.contact-capture .cc-err{color:var(--hs-navy);font-weight:700;font-size:13px;margin:0 0 10px}.contact-capture .cc-optin{color:var(--hs-muted);font-size:12.5px;margin:12px 0 0;line-height:1.5}
+.contact-capture .book-btn{display:inline-block;margin-top:8px}
+.hs-offer{display:flex;gap:20px;align-items:center;text-align:left;background:var(--hs-navy) var(--hs-hero-image) center/cover no-repeat;color:#fff;border-radius:var(--hs-radius-card);box-shadow:var(--sh4);padding:24px 26px;margin:26px 0 8px;position:relative;overflow:hidden}
+.hs-offer>div{position:relative;z-index:1}.hs-offer h3{color:#fff;font-size:20px;margin:0 0 6px}.hs-offer p{color:rgba(255,255,255,.9);font-size:14px;line-height:1.5;margin:0 0 14px;max-width:640px}
+.hs-offer .book-btn{display:inline-block;background:#fff;color:var(--hs-navy);box-shadow:var(--sh2);padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;margin:0}
+@media(max-width:640px){.hs-offer{flex-direction:column;text-align:center}}

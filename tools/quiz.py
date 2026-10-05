@@ -5,11 +5,12 @@
 
 Keeps: the seven questions and every HubSpot field name and option value Kim mapped; the form id; the tracking
 script; the results email flow (scripts/send-results-email.mjs recomputes the same estimate with the same maths).
-Changes: an eighth question on year-one budget (steers the result; NOT posted, the HubSpot property does not
-exist); results rebuilt as sizing band, build shape, the transformation paragraph, the estimate on the graduated
-card (Essentials $5,000 + $400 a month for up to 10 users; Standard S/M and Complex L/XL by a scorecard estimate;
-annual prepay 5 percent as the only reduction), highlight cards pruned to what ships, then the email capture and
-the CTA. The 10/15 percent multi-year discounts are gone (not on the card).
+Changes (2 Oct 2026 standup, applied 5 Oct): fourteen questions; the six added (what holds the records, how many
+records and where, funder reports, province, total staff, public forms) are NOT posted to HubSpot until the form has the
+properties; they go to the engine's quiz-capture route. No price is shown until the final pricing card lands; the build
+band still comes from the scorecard. No meeting link anywhere on the page: the only CTA is the unlock card, "Get your
+interactive demo", which needs a work email, carries the marketing opt-in line, posts the known HubSpot fields, writes
+the unlock to localStorage and shows the demo link (and the sandbox offer for qualifiers).
 """
 from __future__ import annotations
 
@@ -18,16 +19,15 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGE = ROOT / "mareto-fit-finder.html"
-BOOK = "https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma"
 TOUR = "./mareto-general-product-tour.html"
 DEMO = "./mareto-interactive-demo.html"
 
 LANDING = '''  <div class="landing" id="landing">
     <div class="hs-hero"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-      <div class="hs-hero__inner"><p class="hs-hero__eyebrow">Fit finder</p><h1>Is Mareto right for you?</h1><p>Eight quick questions. You get the size of build your organization needs, what it would cost in year one, and how Mareto meets the problems you named, in a summary you can send to your team.</p></div></div>
+      <div class="hs-hero__inner"><p class="hs-hero__eyebrow">Fit finder</p><h1>Is Mareto right for you?</h1><p>Fourteen quick questions. You get the size of build your organization needs and how Mareto meets the problems you named, then your interactive demo opens, with a summary you can send to your team.</p></div></div>
     <img src="{logo}" alt="Mareto by HelpSeeker Technologies" style="height:40px;margin:8px 0 22px">
     <button class="start-btn" onclick="startQuiz()">Find out <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-    <p class="note">About 90 seconds. No account needed.</p>
+    <p class="note">About three minutes. No account needed.</p>
   </div>
 '''
 
@@ -35,7 +35,8 @@ SCRIPT = r'''
 // Mareto fit finder. Questions and HubSpot mapping as Kim built them (29 Sep 2026); results and pricing on the
 // 29 Sep pricing briefing; copy per Alina's rulings of 30 Sep 2026. Nothing about the visitor is stored until
 // they choose to send themselves the results.
-const BOOK = 'https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma';
+const CAPTURE = 'https://demo.mareto.helpseeker.org/api/gateway/quiz-capture';
+const PUBLIC_MAIL = /@(gmail|yahoo|hotmail|outlook|live|icloud|me|aol|proton|protonmail)\./i;
 const TOUR = './mareto-general-product-tour.html';
 const DEMO = './mareto-interactive-demo.html';
 
@@ -74,6 +75,26 @@ const questions = [
       { value: 'curious', label: 'I am curious what is out there', desc: '' } ] },
   { id: 'budget', title: 'What could you put toward this in year one?', subtitle: 'Setup and the first year of licence together. A rough figure is fine; it shapes what we show you next.', type: 'single', layout: 'list', options: [
       { value: 'under5k', label: 'Under $5,000' }, { value: '5-15k', label: '$5,000 to $15,000' }, { value: '15-40k', label: '$15,000 to $40,000' }, { value: '40k+', label: 'More than $40,000' }, { value: 'unknown', label: 'Not set yet' } ] },
+  { id: 'source_system', title: 'What holds your client records today?', subtitle: 'Choose all that apply. This tells us what a move would involve.', type: 'multi', layout: 'list', options: [
+      { value: 'spreadsheets', label: 'Spreadsheets', desc: 'Excel or Google Sheets, one per program or one big one' },
+      { value: 'product', label: 'A case-management product', desc: 'A system you licence today' },
+      { value: 'funder_portal', label: 'A funder's portal', desc: 'You enter clients directly into a funder or government system' },
+      { value: 'paper', label: 'Paper files', desc: 'Intake forms and notes in binders' },
+      { value: 'nothing', label: 'Nothing yet', desc: 'A new program, or no records kept so far' } ] },
+  { id: 'records', title: 'How many client records would come across?', subtitle: 'People, families or cases you would want in Mareto on day one. A rough count is fine.', type: 'single', layout: 'grid', extra: { id: 'records_where', label: 'Where are they now, in a few words?', placeholder: 'For example: two spreadsheets and an old database' }, options: [
+      { value: 'under500', label: 'Under 500' }, { value: '500-2000', label: '500 to 2,000' }, { value: '2000-10000', label: '2,000 to 10,000' }, { value: '10000+', label: 'More than 10,000' } ] },
+  { id: 'funder_reports', title: 'What do your funders ask you to report?', type: 'single', layout: 'list', options: [
+      { value: 'none', label: 'No formal reports', desc: 'Narrative updates, or nothing fixed' },
+      { value: 'one', label: 'One fixed format', desc: 'One funder, one template, once or twice a year' },
+      { value: 'several', label: 'Several formats', desc: 'Different funders want different numbers' },
+      { value: 'frequent', label: 'Monthly and quarterly cycles', desc: 'Reports due all year, each in its own shape' } ] },
+  { id: 'province', title: 'Where are you based?', type: 'single', layout: 'grid', options: [
+      { value: 'AB', label: 'Alberta' }, { value: 'BC', label: 'British Columbia' }, { value: 'SK', label: 'Saskatchewan' }, { value: 'MB', label: 'Manitoba' }, { value: 'ON', label: 'Ontario' }, { value: 'QC', label: 'Quebec' },
+      { value: 'atlantic', label: 'Atlantic Canada' }, { value: 'north', label: 'Yukon, NWT or Nunavut' }, { value: 'outside', label: 'Outside Canada' } ] },
+  { id: 'staff', title: 'How many staff does your organization have in total?', subtitle: 'Everyone on payroll, whether or not they would sign in.', type: 'single', layout: 'grid', options: [
+      { value: '1-5', label: '1 to 5' }, { value: '6-15', label: '6 to 15' }, { value: '16-30', label: '16 to 30' }, { value: '31-50', label: '31 to 50' }, { value: '50+', label: 'More than 50' } ] },
+  { id: 'public_forms', title: 'Do people apply or refer themselves through a public form?', subtitle: 'A form on your website, a referral form partners fill in, a waitlist sign-up.', type: 'single', layout: 'list', options: [
+      { value: 'none', label: 'No public forms' }, { value: 'one', label: 'One form' }, { value: 'several', label: 'Several forms' } ] },
 ];
 
 let answers = {};
@@ -104,6 +125,7 @@ function buildQuestions() {
     div.innerHTML = '<div class="q-header"><div class="q-step">Question ' + (i + 1) + ' of ' + questions.length + '</div><div class="q-title">' + q.title + '</div>' +
       (q.subtitle ? '<div class="q-subtitle">' + q.subtitle + '</div>' : '') + '</div>' +
       '<div class="options' + gridClass + '">' + optionsHtml + '</div>' +
+      (q.extra ? '<div class="q-extra"><label for="x_' + q.extra.id + '">' + q.extra.label + '</label><input type="text" id="x_' + q.extra.id + '" placeholder="' + q.extra.placeholder + '" maxlength="160" oninput="answers['' + q.extra.id + '']=this.value"></div>' : '') +
       '<div class="q-nav">' + backBtn + '<button class="next-btn" id="next_' + i + '" onclick="nextQuestion(' + i + ')">' + nextLabel +
       ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>';
     container.appendChild(div);
@@ -149,17 +171,7 @@ function nextQuestion(index) {
   if (index < questions.length - 1) showQuestion(index + 1); else showResults();
 }
 
-// ---------- sizing and price, the 29 Sep 2026 card ----------
-// Licence: graduated brackets like tax brackets, 10 users minimum billed.
-function licenceMonthly(users) {
-  const n = Math.max(10, users);
-  const brackets = [[10, 40], [25, 34], [50, 32], [100, 30], [Infinity, 27]];
-  let total = 0, prev = 0;
-  for (const [upto, rate] of brackets) { const inBand = Math.max(0, Math.min(n, upto) - prev); total += inBand * rate; prev = upto; if (n <= upto) break; }
-  return total;
-}
-function marginalRate(users) { const n = Math.max(10, users); return n <= 10 ? 40 : n <= 25 ? 34 : n <= 50 ? 32 : n <= 100 ? 30 : 27; }
-
+// ---------- sizing: the build shape from the answers; prices are not shown until the final card lands ----------
 // Setup: Essentials for one or two programs from the standard template with spreadsheet data; otherwise a
 // scorecard estimate from the answers, confirmed with the buyer on the scoping call.
 function sizing(a) {
@@ -174,16 +186,16 @@ function sizing(a) {
   if ((a.role || '') !== 'decision_maker') pts += 2;                            // more people approve and test
   if ((a.timeline || '') === 'immediate') pts += 3;                             // a hard go-live date
   const essentials = programs === '1-2' && !(ch.includes('bad_fit') || ch.includes('privacy'));
-  let band, setup, name, who;
-  if (essentials) { band = 'Essentials'; setup = 5000; name = 'Essentials'; who = 'one or two programs from the standard template, simple forms, your data from spreadsheets'; }
-  else if (pts <= 9) { band = 'Standard S'; setup = 9000; name = 'Standard'; who = 'a multi-program build with a few automations and one public form'; }
-  else if (pts <= 17) { band = 'Standard M'; setup = 18000; name = 'Standard'; who = 'several programs, more roles, records migrated from your current system'; }
-  else if (pts <= 27) { band = 'Complex L'; setup = 31000; name = 'Complex'; who = 'many service streams, heavy automation, a large migration, governance sign-off'; }
-  else { band = 'Complex XL'; setup = 47000; name = 'Complex'; who = 'a large multi-pillar organization with a governance body approving the build'; }
+  let band, name, who;
+  if (essentials) { band = 'Essentials'; name = 'Essentials'; who = 'one or two programs from the standard template, simple forms, your data from spreadsheets'; }
+  else if (pts <= 9) { band = 'Standard S'; name = 'Standard'; who = 'a multi-program build with a few automations and one public form'; }
+  else if (pts <= 17) { band = 'Standard M'; name = 'Standard'; who = 'several programs, more roles, records migrated from your current system'; }
+  else if (pts <= 27) { band = 'Complex L'; name = 'Complex'; who = 'many service streams, heavy automation, a large migration, governance sign-off'; }
+  else { band = 'Complex XL'; name = 'Complex'; who = 'a large multi-pillar organization with a governance body approving the build'; }
   const weeks = essentials ? 'about 2 to 4 weeks' : pts <= 9 ? '4 to 6 weeks' : pts <= 17 ? 'about 8 weeks' : 'about 3 months';
   const modules = essentials ? 'about 25 modules' : pts <= 9 ? '60 to 120 modules' : pts <= 17 ? '120 to 200 modules' : 'around 300 modules';
   const phased = programs === '10+' || programs === '6-10';
-  return { pts, band, setup, name, who, weeks, modules, phased, essentials };
+  return { pts, band, name, who, weeks, modules, phased, essentials };
 }
 
 const HIGHLIGHT = {
@@ -209,7 +221,6 @@ const ICONS = {
   database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
 };
 const icon = n => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">' + ICONS[n] + '</svg>';
-const fmt = n => '$' + Math.round(n).toLocaleString('en-CA');
 
 function fitPoints() {
   const a = answers; let p = 0;
@@ -233,8 +244,8 @@ function showResults() {
   const lowBudget = budget === 'under5k';
 
   let fitLabel, fitDesc;
-  if (lowBudget) { fitLabel = 'Not this year, on the budget you named'; fitDesc = 'Mareto starts at about ' + fmt(5000 + 12 * 400) + ' in year one for the smallest build, so under $5,000 does not get you a system that will hold up. The estimate below is what it would take. If a funder or a partner could carry part of it, book a call and we will talk it through honestly.'; }
-  else if (strong) { fitLabel = 'A strong fit'; fitDesc = 'The problems you named are the ones Mareto was built for. Here is the size of build you would need, what it costs, and how each problem is answered.'; }
+  if (lowBudget) { fitLabel = 'A fit, once the budget is sorted'; fitDesc = 'Under $5,000 in year one is tight for a system that will hold up, and phasing and funding routes exist. Here is the size of build you would be working toward, and how Mareto answers the problems you named. If a funder or a partner could carry part of it, we talk it through honestly once you are in the demo.'; }
+  else if (strong) { fitLabel = 'A strong fit'; fitDesc = 'The problems you named are the ones Mareto was built for. Here is the size of build you would need and how each problem is answered.'; }
   else if (good) { fitLabel = 'A good fit'; fitDesc = 'Mareto answers several of the problems you named. Here is what a build would look like for you.'; }
   else { fitLabel = 'Worth a look'; fitDesc = 'Mareto may fit, depending on what you need. Here is what we would suggest exploring.'; }
 
@@ -242,10 +253,10 @@ function showResults() {
   if (a.org_type === 'indigenous') cards.push('<div class="match-card"><div class="match-icon">' + icon('map') + '</div><div><h4>Your community owns its data</h4><p>OCAP® principles apply: community-controlled access, Canada-only hosting, and full data portability. An Indigenous-governed organization gets a published rate off the licence.</p></div></div>');
   if (['3-5', '6-10', '10+'].includes(a.programs)) cards.push('<div class="match-card"><div class="match-icon">' + icon('layers') + '</div><div><h4>Many programs, one registry</h4><p>Each program gets its own forms, workflows and reporting on one shared person registry. The largest live build runs 19 programs this way.</p></div></div>');
 
-  let ctaMessage, ctaPrimary, ctaHref, ctaSecondary, ctaSecondaryHref;
-  if (lowBudget) { ctaMessage = 'A conversation costs nothing, and phasing and funding routes exist.'; ctaPrimary = 'Book a meeting'; ctaHref = BOOK; ctaSecondary = 'Or explore the interactive demo'; ctaSecondaryHref = DEMO; }
-  else if (['immediate', '3months'].includes(a.timeline) && ['decision_maker', 'evaluator'].includes(a.role)) { ctaMessage = 'On your timeline, a 20-minute meeting is the fastest way to see Mareto configured for your programs and to firm up the estimate.'; ctaPrimary = 'Book a meeting'; ctaHref = BOOK; ctaSecondary = 'Or explore the interactive demo first'; ctaSecondaryHref = DEMO; }
-  else { ctaMessage = 'No rush. Explore the interactive demo, and book a meeting when you want the estimate firmed up.'; ctaPrimary = 'Explore the interactive demo'; ctaHref = DEMO; ctaSecondary = 'Or book a meeting'; ctaSecondaryHref = BOOK; }
+  // the answer-based half of the sandbox gate; CRA, Navigi and HubSpot signals apply in the queue after the request lands
+  const gatePts = ({ decision_maker: 3, evaluator: 2 }[a.role] || 0) + ({ immediate: 3, '3months': 3, '6months': 2 }[a.timeline] || 0) + ({ '15-40k': 3, '40k+': 3, '5-15k': 2, unknown: 1 }[budget] || 0) + (['3-5', '6-10', '10+'].includes(a.programs) ? 2 : 0);
+  const sandboxOffer = gatePts >= 6 && !lowBudget;
+  try { localStorage.setItem('mareto-fit-finder', JSON.stringify({ answers: a, gatePts, at: new Date().toISOString() })); } catch (e) {}
 
   // who they told us they are, in one sentence, and what that tells us
   const orgWords = { nonprofit: 'a nonprofit', indigenous: 'an Indigenous organization', municipal: 'a municipal team', other_gov: 'a public body', other: 'an organization' }[a.org_type] || 'an organization';
@@ -275,54 +286,23 @@ function showResults() {
 
     (cards.length ? '<div class="match-section"><h3>How Mareto answers what you named</h3>' + cards.join('') + '</div>' : '') +
 
-    '<div class="calc-section" id="calcSection"><h3>Your year-one estimate</h3>' +
-    '<p class="calc-subtitle">On our published card. Setup is ' + (s.essentials ? 'the fixed Essentials package' : 'a scorecard band we confirm with you on the scoping call') + '; the licence is per user, billed monthly, with a 10-user minimum.</p>' +
-    '<div class="calc-row"><label for="calcUsers">People who sign in</label><div class="slider-wrap"><input type="range" id="calcUsers" min="1" max="150" value="' + defaultUsers + '" oninput="updateCalc()" aria-valuemin="1" aria-valuemax="150"><span class="slider-val" id="calcUsersVal">' + defaultUsers + '</span></div></div>' +
-    '<div class="calc-row"><label for="calcTerm">Licence billing</label><select id="calcTerm" onchange="updateCalc()"><option value="1">Monthly</option><option value="2">Annual prepay (5% off the licence)</option></select></div>' +
-    '<div class="calc-result" id="calcResult"></div>' +
-    '<p class="calc-note">Setup is paid in stages: ' + (s.essentials ? 'half on signing and half at go-live, or spread over the first twelve monthly invoices' : 'a quarter on signing, half when you sign off the specification, a quarter at go-live') + '. Hosting in Canada, backups, updates, the help desk, train-the-trainer and data export are included. Prices in CAD before tax; renewal increases capped at 4 percent a year, in writing.</p>' +
-    '</div>' +
-
-    '<div class="results-cta"><p>' + ctaMessage + '</p><a class="book-btn" href="' + ctaHref + '"' + (ctaHref === BOOK ? ' target="_blank" rel="noopener"' : '') + '>' + ctaPrimary + '</a><br><a class="tour-link" href="' + ctaSecondaryHref + '">' + ctaSecondary + ' &rarr;</a>' +
-    '<div class="contact-capture"><h4>Want a copy of these results?</h4><p class="cc-subtitle">We will send your fit, your build size, the estimate and the links to the tour and the demo, so you can share them with your team.</p>' +
-    '<div class="field-row"><input type="text" id="cc_name" placeholder="Your name" autocomplete="name"><input type="email" id="cc_email" placeholder="Email address" autocomplete="email"></div>' +
+    '<div class="contact-capture" id="capture"><span class="hs-medallion hs-medallion--lg">' + icon('check') + '</span><h4>Get your interactive demo</h4><p class="cc-subtitle">Leave your work details and the demo opens right here: real screens for intake, cases, the event log and reporting' + (sandboxOffer ? ', and the offer of a sandbox built to your answers' : '') + '. We also send this summary so you can share it with your team.</p>' +
+    '<div class="field-row"><input type="text" id="cc_name" placeholder="Your name" autocomplete="name"><input type="email" id="cc_email" placeholder="Work email" autocomplete="email"></div>' +
     '<div class="field-row"><input type="text" id="cc_org" placeholder="Organization" autocomplete="organization"><input type="text" id="cc_title" placeholder="Job title (optional)" autocomplete="organization-title"></div>' +
-    '<button class="submit-btn" onclick="submitContact()">Send me my results</button><br><button class="skip" onclick="this.closest(\'.contact-capture\').style.display=\'none\'">Skip, I do not need a copy</button></div></div>';
+    '<p class="cc-err" id="cc_err" hidden>Enter your work email address. Personal mailboxes do not open the demo.</p>' +
+    '<button class="submit-btn" onclick="submitContact(' + (sandboxOffer ? 'true' : 'false') + ')">Open my demo</button>' +
+    '<p class="cc-optin">By sending this you agree to hear from HelpSeeker about Mareto. Unsubscribe any time.</p></div>';
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(updateCalc, 50);
 }
 
-function estimate(users, term) {
-  const s = sizing(answers);
-  const monthly = licenceMonthly(users);
-  const annualLicence = monthly * 12 * (term === 2 ? 0.95 : 1);
-  return { s, monthly, annualLicence, firstYear: s.setup + annualLicence, rate: marginalRate(users), billed: Math.max(10, users), signing: s.essentials ? 2500 : Math.round(s.setup * 0.25) };
-}
-
-function updateCalc() {
-  const usersEl = document.getElementById('calcUsers'); if (!usersEl) return;
-  const users = parseInt(usersEl.value, 10), term = parseInt(document.getElementById('calcTerm').value, 10);
-  document.getElementById('calcUsersVal').textContent = users;
-  const e = estimate(users, term);
-  document.getElementById('calcResult').innerHTML =
-    '<div class="hs-est"><div class="hs-est__group"><div class="hs-est__h">One time</div>' +
-      '<div class="result-item"><div class="result-label">Setup, ' + e.s.band + '</div><div class="result-num">' + fmt(e.s.setup) + '</div></div>' +
-      '<div class="result-item"><div class="result-label">Due on signing</div><div class="result-num">' + fmt(e.signing) + '</div></div></div>' +
-    '<div class="hs-est__group"><div class="hs-est__h">Every month</div>' +
-      '<div class="result-item"><div class="result-label">Licence, ' + e.billed + ' users' + (users < 10 ? ' (10 minimum)' : '') + '</div><div class="result-num">' + fmt(e.monthly) + '<small>/month</small></div></div>' +
-      '<div class="result-item"><div class="result-label">Per user at your size</div><div class="result-num">$' + e.rate + '<small>/month</small></div></div></div></div>' +
-    '<div class="hs-est__total"><div><div class="hs-est__eyebrow">Year one, all in</div><div class="hs-est__big">' + fmt(e.firstYear) + '</div></div><div class="hs-est__note">Setup ' + fmt(e.s.setup) + ' plus licence ' + fmt(e.annualLicence) + (term === 2 ? ' prepaid, 5% off' : ' billed monthly') + '. From year two, the licence only.</div></div>';
-}
-
-function submitContact() {
-  const name = document.getElementById('cc_name').value, email = document.getElementById('cc_email').value;
-  const org = document.getElementById('cc_org').value, title = document.getElementById('cc_title').value;
-  if (!email) { document.getElementById('cc_email').style.boxShadow = 'inset 0 0 0 2px #1E3A5F'; document.getElementById('cc_email').focus(); return; }
+function submitContact(offer) {
+  const name = document.getElementById('cc_name').value.trim(), email = document.getElementById('cc_email').value.trim();
+  const org = document.getElementById('cc_org').value.trim(), title = document.getElementById('cc_title').value.trim();
+  const err = document.getElementById('cc_err'), emailEl = document.getElementById('cc_email');
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || PUBLIC_MAIL.test(email)) { err.hidden = false; emailEl.style.boxShadow = 'inset 0 0 0 2px #1E3A5F'; emailEl.focus(); return; }
+  err.hidden = true; emailEl.style.boxShadow = '';
   const a = answers;
-  const calcUsersEl = document.getElementById('calcUsers'), calcTermEl = document.getElementById('calcTerm');
-  const calcUsers = calcUsersEl ? parseInt(calcUsersEl.value, 10) : 10, calcTerm = calcTermEl ? parseInt(calcTermEl.value, 10) : 1;
-  const e = estimate(calcUsers, calcTerm);
   // HubSpot option values exactly as Kim mapped them
   var orgTypeMap = { nonprofit: 'Non-Profit / Charity', indigenous: 'Indigenous Organization', municipal: 'Government / Municipal', other_gov: 'Health Authority', other: 'Other' };
   var servicesMap = { cfs: 'Child & Family Services', indigenous_svc: 'Indigenous Services', mental_health: 'Mental Health & Addictions', housing: 'Housing & Homelessness', dv: 'Domestic Violence', employment: 'Other', food: 'Other', seniors_disability: 'Senior Services', youth: 'Other', other_svc: 'Other' };
@@ -347,27 +327,20 @@ function submitContact() {
       { objectTypeId: '0-1', name: 'mareto_timeline', value: timelineMap[a.timeline] || 'Just exploring' },
       { objectTypeId: '0-1', name: 'mareto_role', value: roleMap[a.role] || 'Other' },
       { objectTypeId: '0-1', name: 'mareto_fit_score', value: String(fitPoints()) },
-      { objectTypeId: '0-1', name: 'mareto_price_estimate', value: String(Math.round(e.firstYear)) },
-      { objectTypeId: '0-1', name: 'mareto_calc_users', value: String(calcUsers) },
-      { objectTypeId: '0-1', name: 'mareto_calc_term', value: String(calcTerm) }
+      { objectTypeId: '0-1', name: 'mareto_price_estimate', value: '' },
+      { objectTypeId: '0-1', name: 'mareto_calc_users', value: '' },
+      { objectTypeId: '0-1', name: 'mareto_calc_term', value: '' }
     ],
     context: { hutk: (document.cookie.match(/hubspotutk=([^;]+)/) || [])[1] || undefined, pageUri: window.location.href, pageName: 'Mareto Fit Finder' } };
   fetch('https://api.hsforms.com/submissions/v3/integration/submit/5183115/471b1a5f-14ef-4fe1-8378-0c3ce499aef6', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(hubspotData) }).catch(function () {});
-  const capture = document.querySelector('.contact-capture');
-  capture.innerHTML = '<p style="font-weight:700;color:#0B7770">Thanks' + (name ? ', ' + name : '') + '. Your results and the links are on their way to ' + email + '. Forward them to anyone on your team.</p>';
-  setTimeout(function () {
-    var overlay = document.createElement('div'); overlay.id = 'demoOverlay';
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(11,31,51,.45);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
-    overlay.innerHTML = '<div role="dialog" aria-modal="true" aria-labelledby="ovh" style="background:#fff;border-radius:24px;padding:40px 36px;max-width:480px;width:90%;text-align:center;box-shadow:0 24px 56px rgba(11,31,51,.30),0 4px 14px rgba(11,31,51,.14);position:relative">' +
-      '<button aria-label="Close" onclick="document.getElementById(\'demoOverlay\').remove()" style="position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:999px;background:#EDF5F4;border:none;font-size:22px;color:#1E3A5F;cursor:pointer">&times;</button>' +
-      '<div style="width:56px;height:56px;background:linear-gradient(135deg,#336FB5,#3D9B96);border-radius:999px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>' +
-      '<h3 id="ovh" style="font-size:22px;font-weight:700;color:#0B1F33;margin:0 0 8px">See Mareto in action</h3>' +
-      '<p style="font-size:15px;color:#4A5568;margin:0 0 24px;line-height:1.5">Click through the interactive demo: real screens for intake, cases, the event log and reporting.</p>' +
-      '<a href="' + DEMO + '" style="display:inline-flex;align-items:center;min-height:44px;background:linear-gradient(135deg,#0B1F33 22%,#336FB5 100%);color:#fff;font-size:15px;font-weight:700;padding:0 28px;border-radius:999px;text-decoration:none">Explore the demo</a>' +
-      '<br><button onclick="document.getElementById(\'demoOverlay\').remove()" style="font-size:13px;color:#4A5568;margin-top:16px;background:none;border:none;cursor:pointer;min-height:44px">Maybe later</button></div>';
-    overlay.addEventListener('click', ev => { if (ev.target === overlay) overlay.remove(); });
-    document.body.appendChild(overlay);
-  }, 1500);
+  try { localStorage.setItem('mareto-demo-unlocked', new Date().toISOString()); localStorage.setItem('mareto-demo-contact', JSON.stringify({ name, email, org, title })); } catch (e) {}
+  // the full answer set goes to the engine so the team can read a prospect before a meeting; the HubSpot form keeps its known fields
+  try { fetch(CAPTURE, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ source: 'fit-finder', name, email, org, title, fit: fitPoints(), band: sizing(a).band, answers: a, page: window.location.href }) }).catch(function () {}); } catch (e) {}
+  const capture = document.getElementById('capture');
+  capture.innerHTML = '<span class="hs-medallion hs-medallion--lg">' + icon('check') + '</span><h4>Thanks' + (name ? ', ' + name.split(' ')[0] : '') + '. Your demo is open.</h4><p class="cc-subtitle">A copy of this summary is on its way to ' + email + '. The demo shows real screens for intake, cases, the event log and reporting; pick a seat and click through.</p>' +
+    '<a class="book-btn" href="' + DEMO + '">Open the interactive demo</a>' +
+    (offer ? '<div class="hs-offer"><span class="hs-medallion hs-medallion--lg">' + icon('layers') + '</span><div><p class="hs-hero__eyebrow">Sandbox builds are in high demand</p><h3>Your answers qualify you for a to-spec sandbox</h3><p>A Mareto instance shaped like your organization: your programs, your seats, your impact model drafted alongside. Yours for 30 days. Ten to fifteen minutes to tell us how you work.</p><a class="book-btn" href="./mareto-sandbox-request.html">Request a sandbox</a></div></div>' : '');
+  capture.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 document.addEventListener('keydown', e => {
