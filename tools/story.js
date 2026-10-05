@@ -255,7 +255,36 @@
   };
   const tb = $('.top-bar'); if (tb) { const badge = document.createElement('button'); badge.id = 'hsPersonaBadge'; badge.className = 'hs-persona-badge'; badge.type = 'button'; badge.onclick = screener; const title = $('.top-bar-title'); title.after(badge); }
   window.hsPersona = { screener, applyPersona, PERSONAS };
-  screener();
+
+  // the unlock gate (2 Oct standup): the demo opens only after work details are left, on the fit finder or here.
+  const unlocked = () => { try { return !!localStorage.getItem('mareto-demo-unlocked'); } catch (e) { return false; } };
+  const gate = () => {
+    const PUBLIC_MAIL = /@(gmail|yahoo|hotmail|outlook|live|icloud|me|aol|proton|protonmail)\./i;
+    const g = document.createElement('div'); g.id = 'hsGate'; g.className = 'hs-persona'; g.setAttribute('role', 'dialog'); g.setAttribute('aria-modal', 'true');
+    g.innerHTML = `<div class="hs-persona__card hs-gate__card"><span class="hs-medallion hs-medallion--lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><p class="hs-hero__eyebrow" style="color:var(--hs-pine)">Interactive demo</p><h2>Get your interactive demo</h2><p class="hs-persona__lede">Leave your work details and the demo opens right here: real screens for intake, cases, the event log and reporting, seen from the seat you choose.</p>
+      <div class="hs-gate__row"><input type="text" id="hsg_name" placeholder="Your name" autocomplete="name"><input type="email" id="hsg_email" placeholder="Work email" autocomplete="email"></div>
+      <div class="hs-gate__row"><input type="text" id="hsg_org" placeholder="Organization" autocomplete="organization"><input type="text" id="hsg_title" placeholder="Job title (optional)" autocomplete="organization-title"></div>
+      <p class="hs-gate__err" id="hsg_err" hidden>Enter your work email address. Personal mailboxes do not open the demo.</p>
+      <button type="button" class="hs-gate__go" id="hsg_go">Open my demo</button>
+      <p class="hs-gate__optin">By sending this you agree to hear from HelpSeeker about Mareto. Unsubscribe any time.</p>
+      <p class="hs-gate__alt">Not sure Mareto fits yet? <a href="./mareto-fit-finder.html">Take the three-minute fit finder</a> and the demo opens at the end.</p></div>`;
+    document.body.appendChild(g); document.body.classList.add('hs-persona-open');
+    $('#hsg_go', g).onclick = () => {
+      const v = (id) => ($('#' + id, g).value || '').trim();
+      const name = v('hsg_name'), email = v('hsg_email'), org = v('hsg_org'), title = v('hsg_title'); const err = $('#hsg_err', g), em = $('#hsg_email', g);
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || PUBLIC_MAIL.test(email)) { err.hidden = false; em.style.boxShadow = 'inset 0 0 0 2px var(--hs-navy)'; em.focus(); return; }
+      const hubspotData = { fields: [
+          { objectTypeId: '0-1', name: 'email', value: email }, { objectTypeId: '0-1', name: 'firstname', value: name.split(' ')[0] || '' },
+          { objectTypeId: '0-1', name: 'lastname', value: name.split(' ').slice(1).join(' ') || '' }, { objectTypeId: '0-2', name: 'name', value: org }, { objectTypeId: '0-1', name: 'jobtitle', value: title }],
+        context: { hutk: (document.cookie.match(/hubspotutk=([^;]+)/) || [])[1] || undefined, pageUri: window.location.href, pageName: 'Mareto interactive demo' } };
+      try { fetch('https://api.hsforms.com/submissions/v3/integration/submit/5183115/471b1a5f-14ef-4fe1-8378-0c3ce499aef6', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(hubspotData) }).catch(() => {}); } catch (e) {}
+      try { fetch('https://demo.mareto.helpseeker.org/api/gateway/quiz-capture', { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ source: 'demo-board', name, email, org, title, answers: {}, page: window.location.href }) }).catch(() => {}); } catch (e) {}
+      try { localStorage.setItem('mareto-demo-unlocked', new Date().toISOString()); localStorage.setItem('mareto-demo-contact', JSON.stringify({ name, email, org, title })); } catch (e) {}
+      g.remove(); document.body.classList.remove('hs-persona-open'); screener();
+    };
+    $('#hsg_email', g).addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#hsg_go', g).click(); });
+  };
+  if (unlocked()) screener(); else gate();
 
   // ---------- 6. the person record: tabs, pickers, conditional fields ----------
   const OPTS = { role: ['Client', 'Dependent', 'Guardian', 'Collateral contact'], status: ['Active', 'Inactive', 'Archived'], indigenous: ['Not identified', 'First Nations', 'Metis', 'Inuit', 'Prefer not to say'], pronouns: ['She/Her', 'He/Him', 'They/Them', 'Fill in your own'], gender: ['Female', 'Male', 'Non-binary', 'Two-Spirit', 'Prefer not to say'], immigration: ['Citizen', 'Permanent resident', 'Refugee claimant', 'Temporary resident', 'Undocumented'], prefLang: ['English', 'French', 'Punjabi', 'Tagalog', 'Spanish', 'Arabic', 'Mandarin', 'Fill in your own'], bestContact: ['Phone', 'Text', 'Email', 'Through worker'], housing: ['Renting', 'Owned', 'Supportive housing', 'Staying with family', 'Shelter', 'No fixed address'] };
