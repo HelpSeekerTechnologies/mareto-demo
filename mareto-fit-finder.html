@@ -1030,7 +1030,7 @@ function sizing(a) {
   else if (pts <= 17) { band = 'Standard M'; name = 'Standard'; who = 'several programs, more roles, records migrated from your current system'; }
   else if (pts <= 27) { band = 'Complex L'; name = 'Complex'; who = 'many service streams, heavy automation, a large migration, governance sign-off'; }
   else { band = 'Complex XL'; name = 'Complex'; who = 'a large multi-pillar organization with a governance body approving the build'; }
-  var weeks = essentials ? 'about 2 to 4 weeks' : pts <= 9 ? '4 to 6 weeks' : pts <= 17 ? 'about 8 weeks' : 'about 3 months';
+  var weeks = '4 to 6 weeks';
   var modules = essentials ? 'about 25 modules' : pts <= 9 ? '60 to 120 modules' : pts <= 17 ? '120 to 200 modules' : 'around 300 modules';
   var phased = programs === '10+' || programs === '6-10';
   return { pts: pts, band: band, name: name, who: who, weeks: weeks, modules: modules, phased: phased, essentials: essentials };
