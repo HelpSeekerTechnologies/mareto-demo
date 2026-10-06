@@ -1230,12 +1230,13 @@ function submitContact(offer) {
   var priceEstimate = r ? String(r.lo + r.monthly * 12) : '';
   var calcUsersVal = r ? String(r.users) : '';
   // HubSpot option values exactly as Kim mapped them
-  var orgTypeMap = { nonprofit: 'Non-Profit / Charity', indigenous_gov: 'Indigenous Organization', indigenous_org: 'Indigenous Organization', municipal: 'Government / Municipal', other_gov: 'Health Authority', other: 'Other' };
-  var servicesMap = { cfs: 'Child & Family Services', indigenous_svc: 'Indigenous Services', mental_health: 'Mental Health & Addictions', housing: 'Housing & Homelessness', dv: 'Domestic Violence', employment: 'Other', food: 'Other', seniors_disability: 'Senior Services', youth: 'Other', other_svc: 'Other' };
-  var challengesMap = { reporting: 'Reporting to funders', duplicates: 'Tracking client outcomes', too_many_tools: 'Data silos / spreadsheets', no_visibility: 'Coordinating across programs', data_entry: 'Data silos / spreadsheets', privacy: 'Compliance & audits', bad_fit: 'Data silos / spreadsheets', outcomes: 'Tracking client outcomes' };
-  var usersMap = { '1-5': '1-10', '6-15': '11-25', '16-30': '26-50', '31-50': '51-100', '50+': '101-250' };
+  var orgTypeMap = { nonprofit: 'Non-Profit / Charity', indigenous_gov: 'Indigenous Government', indigenous_org: 'Indigenous Organization', municipal: 'Government / Municipal', other_gov: 'Health Authority', other: 'Other' };
+  var servicesMap = { cfs: 'Child & Family Services', indigenous_svc: 'Indigenous Services', mental_health: 'Mental Health & Addictions', housing: 'Housing & Homelessness', dv: 'Domestic Violence', employment: 'Employment Services', food: 'Food Security', seniors_disability: 'Seniors or Disability Services', youth: 'Youth Services', other_svc: 'Other' };
+  var challengesMap = { reporting: 'Reporting to funders', duplicates: 'Duplicate records', too_many_tools: 'Data silos / spreadsheets', no_visibility: 'No client history across programs', data_entry: 'Too much data entry', privacy: 'Data hosted outside Canada', bad_fit: 'Software does not fit', outcomes: 'Outcomes hard to track' };
+  var usersMap = { '1-5': '1 to 5', '6-15': '6 to 15', '16-30': '16 to 30', '31-50': '31 to 50', '50+': 'More than 50' };
   var timelineMap = { immediate: 'Immediately', '3months': '1-3 months', '6months': '3-6 months', exploring: 'Just exploring' };
-  var roleMap = { decision_maker: 'Executive / Director', evaluator: 'Program Manager', researcher: 'IT / Data', curious: 'Other' };
+  var roleMap = { decision_maker: 'Decision maker', evaluator: 'Evaluator', researcher: 'Researcher', curious: 'Just exploring' };
+  var budgetMap = { under5k: 'Under $5,000', '5-10k': '$5,000 to $10,000', '10-15k': '$10,000 to $15,000', '15-20k': '$15,000 to $20,000', '20-40k': '$20,000 to $40,000', '40-60k': '$40,000 to $60,000', '60k+': 'More than $60,000', unknown: 'Not set yet' };
   var sourceSystemMap = { spreadsheets: 'Spreadsheets', product: 'Case-management product', funder_portal: 'Funder portal', paper: 'Paper files', nothing: 'Nothing yet' };
   var provinceMap = { AB: 'Alberta', BC: 'British Columbia', SK: 'Saskatchewan', MB: 'Manitoba', ON: 'Ontario', QC: 'Quebec', atlantic: 'Atlantic Canada', north: 'Yukon, NWT or Nunavut', outside: 'Outside Canada' };
   var publicFormsMap = { none: 'No public forms', one: 'One form', several: 'Several forms' };
@@ -1251,7 +1252,7 @@ function submitContact(offer) {
       { objectTypeId: '0-1', name: 'jobtitle', value: title },
       { objectTypeId: '0-1', name: 'mareto_org_type', value: orgTypeMap[a.org_type] || 'Other' },
       { objectTypeId: '0-1', name: 'mareto_services', value: hsServices.join(';') },
-      { objectTypeId: '0-1', name: 'mareto_programs', value: a.programs || '1-2' },
+      { objectTypeId: '0-1', name: 'mareto_programs', value: String({ '1-2': 2, '3-5': 4, '6-10': 8, '10+': 15 }[a.programs] || 2) },
       { objectTypeId: '0-1', name: 'mareto_challenges', value: hsChallenges.join(';') },
       { objectTypeId: '0-1', name: 'mareto_users', value: usersMap[a.users] || '1-10' },
       { objectTypeId: '0-1', name: 'mareto_timeline', value: timelineMap[a.timeline] || 'Just exploring' },
@@ -1260,6 +1261,7 @@ function submitContact(offer) {
       { objectTypeId: '0-1', name: 'mareto_price_estimate', value: priceEstimate },
       { objectTypeId: '0-1', name: 'mareto_calc_users', value: calcUsersVal },
       { objectTypeId: '0-1', name: 'mareto_calc_term', value: '' },
+      { objectTypeId: '0-1', name: 'mareto_budget', value: budgetMap[a.budget] || '' },
       { objectTypeId: '0-1', name: 'mareto_source_system', value: hsSourceSystem.join(';') },
       { objectTypeId: '0-1', name: 'mareto_province', value: provinceMap[a.province] || '' },
       { objectTypeId: '0-1', name: 'mareto_public_forms', value: publicFormsMap[a.public_forms] || '' }
