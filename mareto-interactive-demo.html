@@ -7361,7 +7361,7 @@ function updateTransitionSummary() {
   window.hsPersona = { screener, applyPersona, PERSONAS };
 
   // the unlock gate (2 Oct standup): the demo opens only after work details are left, on the fit finder or here.
-  const unlocked = () => { try { return !!localStorage.getItem('mareto-demo-unlocked'); } catch (e) { return false; } };
+  const unlocked = () => { try { return !!localStorage.getItem('mareto-demo-unlocked') || new URLSearchParams(window.location.search).has('unlocked'); } catch (e) { return false; } };
   const gate = () => {
     const PUBLIC_MAIL = /@(gmail|yahoo|hotmail|outlook|live|icloud|me|aol|proton|protonmail)\./i;
     const g = document.createElement('div'); g.id = 'hsGate'; g.className = 'hs-persona'; g.setAttribute('role', 'dialog'); g.setAttribute('aria-modal', 'true');

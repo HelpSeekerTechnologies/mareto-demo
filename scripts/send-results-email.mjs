@@ -7,7 +7,7 @@ const HUBSPOT_TOKEN = process.env.HUBSPOT_TOKEN;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.FROM_EMAIL || 'travis@helpseeker.org';
 const FROM_NAME = process.env.FROM_NAME || 'Travis Turner';
-const DEMO_URL = 'https://demo.helpseeker.org/mareto-interactive-demo.html';
+const DEMO_URL = 'https://demo.helpseeker.org/mareto-interactive-demo.html?unlocked=1';
 const MEETING_URL = 'https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma';
 
 async function searchUnsent() {
