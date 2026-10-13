@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://demo.helpseeker.org/mareto-receive-a-demo.html">
+<title>Receive a Demo — Mareto</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --hs-navy:#0B1F33;--hs-slate:#1E3A5F;--hs-teal:#0FB9B1;--hs-pine:#0B7770;--hs-pale:#E0F0EE;--hs-mist:#EDF5F4;
+  --hs-text:#2D3748;--hs-border:#E5E7EB;--hs-page:#F9FAFB;--hs-surface:#FFFFFF;--hs-muted:#4A5568;--hs-link:#275C99;
+  --hs-action-gradient:linear-gradient(135deg,#0B1F33 22%,#336FB5 100%);
+  --hs-radius-control:999px;--hs-radius-card:20px;--hs-radius-small:7px;--hs-radius-field:14px;
+  --hs-inset:inset 0 1px 2px rgba(11,31,51,.05);
+  --sh1:0 2px 12px rgba(11,31,51,.06);--sh2:0 4px 18px rgba(11,31,51,.10),0 1px 3px rgba(11,31,51,.05);
+  --nv-tap:44px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--hs-text);line-height:1.6;background:var(--hs-page);-webkit-font-smoothing:antialiased}
+
+/* ---- Progress bar ---- */
+.progress-bar{position:fixed;top:0;left:0;width:100%;height:4px;background:var(--hs-mist);z-index:100}
+.progress-fill{height:100%;background:var(--hs-action-gradient);transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:0 2px 2px 0;width:0%}
+
+/* ---- Quiz container ---- */
+.quiz-container{max-width:720px;margin:0 auto;padding:24px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+
+/* ---- Landing ---- */
+.landing{text-align:center;padding:60px 24px;animation:fadeIn .5s ease}
+.landing img{height:44px;margin-bottom:28px}
+.landing h1{font-size:clamp(26px,4vw,38px);font-weight:700;color:var(--hs-navy);line-height:1.2;margin-bottom:12px}
+.landing p.subtitle{font-size:16px;color:var(--hs-muted);max-width:480px;margin:0 auto 32px}
+.landing .start-btn{display:inline-flex;align-items:center;gap:8px;background:var(--hs-action-gradient);color:#fff;font-size:16px;font-weight:700;font-family:'Lato',sans-serif;padding:16px 36px;border-radius:var(--hs-radius-control);border:none;cursor:pointer;transition:all .2s;box-shadow:var(--sh1);min-height:var(--nv-tap)}
+.landing .start-btn:hover{box-shadow:var(--sh2)}
+.landing .start-btn svg{width:18px;height:18px}
+.landing .note{margin-top:24px;font-size:13px;color:var(--hs-muted)}
+
+/* ---- Questions ---- */
+.question{display:none;animation:fadeIn .4s ease}
+.question.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.q-header{margin-bottom:28px}
+.q-step{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--hs-pine);margin-bottom:8px;text-transform:uppercase}
+.q-title{font-size:clamp(22px,3.5vw,28px);font-weight:700;color:var(--hs-navy);margin-bottom:8px}
+.q-subtitle{font-size:14px;color:var(--hs-muted)}
+
+/* ---- Option cards ---- */
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.options.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.option{display:flex;align-items:center;gap:14px;background:var(--hs-surface);border:0;border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:16px 20px;cursor:pointer;transition:all .15s;font-size:15px;color:var(--hs-text);font-weight:400;min-height:52px;user-select:none}
+.option:hover{box-shadow:var(--sh2)}
+.option.selected{background:var(--hs-pale);box-shadow:var(--sh2);color:var(--hs-navy);font-weight:700}
+
+/* Radio indicator */
+.option .radio{flex-shrink:0;width:22px;height:22px;border-radius:50%;border:0;box-shadow:var(--hs-inset);background:var(--hs-mist);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.option.selected .radio{background:linear-gradient(160deg,#2E6FE3 0%,#14AEC4 52%,#31D3A4 100%);box-shadow:0 3px 8px rgba(11,31,51,.18)}
+.option.selected .radio::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+
+/* Checkbox indicator */
+.option .checkbox{flex-shrink:0;width:22px;height:22px;border-radius:var(--hs-radius-small);border:0;box-shadow:var(--hs-inset);background:var(--hs-mist);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.option.selected .checkbox{background:linear-gradient(160deg,#2E6FE3 0%,#14AEC4 52%,#31D3A4 100%);box-shadow:0 3px 8px rgba(11,31,51,.18)}
+.option.selected .checkbox::after{content:'';width:10px;height:6px;border-bottom:2px solid #fff;border-left:2px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+
+/* "Something else" text input */
+.other-wrap{margin-top:10px;padding-left:36px;display:none}
+.other-wrap input[type="text"]{width:100%;font-family:'Lato',sans-serif;font-size:14px;padding:10px 18px;border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);min-height:var(--nv-tap);color:var(--hs-text);outline:none}
+.other-wrap input[type="text"]::placeholder{color:var(--hs-muted)}
+.other-wrap input[type="text"]:focus{background:#fff;box-shadow:0 8px 22px rgba(11,31,51,.20),0 2px 6px rgba(11,31,51,.10)}
+
+/* ---- Nav ---- */
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.q-nav .back-btn{font-size:14px;font-weight:700;font-family:'Lato',sans-serif;color:var(--hs-slate);background:#fff;border:none;cursor:pointer;padding:0 20px;min-height:var(--nv-tap);border-radius:var(--hs-radius-control);box-shadow:var(--sh1);transition:box-shadow .15s}
+.q-nav .back-btn:hover{box-shadow:var(--sh2)}
+.q-nav .next-btn{display:inline-flex;align-items:center;gap:8px;background:var(--hs-action-gradient);color:#fff;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 28px;border-radius:var(--hs-radius-control);border:none;cursor:pointer;transition:all .2s;opacity:.4;pointer-events:none;min-height:var(--nv-tap);box-shadow:var(--sh1)}
+.q-nav .next-btn.enabled{opacity:1;pointer-events:auto}
+.q-nav .next-btn.enabled:hover{box-shadow:var(--sh2)}
+.q-nav .next-btn svg{width:16px;height:16px}
+
+/* ---- Errors ---- */
+.error-msg{color:#c0392b;font-size:13px;font-weight:700;margin-top:6px;display:none}
+.error-msg.show{display:block}
+.field.has-error input,.field.has-error select{box-shadow:0 0 0 2px #c0392b !important}
+
+/* ---- Contact form (Step 3) ---- */
+.contact-capture{background:var(--hs-surface);border:0;border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:30px 28px;animation:fadeIn .4s ease}
+.contact-capture h4{font-size:17px;font-weight:700;color:var(--hs-navy);margin-bottom:4px}
+.contact-capture .cc-subtitle{font-size:13px;color:var(--hs-muted);margin-bottom:20px}
+.contact-capture .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.field label .req{color:#c0392b}
+.field input,.field select{width:100%;font-family:'Lato',sans-serif;font-size:14px;padding:0 18px;border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);min-height:var(--nv-tap);color:var(--hs-text);outline:none;transition:all .2s}
+.field input::placeholder{color:var(--hs-muted)}
+.field input:focus,.field select:focus{background:#fff;box-shadow:0 8px 22px rgba(11,31,51,.20),0 2px 6px rgba(11,31,51,.10)}
+.field select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%234A5568' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.contact-note{font-size:12px;color:var(--hs-muted);margin-top:8px;margin-bottom:0;line-height:1.5}
+
+.submit-row{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.submit-row .back-btn{font-size:14px;font-weight:700;font-family:'Lato',sans-serif;color:var(--hs-slate);background:#fff;border:none;cursor:pointer;padding:0 20px;min-height:var(--nv-tap);border-radius:var(--hs-radius-control);box-shadow:var(--sh1);transition:box-shadow .15s}
+.submit-row .back-btn:hover{box-shadow:var(--sh2)}
+.submit-row .submit-btn{background:var(--hs-action-gradient);color:#fff;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 28px;border-radius:var(--hs-radius-control);border:none;cursor:pointer;transition:all .2s;min-height:var(--nv-tap);box-shadow:var(--sh1)}
+.submit-row .submit-btn:hover{box-shadow:var(--sh2)}
+
+/* ---- Responsive ---- */
+@media(max-width:600px){
+  .quiz-container{padding:16px}
+  .landing{padding:40px 16px}
+  .contact-capture .field-row{grid-template-columns:1fr}
+  .options.grid{grid-template-columns:1fr}
+  .q-nav,.submit-row{gap:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="quiz-container">
+
+  <!-- ===== LANDING ===== -->
+  <div class="landing" id="landing">
+    <img src="https://images.squarespace-cdn.com/content/v1/69438d79db205639aca92b96/d4184cfc-e432-40a9-83ac-64eeec9d4dc4/PB_Mareto+Logo-01.png?format=1500w" alt="Mareto">
+    <h1>Receive a demo</h1>
+    <p class="subtitle">See Mareto working for an organization like yours. A few questions so we can open the demo the way your team would see it.</p>
+    <button class="start-btn" onclick="startQuiz()">Start <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    <p class="note">About 3 minutes</p>
+  </div>
+
+  <!-- ===== STEP 1: Q1 — Org type ===== -->
+  <div class="question" id="q-org" role="region" aria-label="Step 1 of 3: About you">
+    <div class="q-header">
+      <div class="q-step">Step 1 of 3 &middot; About you</div>
+      <div class="q-title">What kind of organization are you?</div>
+      <div class="q-subtitle">Pick all that apply</div>
+    </div>
+    <div class="options" role="group" aria-label="Organization type">
+      <div class="option" data-name="org" data-value="nonprofit"><span class="checkbox"></span>Nonprofit or charity</div>
+      <div class="option" data-name="org" data-value="indigenous_gov"><span class="checkbox"></span>Indigenous government</div>
+      <div class="option" data-name="org" data-value="indigenous_org"><span class="checkbox"></span>Indigenous organization</div>
+      <div class="option" data-name="org" data-value="municipal"><span class="checkbox"></span>Municipal government</div>
+      <div class="option" data-name="org" data-value="public"><span class="checkbox"></span>Other government or public body</div>
+      <div class="option" data-name="org" data-value="other"><span class="checkbox"></span>Something else</div>
+    </div>
+    <div class="other-wrap" id="org-other-wrap">
+      <input type="text" id="org-other-text" placeholder="Tell us a bit more" aria-label="Describe your organization type">
+    </div>
+    <div class="error-msg" id="err-org">Please select at least one option.</div>
+    <div class="q-nav"><span></span><button class="next-btn" id="next-org" onclick="navNext('org')">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 1: Q2 — Services ===== -->
+  <div class="question" id="q-svc" role="region" aria-label="Step 1 of 3: Services">
+    <div class="q-header">
+      <div class="q-step">Step 1 of 3 &middot; About you</div>
+      <div class="q-title">What services do you deliver?</div>
+      <div class="q-subtitle">Pick all that apply</div>
+    </div>
+    <div class="options grid" role="group" aria-label="Services delivered">
+      <div class="option" data-name="svc" data-value="child_family"><span class="checkbox"></span>Child and family services</div>
+      <div class="option" data-name="svc" data-value="indigenous"><span class="checkbox"></span>Indigenous services</div>
+      <div class="option" data-name="svc" data-value="mental_health"><span class="checkbox"></span>Mental health</div>
+      <div class="option" data-name="svc" data-value="addictions"><span class="checkbox"></span>Addiction support</div>
+      <div class="option" data-name="svc" data-value="housing"><span class="checkbox"></span>Housing and homelessness</div>
+      <div class="option" data-name="svc" data-value="dv"><span class="checkbox"></span>Domestic violence</div>
+      <div class="option" data-name="svc" data-value="employment"><span class="checkbox"></span>Employment services</div>
+      <div class="option" data-name="svc" data-value="food"><span class="checkbox"></span>Food security</div>
+      <div class="option" data-name="svc" data-value="seniors"><span class="checkbox"></span>Senior services</div>
+      <div class="option" data-name="svc" data-value="disability"><span class="checkbox"></span>Disability services</div>
+      <div class="option" data-name="svc" data-value="youth"><span class="checkbox"></span>Youth services</div>
+      <div class="option" data-name="svc" data-value="newcomers"><span class="checkbox"></span>Immigrant and refugee services</div>
+      <div class="option" data-name="svc" data-value="lgbtq"><span class="checkbox"></span>LGBTQ2S+ services</div>
+      <div class="option" data-name="svc" data-value="childcare"><span class="checkbox"></span>Child care centres</div>
+      <div class="option" data-name="svc" data-value="other"><span class="checkbox"></span>Other community services</div>
+    </div>
+    <div class="other-wrap" id="svc-other-wrap">
+      <input type="text" id="svc-other-text" placeholder="Tell us which other services" aria-label="Describe other services">
+    </div>
+    <div class="error-msg" id="err-svc">Please select at least one service.</div>
+    <div class="q-nav"><button class="back-btn" onclick="showQ('q-org')">&larr; Back</button><button class="next-btn" id="next-svc" onclick="navNext('svc')">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 1: Q3 — Challenges ===== -->
+  <div class="question" id="q-ch" role="region" aria-label="Step 1 of 3: Challenges">
+    <div class="q-header">
+      <div class="q-step">Step 1 of 3 &middot; About you</div>
+      <div class="q-title">What gets in the way right now?</div>
+      <div class="q-subtitle">Pick all that apply</div>
+    </div>
+    <div class="options" role="group" aria-label="Current challenges">
+      <div class="option" data-name="ch" data-value="reporting"><span class="checkbox"></span>Funder reporting takes weeks of manual work</div>
+      <div class="option" data-name="ch" data-value="duplicates"><span class="checkbox"></span>The same person is counted more than once</div>
+      <div class="option" data-name="ch" data-value="tools"><span class="checkbox"></span>Too many disconnected tools</div>
+      <div class="option" data-name="ch" data-value="history"><span class="checkbox"></span>No client history across programs</div>
+      <div class="option" data-name="ch" data-value="entry"><span class="checkbox"></span>Staff spend too long on data entry</div>
+      <div class="option" data-name="ch" data-value="hosting"><span class="checkbox"></span>Data hosted outside Canada or unclear where</div>
+      <div class="option" data-name="ch" data-value="fit"><span class="checkbox"></span>Current software does not match how we work</div>
+      <div class="option" data-name="ch" data-value="outcomes"><span class="checkbox"></span>Outcomes are hard to track or report</div>
+    </div>
+    <div class="error-msg" id="err-ch">Please select at least one challenge.</div>
+    <div class="q-nav"><button class="back-btn" onclick="showQ('q-svc')">&larr; Back</button><button class="next-btn" id="next-ch" onclick="navNext('ch')">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 2: Q4 — Staff count ===== -->
+  <div class="question" id="q-size" role="region" aria-label="Step 2 of 3: Size and timing">
+    <div class="q-header">
+      <div class="q-step">Step 2 of 3 &middot; Your size and timing</div>
+      <div class="q-title">How many staff would sign in?</div>
+    </div>
+    <div class="options" role="radiogroup" aria-label="Staff count">
+      <div class="option" data-name="size" data-value="1-5"><span class="radio"></span>1 to 5</div>
+      <div class="option" data-name="size" data-value="6-15"><span class="radio"></span>6 to 15</div>
+      <div class="option" data-name="size" data-value="16-30"><span class="radio"></span>16 to 30</div>
+      <div class="option" data-name="size" data-value="31-50"><span class="radio"></span>31 to 50</div>
+      <div class="option" data-name="size" data-value="50+"><span class="radio"></span>More than 50</div>
+    </div>
+    <div class="error-msg" id="err-size">Please select one option.</div>
+    <div class="q-nav"><button class="back-btn" onclick="showQ('q-ch')">&larr; Back</button><button class="next-btn" id="next-size" onclick="navNext('size')">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 2: Q5 — Programs ===== -->
+  <div class="question" id="q-progs" role="region" aria-label="Step 2 of 3: Programs">
+    <div class="q-header">
+      <div class="q-step">Step 2 of 3 &middot; Your size and timing</div>
+      <div class="q-title">How many programs do you run?</div>
+    </div>
+    <div class="options" role="radiogroup" aria-label="Program count">
+      <div class="option" data-name="progs" data-value="1-2"><span class="radio"></span>1 or 2</div>
+      <div class="option" data-name="progs" data-value="3-5"><span class="radio"></span>3 to 5</div>
+      <div class="option" data-name="progs" data-value="6-10"><span class="radio"></span>6 to 10</div>
+      <div class="option" data-name="progs" data-value="10+"><span class="radio"></span>More than 10</div>
+    </div>
+    <div class="error-msg" id="err-progs">Please select one option.</div>
+    <div class="q-nav"><button class="back-btn" onclick="showQ('q-size')">&larr; Back</button><button class="next-btn" id="next-progs" onclick="navNext('progs')">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 2: Q6 — Timeline ===== -->
+  <div class="question" id="q-time" role="region" aria-label="Step 2 of 3: Timeline">
+    <div class="q-header">
+      <div class="q-step">Step 2 of 3 &middot; Your size and timing</div>
+      <div class="q-title">When do you want to make a change?</div>
+    </div>
+    <div class="options" role="radiogroup" aria-label="Timeline">
+      <div class="option" data-name="time" data-value="now"><span class="radio"></span>Now. We need something in place</div>
+      <div class="option" data-name="time" data-value="3m"><span class="radio"></span>Within 3 months</div>
+      <div class="option" data-name="time" data-value="6m"><span class="radio"></span>Within 6 months</div>
+      <div class="option" data-name="time" data-value="exploring"><span class="radio"></span>Just exploring for now</div>
+    </div>
+    <div class="error-msg" id="err-time">Please select one option.</div>
+    <div class="q-nav"><button class="back-btn" onclick="showQ('q-progs')">&larr; Back</button><button class="next-btn" id="next-time" onclick="navNext('time')">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 2: Q7 — Role ===== -->
+  <div class="question" id="q-role" role="region" aria-label="Step 2 of 3: Role">
+    <div class="q-header">
+      <div class="q-step">Step 2 of 3 &middot; Your size and timing</div>
+      <div class="q-title">What is your part in the decision?</div>
+    </div>
+    <div class="options" role="radiogroup" aria-label="Decision role">
+      <div class="option" data-name="role" data-value="decision"><span class="radio"></span>I make or approve the final decision</div>
+      <div class="option" data-name="role" data-value="evaluator"><span class="radio"></span>I am evaluating options to recommend</div>
+      <div class="option" data-name="role" data-value="researcher"><span class="radio"></span>I am researching for my team</div>
+      <div class="option" data-name="role" data-value="curious"><span class="radio"></span>I am curious what is out there</div>
+    </div>
+    <div class="error-msg" id="err-role">Please select one option.</div>
+    <div class="q-nav"><button class="back-btn" onclick="showQ('q-time')">&larr; Back</button><button class="next-btn" id="next-role" onclick="navNext('role')">Next: last step <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  </div>
+
+  <!-- ===== STEP 3: Contact form ===== -->
+  <div class="question" id="q-contact" role="region" aria-label="Step 3 of 3: Where to send it">
+    <div class="q-header">
+      <div class="q-step">Step 3 of 3 &middot; Where to send it</div>
+      <div class="q-title">Where should we send your demo link?</div>
+      <div class="q-subtitle">It opens as soon as you continue.</div>
+    </div>
+
+    <div class="contact-capture">
+      <div class="contact-capture-inner">
+        <div class="field-row">
+          <div class="field" id="f-name">
+            <label for="c-name">Your name <span class="req">*</span></label>
+            <input type="text" id="c-name" autocomplete="name" placeholder="Jane Smith">
+            <div class="error-msg" id="err-name">Please enter your name.</div>
+          </div>
+          <div class="field" id="f-title">
+            <label for="c-title">Your title</label>
+            <input type="text" id="c-title" autocomplete="organization-title" placeholder="Executive Director">
+          </div>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="c-email">Work email <span class="req">*</span></label>
+          <input type="email" id="c-email" autocomplete="email" placeholder="jane@yourorg.ca">
+          <div class="error-msg" id="err-email">Please enter a valid work email.</div>
+          <div class="error-msg" id="err-email-personal">Please use your work email, so we can match you to your organization.</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field" id="f-org">
+            <label for="c-org">Organization <span class="req">*</span></label>
+            <input type="text" id="c-org" autocomplete="organization" placeholder="Community Services Inc.">
+            <div class="error-msg" id="err-org-name">Please enter your organization name.</div>
+          </div>
+          <div class="field" id="f-prov">
+            <label for="c-prov">Province or territory <span class="req">*</span></label>
+            <select id="c-prov">
+              <option value="">Select...</option>
+              <option value="AB">Alberta</option>
+              <option value="BC">British Columbia</option>
+              <option value="MB">Manitoba</option>
+              <option value="NB">New Brunswick</option>
+              <option value="NL">Newfoundland and Labrador</option>
+              <option value="NS">Nova Scotia</option>
+              <option value="ON">Ontario</option>
+              <option value="PE">Prince Edward Island</option>
+              <option value="QC">Quebec</option>
+              <option value="SK">Saskatchewan</option>
+              <option value="NT">Northwest Territories</option>
+              <option value="NU">Nunavut</option>
+              <option value="YT">Yukon</option>
+              <option value="XX">Outside Canada</option>
+            </select>
+            <div class="error-msg" id="err-prov">Please select a province or territory.</div>
+          </div>
+        </div>
+
+        <p class="contact-note">We use this to send your demo link and follow up about Mareto. Unsubscribe any time.</p>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button class="back-btn" onclick="showQ('q-role')">&larr; Back</button>
+      <button class="submit-btn" onclick="submitForm()">Open my demo</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const HUBSPOT_PORTAL_ID = '5183115';
+const HUBSPOT_FORM_ID = 'HUBSPOT_FORM_ID';
+
+const PERSONAL_RE = /@(gmail|yahoo|hotmail|outlook|live|icloud|me|aol|proton|protonmail)\./i;
+
+/* ---- URL params ---- */
+const params = new URLSearchParams(location.search);
+if (params.has('reset')) { ['mareto-demo-contact','mareto-demo-unlocked','mareto-demo-answers','mareto-fit-finder','mareto-quote-contact','mareto-quote-answers'].forEach(k => localStorage.removeItem(k)); location.href = location.pathname; }
+const fromParam = params.get('from') || 'direct';
+const serviceParam = params.get('service');
+
+/* ---- State ---- */
+const selections = {}; /* name -> Set of values */
+const TOTAL_STEPS = 8; /* landing(0) + 7 questions + contact = 9 positions, but progress 0-100 over 8 transitions */
+
+/* Question flow order */
+const questionFlow = ['q-org','q-svc','q-ch','q-size','q-progs','q-time','q-role','q-contact'];
+
+/* Determine if a question uses radio (single) or checkbox (multi) */
+const radioQuestions = new Set(['size','progs','time','role']);
+
+/* ---- Init: pre-check service if param present ---- */
+if (serviceParam) {
+  if (!selections['svc']) selections['svc'] = new Set();
+  selections['svc'].add(serviceParam);
+}
+
+/* ---- Progress bar ---- */
+function updateProgress(qId) {
+  const idx = questionFlow.indexOf(qId);
+  const pct = idx < 0 ? 0 : ((idx + 1) / TOTAL_STEPS) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ---- Show a question ---- */
+function showQ(qId) {
+  document.querySelectorAll('.question').forEach(q => { q.classList.remove('active'); q.style.display = 'none'; });
+  document.getElementById('landing').style.display = 'none';
+  const el = document.getElementById(qId);
+  el.style.display = 'block';
+  el.classList.add('active');
+  clearAllErrors();
+  updateProgress(qId);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  /* Re-apply selections for this question's options */
+  el.querySelectorAll('.option').forEach(o => {
+    const name = o.dataset.name;
+    const val = o.dataset.value;
+    if (selections[name] && selections[name].has(val)) {
+      o.classList.add('selected');
+    }
+  });
+
+  /* Show other-wrap if needed */
+  if (qId === 'q-org' && selections['org'] && selections['org'].has('other')) {
+    document.getElementById('org-other-wrap').style.display = 'block';
+  }
+  if (qId === 'q-svc' && selections['svc'] && selections['svc'].has('other')) {
+    document.getElementById('svc-other-wrap').style.display = 'block';
+  }
+
+  /* Update next button state */
+  updateNextBtn(qId);
+}
+
+/* ---- Start quiz ---- */
+function startQuiz() {
+  showQ('q-org');
+}
+
+/* ---- Option click handling ---- */
+document.addEventListener('click', function(e) {
+  const option = e.target.closest('.option');
+  if (!option) return;
+
+  const name = option.dataset.name;
+  const value = option.dataset.value;
+  if (!name || !value) return;
+
+  if (!selections[name]) selections[name] = new Set();
+
+  if (radioQuestions.has(name)) {
+    /* Radio: clear all others */
+    const container = option.closest('.options');
+    container.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    selections[name] = new Set([value]);
+    option.classList.add('selected');
+  } else {
+    /* Checkbox: toggle */
+    if (selections[name].has(value)) {
+      selections[name].delete(value);
+      option.classList.remove('selected');
+    } else {
+      selections[name].add(value);
+      option.classList.add('selected');
+    }
+  }
+
+  /* Show/hide "other" text fields */
+  if (name === 'org' && value === 'other') {
+    document.getElementById('org-other-wrap').style.display = selections[name].has('other') ? 'block' : 'none';
+  }
+  if (name === 'svc' && value === 'other') {
+    document.getElementById('svc-other-wrap').style.display = selections[name].has('other') ? 'block' : 'none';
+  }
+
+  /* Update next button */
+  const qEl = option.closest('.question');
+  if (qEl) updateNextBtn(qEl.id);
+});
+
+/* ---- Update next button enabled state ---- */
+function updateNextBtn(qId) {
+  const qEl = document.getElementById(qId);
+  const btn = qEl.querySelector('.next-btn');
+  if (!btn) return;
+
+  /* Determine the field name for this question */
+  const firstOption = qEl.querySelector('.option');
+  if (!firstOption) return;
+  const name = firstOption.dataset.name;
+
+  const hasSelection = selections[name] && selections[name].size > 0;
+  btn.classList.toggle('enabled', hasSelection);
+}
+
+/* ---- Navigation next with validation ---- */
+function navNext(name) {
+  clearAllErrors();
+
+  const vals = selections[name] ? Array.from(selections[name]) : [];
+  if (!vals.length) {
+    showErr('err-' + name);
+    return;
+  }
+
+  /* Check "other" text for org and svc */
+  if (name === 'org' && vals.includes('other') && !document.getElementById('org-other-text').value.trim()) {
+    showErr('err-org');
+    return;
+  }
+  if (name === 'svc' && vals.includes('other') && !document.getElementById('svc-other-text').value.trim()) {
+    showErr('err-svc');
+    return;
+  }
+
+  /* Determine next question */
+  const flow = questionFlow;
+  const currentQ = 'q-' + name;
+  const currentIdx = flow.indexOf(currentQ);
+
+  /* After role (last step 2 question), check if we can skip contact */
+  if (name === 'role') {
+    const saved = localStorage.getItem('mareto-demo-contact');
+    if (saved) {
+      finishDemo(JSON.parse(saved));
+      return;
+    }
+  }
+
+  if (currentIdx < flow.length - 1) {
+    showQ(flow[currentIdx + 1]);
+  }
+}
+
+/* ---- Helpers ---- */
+function getChecked(name) { return selections[name] ? Array.from(selections[name]) : []; }
+function getRadio(name) { const s = selections[name]; return s && s.size ? Array.from(s)[0] : ''; }
+function showErr(id) { document.getElementById(id).classList.add('show'); }
+function hideErr(id) { document.getElementById(id).classList.remove('show'); }
+function clearAllErrors() { document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show')); document.querySelectorAll('.field.has-error').forEach(f => f.classList.remove('has-error')); }
+
+/* ---- Step 3 validation + submit ---- */
+function submitForm() {
+  clearAllErrors();
+  let ok = true;
+  const name = document.getElementById('c-name').value.trim();
+  const title = document.getElementById('c-title').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const org = document.getElementById('c-org').value.trim();
+  const prov = document.getElementById('c-prov').value;
+
+  if (!name) { showErr('err-name'); document.getElementById('f-name').classList.add('has-error'); ok = false; }
+  if (!email) { showErr('err-email'); document.getElementById('f-email').classList.add('has-error'); ok = false; }
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('err-email'); document.getElementById('f-email').classList.add('has-error'); ok = false; }
+  else if (PERSONAL_RE.test(email)) { showErr('err-email-personal'); document.getElementById('f-email').classList.add('has-error'); ok = false; }
+  if (!org) { showErr('err-org-name'); document.getElementById('f-org').classList.add('has-error'); ok = false; }
+  if (!prov) { showErr('err-prov'); document.getElementById('f-prov').classList.add('has-error'); ok = false; }
+
+  if (!ok) return;
+
+  const contact = { name, title, email, org, prov };
+  finishDemo(contact);
+}
+
+/* ---- Finish: save + POST + redirect ---- */
+function finishDemo(contact) {
+  const role = getRadio('role');
+  const answers = {
+    org: getChecked('org'),
+    org_other: document.getElementById('org-other-text').value.trim(),
+    svc: getChecked('svc'),
+    svc_other: document.getElementById('svc-other-text').value.trim(),
+    ch: getChecked('ch'),
+    size: getRadio('size'),
+    progs: getRadio('progs'),
+    time: getRadio('time'),
+    role: role,
+    from: fromParam,
+    contact: contact
+  };
+
+  localStorage.setItem('mareto-demo-answers', JSON.stringify(answers));
+  localStorage.setItem('mareto-demo-contact', JSON.stringify(contact));
+  localStorage.setItem('mareto-demo-unlocked', new Date().toISOString());
+
+  /* POST to HubSpot */
+  const hsUrl = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
+  const nameParts = contact.name.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+
+  const hsPayload = {
+    fields: [
+      { name: 'firstname', value: firstName },
+      { name: 'lastname', value: lastName },
+      { name: 'email', value: contact.email },
+      { name: 'jobtitle', value: contact.title },
+      { name: 'company', value: contact.org },
+      { name: 'state', value: contact.prov }
+    ],
+    context: {
+      pageUri: location.href,
+      pageName: 'Receive a Demo'
+    }
+  };
+
+  fetch(hsUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(hsPayload)
+  }).catch(() => { /* silent fail — demo still opens */ });
+
+  /* Redirect */
+  const seat = role === 'decision' ? 'director' : 'manager';
+  location.href = `mareto-interactive-demo.html?unlocked&seat=${seat}`;
+}
+
+/* ---- Init: apply service param pre-selection visually ---- */
+document.addEventListener('DOMContentLoaded', function() {
+  if (serviceParam && selections['svc']) {
+    document.querySelectorAll('#q-svc .option').forEach(o => {
+      if (selections['svc'].has(o.dataset.value)) {
+        o.classList.add('selected');
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>

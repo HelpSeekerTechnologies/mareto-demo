@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://demo.helpseeker.org/mareto-receive-a-quote.html">
+<title>Receive a Quote — Mareto</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --hs-navy:#0B1F33;--hs-slate:#1E3A5F;--hs-teal:#0FB9B1;--hs-pine:#0B7770;--hs-pale:#E0F0EE;--hs-mist:#EDF5F4;
+  --hs-text:#2D3748;--hs-border:#E5E7EB;--hs-page:#F9FAFB;--hs-surface:#FFFFFF;--hs-muted:#4A5568;--hs-link:#275C99;
+  --hs-action-gradient:linear-gradient(135deg,#0B1F33 22%,#336FB5 100%);
+  --hs-icon-gradient:linear-gradient(135deg,#336FB5,#3D9B96);
+  --hs-medallion-gradient:linear-gradient(160deg,#2E6FE3 0%,#14AEC4 52%,#31D3A4 100%);
+  --hs-radius-control:999px;--hs-radius-card:20px;--hs-radius-small:7px;--hs-radius-field:14px;
+  --hs-inset:inset 0 1px 2px rgba(11,31,51,.05);
+  --sh1:0 2px 12px rgba(11,31,51,.06);--sh2:0 4px 18px rgba(11,31,51,.10),0 1px 3px rgba(11,31,51,.05);
+  --sh3:0 12px 26px rgba(11,31,51,.14),0 2px 6px rgba(11,31,51,.06);
+  --sh4:0 18px 40px rgba(11,31,51,.22),0 3px 10px rgba(11,31,51,.10);
+  --nv-tap:44px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--hs-text);line-height:1.6;background:var(--hs-page);-webkit-font-smoothing:antialiased}
+
+/* ---- Progress bar ---- */
+.progress-bar{position:fixed;top:0;left:0;width:100%;height:4px;background:var(--hs-mist);z-index:100}
+.progress-fill{height:100%;background:var(--hs-action-gradient);transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:0 2px 2px 0;width:0%}
+
+/* ---- Quiz container ---- */
+.quiz-container{max-width:720px;margin:0 auto;padding:24px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+
+/* ---- Landing ---- */
+.landing{text-align:center;padding:60px 24px;animation:fadeIn .5s ease}
+.landing img{height:44px;margin-bottom:28px}
+.landing h1{font-size:clamp(26px,4vw,38px);font-weight:700;color:var(--hs-navy);line-height:1.2;margin-bottom:12px}
+.landing p.subtitle{font-size:16px;color:var(--hs-muted);max-width:480px;margin:0 auto 32px}
+.landing .start-btn{display:inline-flex;align-items:center;gap:8px;background:var(--hs-teal);color:#fff;font-size:16px;font-weight:700;font-family:'Lato',sans-serif;padding:16px 36px;border-radius:var(--hs-radius-control);border:none;cursor:pointer;transition:all .2s;box-shadow:var(--sh1);min-height:var(--nv-tap)}
+.landing .start-btn:hover{box-shadow:var(--sh2)}
+.landing .start-btn svg{width:18px;height:18px}
+.landing .note{margin-top:24px;font-size:13px;color:var(--hs-muted)}
+
+/* ---- Steps ---- */
+.step{display:none;animation:fadeIn .4s ease}
+.step.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.step-header{margin-bottom:28px}
+.step-label{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--hs-pine);margin-bottom:8px;text-transform:uppercase}
+.step-title{font-size:clamp(22px,3.5vw,28px);font-weight:700;color:var(--hs-navy);margin-bottom:8px}
+.step-subtitle{font-size:14px;color:var(--hs-muted)}
+
+/* ---- Included hero card ---- */
+.included-hero{
+  background:var(--hs-action-gradient);color:#fff;border-radius:var(--hs-radius-card);
+  box-shadow:var(--sh4);padding:32px 36px;text-align:center;margin-bottom:32px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden
+}
+.included-hero .medallion{
+  width:64px;height:64px;border-radius:50%;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.38);
+  box-shadow:0 0 0 14px rgba(255,255,255,.05),0 0 24px 14px rgba(0,0,0,.14);
+  display:flex;align-items:center;justify-content:center;margin-bottom:4px
+}
+.included-hero .medallion svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.5}
+.included-hero h2{font-size:20px;font-weight:700;color:#fff;margin:0}
+.included-hero p{font-size:14px;color:rgba(255,255,255,.85);max-width:460px;margin:0}
+
+/* ---- Chip groups ---- */
+.chip-group{background:var(--hs-surface);border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:20px 22px;margin-bottom:12px}
+.chip-group-label{font-size:13px;font-weight:700;color:var(--hs-navy);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  background:var(--hs-pale);color:var(--hs-pine);border:0;border-radius:var(--hs-radius-control);
+  padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;user-select:none
+}
+.chip:hover{background:var(--hs-teal);color:#fff}
+.chip.open{background:var(--hs-teal);color:#fff}
+.chip-desc{display:none;font-size:14px;color:var(--hs-muted);padding:10px 0 4px;line-height:1.5;width:100%}
+.chip-desc.show{display:block}
+
+/* ---- Never charged ---- */
+.never-charged{
+  background:var(--hs-mist);border-radius:var(--hs-radius-card);padding:24px 28px;margin-top:24px
+}
+.never-charged h3{font-size:15px;font-weight:700;color:var(--hs-navy);margin-bottom:10px}
+.never-charged ul{list-style:none;padding:0}
+.never-charged li{font-size:14px;color:var(--hs-muted);padding:4px 0 4px 24px;position:relative}
+.never-charged li::before{content:'\2713';position:absolute;left:0;color:var(--hs-teal);font-weight:700}
+
+/* ---- Stepper ---- */
+.stepper-card{background:var(--hs-surface);border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:22px 24px;margin-bottom:14px}
+.stepper-card label{display:block;font-size:15px;font-weight:700;color:var(--hs-navy);margin-bottom:4px}
+.stepper-help{font-size:13px;color:var(--hs-muted);margin-bottom:12px}
+.stepper{display:inline-flex;align-items:stretch;border-radius:var(--hs-radius-control);overflow:hidden;background:var(--hs-mist);box-shadow:var(--hs-inset)}
+.stepper button{
+  width:44px;height:44px;background:var(--hs-mist);border:0;font-size:18px;font-weight:700;
+  cursor:pointer;font-family:inherit;color:var(--hs-slate);display:flex;align-items:center;
+  justify-content:center;border-radius:var(--hs-radius-control);transition:background .15s
+}
+.stepper button:hover{background:var(--hs-pale)}
+.stepper button:disabled{opacity:.3;cursor:not-allowed}
+.stepper input{
+  width:64px;text-align:center;border:0;font-size:16px;font-weight:700;font-family:inherit;
+  background:var(--hs-surface);color:var(--hs-navy);-moz-appearance:textfield
+}
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.prefill-badge{
+  display:inline-block;font-size:11px;font-weight:700;
+  background:var(--hs-pale);color:var(--hs-pine);padding:3px 10px;
+  border-radius:var(--hs-radius-control);margin-left:10px;vertical-align:middle
+}
+
+/* ---- Add-on cards ---- */
+.section-intro{font-size:15px;color:var(--hs-muted);margin-bottom:24px}
+.section-heading{font-size:17px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.section-sub{font-size:14px;color:var(--hs-muted);margin-bottom:16px}
+
+.addon-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.addon-card{
+  background:var(--hs-surface);border:0;border-radius:var(--hs-radius-card);box-shadow:var(--sh1);
+  padding:18px 20px;cursor:pointer;transition:all .15s
+}
+.addon-card:hover{box-shadow:var(--sh2)}
+.addon-card.selected{background:var(--hs-pale);box-shadow:var(--sh2)}
+.addon-top{display:flex;align-items:flex-start;gap:12px}
+.addon-check{
+  flex-shrink:0;width:22px;height:22px;border-radius:var(--hs-radius-small);
+  background:var(--hs-mist);box-shadow:var(--hs-inset);display:flex;align-items:center;
+  justify-content:center;transition:all .15s
+}
+.addon-card.selected .addon-check{
+  background:var(--hs-medallion-gradient);box-shadow:0 3px 8px rgba(11,31,51,.18)
+}
+.addon-card.selected .addon-check span{display:block !important;color:#fff;font-size:12px;font-weight:700}
+.addon-label{flex:1}
+.addon-name{font-weight:700;font-size:14px;color:var(--hs-navy)}
+.addon-price{font-size:13px;color:var(--hs-pine);margin-left:auto;white-space:nowrap;font-weight:700}
+.addon-toggle{font-size:12px;color:var(--hs-link);cursor:pointer;margin-top:6px;background:none;border:0;font-family:inherit;font-weight:700;padding:0}
+.addon-toggle:hover{text-decoration:underline}
+.addon-detail{font-size:13px;color:var(--hs-muted);margin-top:6px;display:none;line-height:1.5}
+.addon-detail.show{display:block}
+
+/* ---- Other options ---- */
+.other-option{margin-bottom:16px}
+.other-option label{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.other-option input[type="checkbox"]{margin-top:3px;width:18px;height:18px;accent-color:var(--hs-pine);flex-shrink:0}
+.other-option .opt-name{font-weight:700;font-size:14px;color:var(--hs-navy)}
+.other-option .opt-price{font-size:13px;color:var(--hs-pine);font-weight:700}
+.other-option .opt-desc{font-size:13px;color:var(--hs-muted);margin-top:3px;line-height:1.5}
+
+.call-option{
+  margin-bottom:10px;padding:16px 20px;background:var(--hs-surface);
+  border-radius:var(--hs-radius-card);box-shadow:var(--sh1)
+}
+.call-option label{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.call-option input[type="checkbox"]{margin-top:3px;width:18px;height:18px;accent-color:var(--hs-pine);flex-shrink:0}
+.call-option .opt-name{font-weight:700;font-size:14px;color:var(--hs-navy)}
+.call-option .opt-desc{font-size:13px;color:var(--hs-muted);margin-top:3px;line-height:1.5}
+
+/* ---- Radio options ---- */
+.radio-group{margin-bottom:28px}
+.radio-group>label{display:block;font-size:16px;font-weight:700;color:var(--hs-navy);margin-bottom:12px}
+.radio-option{
+  display:flex;align-items:center;gap:14px;background:var(--hs-surface);border:0;
+  border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:16px 20px;
+  margin-bottom:10px;cursor:pointer;transition:all .15s;min-height:52px
+}
+.radio-option:hover{box-shadow:var(--sh2)}
+.radio-option.selected{background:var(--hs-pale);box-shadow:var(--sh2)}
+.radio-option .radio-dot{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:var(--hs-mist);box-shadow:var(--hs-inset);display:flex;
+  align-items:center;justify-content:center;transition:all .15s
+}
+.radio-option.selected .radio-dot{
+  background:var(--hs-medallion-gradient);box-shadow:0 3px 8px rgba(11,31,51,.18)
+}
+.radio-option.selected .radio-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.radio-option input[type="radio"]{display:none}
+.radio-option span{font-size:15px;color:var(--hs-text)}
+.radio-option.selected span{font-weight:700;color:var(--hs-navy)}
+
+/* ---- Step nav ---- */
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+.step-nav .back-btn{font-size:14px;font-weight:700;font-family:'Lato',sans-serif;color:var(--hs-slate);background:transparent;border:none;cursor:pointer;padding:0 4px;min-height:var(--nv-tap);transition:color .15s}
+.step-nav .back-btn:hover{color:var(--hs-navy)}
+.step-nav .next-btn{
+  display:inline-flex;align-items:center;gap:8px;background:var(--hs-action-gradient);color:#fff;
+  font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 28px;
+  border-radius:var(--hs-radius-control);border:none;cursor:pointer;transition:all .2s;
+  opacity:.4;pointer-events:none;min-height:var(--nv-tap);box-shadow:var(--sh1)
+}
+.step-nav .next-btn.enabled{opacity:1;pointer-events:auto}
+.step-nav .next-btn.enabled:hover{box-shadow:var(--sh2)}
+.step-nav .next-btn svg{width:16px;height:16px}
+.step-nav-right{display:flex;align-items:center;gap:16px}
+.skip-link{font-size:13px;color:var(--hs-muted);cursor:pointer;background:none;border:0;font-family:inherit;font-weight:700}
+.skip-link:hover{color:var(--hs-link)}
+.step-nav .plain-btn{
+  display:inline-flex;align-items:center;gap:8px;background:var(--hs-action-gradient);color:#fff;
+  font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 28px;
+  border-radius:var(--hs-radius-control);border:none;cursor:pointer;min-height:var(--nv-tap);box-shadow:var(--sh1);transition:box-shadow .15s
+}
+.step-nav .plain-btn:hover{box-shadow:var(--sh2)}
+
+/* ---- Contact form ---- */
+.contact-capture{background:var(--hs-surface);border:0;border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:30px 28px;animation:fadeIn .4s ease}
+.contact-capture h4{font-size:17px;font-weight:700;color:var(--hs-navy);margin-bottom:4px}
+.contact-capture .cc-subtitle{font-size:13px;color:var(--hs-muted);margin-bottom:20px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.field label .req{color:#c0392b}
+.field input,.field select{
+  width:100%;font-family:'Lato',sans-serif;font-size:14px;padding:0 18px;border:0;
+  border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);
+  min-height:var(--nv-tap);color:var(--hs-text);outline:none;transition:all .2s
+}
+.field input::placeholder{color:var(--hs-muted)}
+.field input:focus,.field select:focus{background:#fff;box-shadow:0 8px 22px rgba(11,31,51,.20),0 2px 6px rgba(11,31,51,.10)}
+.field select{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%234A5568' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.field-error{color:#c0392b;font-size:13px;font-weight:700;margin-top:6px;display:none}
+.field.has-error input,.field.has-error select{box-shadow:0 0 0 2px #c0392b !important}
+.field.has-error .field-error{display:block}
+.contact-note{font-size:12px;color:var(--hs-muted);margin-top:8px;margin-bottom:0;line-height:1.5}
+
+.submit-row{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.submit-row .back-btn{font-size:14px;font-weight:700;font-family:'Lato',sans-serif;color:var(--hs-slate);background:transparent;border:none;cursor:pointer;padding:0 4px;min-height:var(--nv-tap)}
+.submit-row .submit-btn{
+  background:var(--hs-action-gradient);color:#fff;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;
+  padding:12px 28px;border-radius:var(--hs-radius-control);border:none;cursor:pointer;
+  transition:all .2s;min-height:var(--nv-tap);box-shadow:var(--sh1)
+}
+.submit-row .submit-btn:hover{box-shadow:var(--sh2)}
+
+/* ---- Error message (step 4) ---- */
+.step4-error{color:#c0392b;font-size:14px;font-weight:700;margin-bottom:16px;display:none}
+
+/* ---- Quote result ---- */
+#quote-result{display:none}
+
+.quote-banner{
+  background:var(--hs-action-gradient);color:#fff;border-radius:var(--hs-radius-card);
+  box-shadow:var(--sh4);padding:36px 40px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden
+}
+.quote-banner .qb-eyebrow{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px}
+.quote-banner h1{font-size:clamp(24px,4vw,32px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px}
+.quote-banner p{font-size:14px;color:rgba(255,255,255,.8);max-width:560px;margin:0 auto}
+
+.quote-body{max-width:720px;margin:0 auto;padding:0 24px 80px}
+
+/* Year-one card */
+.year-card{
+  background:var(--hs-action-gradient);color:#fff;border-radius:var(--hs-radius-card);
+  box-shadow:var(--sh4);padding:32px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden
+}
+.year-card .yc-label{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px}
+.year-card .yc-big{font-size:clamp(34px,5vw,44px);font-weight:700;color:#fff;margin-bottom:4px}
+.year-card .yc-sub{font-size:14px;color:rgba(255,255,255,.8)}
+
+/* Two tiles */
+.two-tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.tile{background:var(--hs-surface);border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:24px;text-align:center}
+.tile .tile-label{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--hs-muted);margin-bottom:6px}
+.tile .tile-num{
+  font-size:28px;font-weight:700;
+  background:var(--hs-icon-gradient);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;margin-bottom:4px
+}
+.tile .tile-sub{font-size:13px;color:var(--hs-muted)}
+
+/* Strips */
+.strip{
+  background:var(--hs-surface);border-radius:var(--hs-radius-card);box-shadow:var(--sh1);
+  padding:18px 22px;margin-bottom:12px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:8px
+}
+.strip .strip-label{font-size:14px;font-weight:700;color:var(--hs-navy)}
+.strip .strip-value{font-size:14px;font-weight:700;color:var(--hs-pine)}
+.strip .strip-sub{font-size:13px;color:var(--hs-muted);width:100%}
+
+.prepay-strip{background:var(--hs-mist)}
+
+/* Demo card */
+.demo-card{
+  background:var(--hs-mist);border-radius:var(--hs-radius-card);
+  padding:28px 32px;margin:24px 0;text-align:center
+}
+.demo-card h3{font-size:17px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.demo-card p{font-size:14px;color:var(--hs-muted);margin-bottom:16px}
+.demo-card .demo-link{
+  display:inline-flex;align-items:center;gap:8px;background:var(--hs-teal);color:#fff;
+  font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 28px;
+  border-radius:var(--hs-radius-control);text-decoration:none;box-shadow:var(--sh1);transition:box-shadow .15s
+}
+.demo-card .demo-link:hover{box-shadow:var(--sh2);text-decoration:none}
+
+/* Breakdown */
+.breakdown{margin:32px 0}
+.breakdown h3{font-size:17px;font-weight:700;color:var(--hs-navy);margin-bottom:18px}
+.line-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--hs-border);font-size:14px}
+.line-item .li-label{color:var(--hs-muted)}
+.line-item.total{font-weight:700;border-bottom:2px solid var(--hs-navy)}
+.line-item.total .li-label{color:var(--hs-text)}
+
+/* Tier toggle */
+.tier-toggle{margin:24px 0}
+.tier-toggle summary{font-size:14px;font-weight:700;color:var(--hs-link);cursor:pointer;padding:12px 0}
+.tier-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:12px;font-size:14px}
+.tier-table th{text-align:left;padding:10px 14px;background:var(--hs-mist);font-weight:700;font-size:13px;color:var(--hs-navy)}
+.tier-table th:first-child{border-radius:var(--hs-radius-small) 0 0 var(--hs-radius-small)}
+.tier-table th:last-child{border-radius:0 var(--hs-radius-small) var(--hs-radius-small) 0}
+.tier-table td{padding:10px 14px;border-bottom:1px solid var(--hs-border);color:var(--hs-text)}
+.tier-table tr.highlight{background:var(--hs-pale);font-weight:700}
+.tier-table tr.highlight td:first-child{border-radius:var(--hs-radius-small) 0 0 var(--hs-radius-small)}
+.tier-table tr.highlight td:last-child{border-radius:0 var(--hs-radius-small) var(--hs-radius-small) 0}
+
+/* Quote actions */
+.quote-actions{display:flex;gap:14px;align-items:center;margin:32px 0;flex-wrap:wrap}
+.quote-actions .pdf-btn{
+  display:inline-flex;align-items:center;gap:8px;background:var(--hs-mist);color:var(--hs-navy);
+  font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 24px;
+  border-radius:var(--hs-radius-control);border:none;cursor:pointer;box-shadow:var(--hs-inset);transition:all .15s
+}
+.quote-actions .pdf-btn:hover{background:var(--hs-pale);box-shadow:var(--sh1)}
+.quote-actions .change-link{font-size:13px;color:var(--hs-muted);cursor:pointer;background:none;border:0;font-family:inherit;font-weight:700}
+.quote-actions .change-link:hover{color:var(--hs-link)}
+
+/* Talk section */
+.talk-section{
+  background:var(--hs-mist);border-radius:var(--hs-radius-card);
+  padding:32px;text-align:center;margin-top:32px
+}
+.talk-section h3{font-size:17px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.talk-section p{font-size:14px;color:var(--hs-muted);margin-bottom:18px}
+.talk-section .talk-btn{
+  display:inline-flex;align-items:center;gap:8px;background:var(--hs-action-gradient);color:#fff;
+  font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:12px 28px;
+  border-radius:var(--hs-radius-control);text-decoration:none;box-shadow:var(--sh1);transition:box-shadow .15s
+}
+.talk-section .talk-btn:hover{box-shadow:var(--sh2);text-decoration:none}
+
+/* ---- Responsive ---- */
+@media(max-width:600px){
+  .quiz-container{padding:16px}
+  .landing{padding:40px 16px}
+  .field-row{grid-template-columns:1fr}
+  .addon-grid{grid-template-columns:1fr}
+  .two-tiles{grid-template-columns:1fr}
+  .step-nav,.submit-row{gap:12px}
+  .quote-banner{padding:28px 20px}
+  .year-card{padding:24px 20px}
+  .included-hero{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+<div class="quiz-container">
+
+  <!-- ===== LANDING ===== -->
+  <div class="landing" id="landing">
+    <img src="https://images.squarespace-cdn.com/content/v1/69438d79db205639aca92b96/d4184cfc-e432-40a9-83ac-64eeec9d4dc4/PB_Mareto+Logo-01.png?format=1500w" alt="Mareto">
+    <h1>Receive a quote</h1>
+    <p class="subtitle">See exactly what Mareto would cost you. Start with what every plan includes, then tell us about your setup. About 3 minutes.</p>
+    <button class="start-btn" onclick="goStep(1)">Start <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    <p class="note">About 3 minutes</p>
+  </div>
+
+  <!-- STEP 1: What every plan includes -->
+  <div class="step" id="step-1" data-step="1">
+    <div class="step-header">
+      <div class="step-label" id="label-1"></div>
+      <div class="step-title">What every plan includes</div>
+    </div>
+
+    <div class="included-hero">
+      <div class="medallion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h2>Included in every plan, at no extra cost</h2>
+      <p>Before you choose anything, this is what you get as standard. Click any item to see what it means for your team.</p>
+    </div>
+
+    <div id="chip-groups"></div>
+
+    <div class="never-charged">
+      <h3>Never charged</h3>
+      <ul>
+        <li>Adding more clients or records</li>
+        <li>Updates and security patches</li>
+        <li>Exporting your data any time</li>
+        <li>Leaving. No exit fees.</li>
+      </ul>
+    </div>
+
+    <div class="step-nav">
+      <div></div>
+      <button class="plain-btn" onclick="goStep(2)">Next: build your quote <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Your setup -->
+  <div class="step" id="step-2" data-step="2">
+    <div class="step-header">
+      <div class="step-label" id="label-2"></div>
+      <div class="step-title">Your setup</div>
+    </div>
+
+    <div class="stepper-card">
+      <label>How many people will log in? <span id="badge-users" class="prefill-badge" style="display:none;">From your demo answers</span></label>
+      <div class="stepper-help">Staff or volunteers who use it. Plans start at $525 a month, which covers up to 15 people.</div>
+      <div class="stepper">
+        <button type="button" onclick="stepVal('users',-1)">&#8722;</button>
+        <input type="number" id="users" value="15" min="1" max="1000">
+        <button type="button" onclick="stepVal('users',1)">+</button>
+      </div>
+    </div>
+
+    <div class="stepper-card">
+      <label>How many programs will you run in it? <span id="badge-programs" class="prefill-badge" style="display:none;">From your demo answers</span></label>
+      <div class="stepper-help">Your first two programs are included.</div>
+      <div class="stepper">
+        <button type="button" onclick="stepVal('programs',-1)">&#8722;</button>
+        <input type="number" id="programs" value="1" min="1" max="60">
+        <button type="button" onclick="stepVal('programs',1)">+</button>
+      </div>
+    </div>
+
+    <div class="stepper-card">
+      <label>How many kinds of staff see different things?</label>
+      <div class="stepper-help">For example front desk, case worker and manager. All are included, at no extra cost. This tells us how to set up who sees what.</div>
+      <div class="stepper">
+        <button type="button" onclick="stepVal('roles',-1)">&#8722;</button>
+        <input type="number" id="roles" value="3" min="1" max="100">
+        <button type="button" onclick="stepVal('roles',1)">+</button>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="back-btn" onclick="goStep(1)">&larr; Back</button>
+      <button class="plain-btn" onclick="goStep(3)">Next <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Anything extra -->
+  <div class="step" id="step-3" data-step="3">
+    <div class="step-header">
+      <div class="step-label" id="label-3"></div>
+      <div class="step-title">Anything extra</div>
+    </div>
+
+    <p class="section-intro">Optional. Most organizations start with what every plan includes, and you can add these later.</p>
+
+    <h3 class="section-heading">Add-ons</h3>
+    <p class="section-sub">$250 each, never more than $1,000 in total.</p>
+    <div class="addon-grid" id="addon-grid"></div>
+
+    <h3 class="section-heading">Other options</h3>
+    <div style="margin-bottom:24px;">
+      <div class="other-option">
+        <label>
+          <input type="checkbox" id="french" value="5000">
+          <div>
+            <span class="opt-name">Mareto in French</span> <span class="opt-price">$5,000</span>
+            <div class="opt-desc">Every screen, button, form and report in French.</div>
+          </div>
+        </label>
+      </div>
+      <div class="other-option" style="margin-top:12px;">
+        <label>
+          <input type="checkbox" id="pia" value="2500">
+          <div>
+            <span class="opt-name">Privacy impact assessment</span> <span class="opt-price">$2,500</span>
+            <div class="opt-desc">We prepare a privacy impact assessment for your system, for your board, a funder or your privacy office.</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <h3 class="section-heading">Also available, priced with you</h3>
+    <p class="section-sub">These depend on your setup, so we price them on a short call.</p>
+    <div id="call-options"></div>
+
+    <div class="step-nav">
+      <button class="back-btn" onclick="goStep(2)">&larr; Back</button>
+      <div class="step-nav-right">
+        <button class="skip-link" onclick="goStep(nextAfter(3))">Skip this</button>
+        <button class="plain-btn" onclick="goStep(nextAfter(3))">Next <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Timing and role -->
+  <div class="step" id="step-4" data-step="4">
+    <div class="step-header">
+      <div class="step-label" id="label-4"></div>
+      <div class="step-title">Timing and role</div>
+    </div>
+
+    <div class="radio-group" id="rg-timing">
+      <label>When do you want to make a change?</label>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="timing" value="now"><span>Now. We need something in place</span></div>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="timing" value="3m"><span>Within 3 months</span></div>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="timing" value="6m"><span>Within 6 months</span></div>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="timing" value="exploring"><span>Just exploring for now</span></div>
+    </div>
+    <div class="radio-group" id="rg-role">
+      <label>What is your part in the decision?</label>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="role" value="decision"><span>I make or approve the final decision</span></div>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="role" value="evaluator"><span>I am evaluating options to recommend</span></div>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="role" value="researcher"><span>I am researching for my team</span></div>
+      <div class="radio-option" onclick="pickRadio(this)"><span class="radio-dot"></span><input type="radio" name="role" value="curious"><span>I am curious what is out there</span></div>
+    </div>
+    <div class="step4-error" id="step4-error">Please answer both questions to continue.</div>
+    <div class="step-nav">
+      <button class="back-btn" onclick="goStep(3)">&larr; Back</button>
+      <button class="plain-btn" id="step4-btn" onclick="validateStep4()">Next: last step <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Contact form -->
+  <div class="step" id="step-5" data-step="5">
+    <div class="step-header">
+      <div class="step-label" id="label-5"></div>
+      <div class="step-title">Where should we send your quote?</div>
+    </div>
+
+    <div class="contact-capture">
+      <div class="contact-capture-inner">
+        <div class="field-row">
+          <div class="field" id="f-name">
+            <label for="q-name">Name <span class="req">*</span></label>
+            <input type="text" id="q-name" autocomplete="name" placeholder="Jane Smith">
+            <div class="field-error">Please enter your name.</div>
+          </div>
+          <div class="field" id="f-title">
+            <label for="q-title">Title</label>
+            <input type="text" id="q-title" autocomplete="organization-title" placeholder="Executive Director">
+          </div>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="q-email">Work email <span class="req">*</span></label>
+          <input type="email" id="q-email" autocomplete="email" placeholder="jane@yourorg.ca">
+          <div class="field-error" id="email-error">Please enter a valid work email.</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field" id="f-org">
+            <label for="q-org">Organization <span class="req">*</span></label>
+            <input type="text" id="q-org" autocomplete="organization" placeholder="Community Services Inc.">
+            <div class="field-error">Please enter your organization.</div>
+          </div>
+          <div class="field" id="f-prov">
+            <label for="q-province">Province or territory <span class="req">*</span></label>
+            <select id="q-province">
+              <option value="">Select...</option>
+              <option value="AB">Alberta</option>
+              <option value="BC">British Columbia</option>
+              <option value="MB">Manitoba</option>
+              <option value="NB">New Brunswick</option>
+              <option value="NL">Newfoundland and Labrador</option>
+              <option value="NS">Nova Scotia</option>
+              <option value="NT">Northwest Territories</option>
+              <option value="NU">Nunavut</option>
+              <option value="ON">Ontario</option>
+              <option value="PE">Prince Edward Island</option>
+              <option value="QC">Quebec</option>
+              <option value="SK">Saskatchewan</option>
+              <option value="YT">Yukon</option>
+            </select>
+            <div class="field-error">Please select a province.</div>
+          </div>
+        </div>
+
+        <p class="contact-note">We use this to send your quote and follow up about Mareto. Unsubscribe any time.</p>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button class="back-btn" onclick="goStep(prevBefore(5))">&larr; Back</button>
+      <button class="submit-btn" onclick="submitQuote()">Show my quote</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUOTE RESULT ===== -->
+<div id="quote-result">
+  <div class="quiz-container" style="min-height:auto;justify-content:flex-start;padding-top:40px;">
+    <div class="quote-banner">
+      <div class="qb-eyebrow">Your custom quote</div>
+      <h1 id="qr-heading"></h1>
+      <p id="qr-sub"></p>
+    </div>
+
+    <div class="quote-body" style="padding:0 0 80px;">
+      <div class="year-card">
+        <div class="yc-label">Your first year</div>
+        <div class="yc-big" id="qr-year1"></div>
+        <div class="yc-sub">Setup plus twelve months of licence</div>
+      </div>
+
+      <div class="two-tiles">
+        <div class="tile">
+          <div class="tile-label">One-time setup</div>
+          <div class="tile-num" id="qr-setup"></div>
+          <div class="tile-sub">Paid once</div>
+        </div>
+        <div class="tile">
+          <div class="tile-label">Monthly licence</div>
+          <div class="tile-num" id="qr-monthly"></div>
+          <div class="tile-sub" id="qr-monthly-sub"></div>
+        </div>
+      </div>
+
+      <div id="qr-priced-with"></div>
+
+      <div class="strip prepay-strip" id="qr-prepay-strip">
+        <div>
+          <div class="strip-label">Pay the year in full up front and save 5 percent</div>
+        </div>
+        <div class="strip-value" id="qr-prepay"></div>
+      </div>
+
+      <div id="qr-demo-card"></div>
+
+      <div class="breakdown">
+        <h3>How your price is worked out</h3>
+        <div id="qr-lines"></div>
+      </div>
+
+      <details class="tier-toggle">
+        <summary>How licence pricing works</summary>
+        <table class="tier-table">
+          <thead><tr><th>People</th><th>Per person per month</th></tr></thead>
+          <tbody id="qr-tier-body"></tbody>
+        </table>
+      </details>
+
+      <div class="quote-actions">
+        <button class="pdf-btn" onclick="downloadPdf()">Download your quote (PDF)</button>
+        <button class="change-link" onclick="changeAnswers()">Change my answers</button>
+      </div>
+
+      <div id="qr-talk-section"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===============================================================
+   PRICING CONSTANTS & FUNCTIONS (canonical -- do not change)
+   =============================================================== */
+const BASE_SETUP = 5000, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1000;
+const ADDON_PRICE = 250, ADDON_CAP = 1000, MIN_MONTHLY = 525, MIN_COVERS = 15;
+const LEVELS = [[11, 35], [20, 30], [50, 27], [100, 25]];
+const TIERS = [
+  { from: 1, to: 15, label: 'Up to 15 people', price: '$525 a month' },
+  { from: 16, to: 19, label: '16 to 19', price: '$35' },
+  { from: 20, to: 49, label: '20 to 49', price: '$30' },
+  { from: 50, to: 99, label: '50 to 99', price: '$27' },
+  { from: 100, to: null, label: '100 or more', price: '$25' }
+];
+const PREPAY_PCT = 5;
+const QUOTE_VALID_DAYS = 30;
+
+const HUBSPOT_QUOTE_FORM_ID = 'HUBSPOT_QUOTE_FORM_ID';
+
+function levelRate(n) { let r = LEVELS[0][1]; for (const [from, x] of LEVELS) if (n >= from) r = x; return r; }
+function licence(users) {
+  const n = Math.max(users, 1);
+  if (n <= MIN_COVERS) return { total: MIN_MONTHLY, rate: null, n, atLevel: null, atMin: true };
+  let total = n * levelRate(n), atLevel = null, atMin = false;
+  for (const [from, x] of LEVELS) if (from > n && from * x < total) { total = from * x; atLevel = from; }
+  if (total < MIN_MONTHLY) { total = MIN_MONTHLY; atMin = true; atLevel = null; }
+  return { total, rate: levelRate(n), n, atLevel, atMin };
+}
+
+function fmt(n) { return '$' + n.toLocaleString('en-CA'); }
+function fmtDate(d) { return d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' }); }
+
+/* ===============================================================
+   INCLUDED ITEMS DATA
+   =============================================================== */
+const INCLUDED_GROUPS = [
+  { name: 'Client records', items: [
+    { label: 'Client records', desc: 'A record for every person you work with, in one place.' },
+    { label: 'Profiles and demographics', desc: 'Age, gender, language, Indigenous identity and any other fields your funders ask for.' },
+    { label: 'Duplicate checking', desc: 'Mareto warns you if a client already exists, so you do not create the same person twice.' },
+    { label: 'Family and household links', desc: 'Connect family members and see the whole household on one screen.' }
+  ]},
+  { name: 'Intake and referrals', items: [
+    { label: 'Online forms and registration', desc: 'Clients fill in a form on your website and their answers land in Mareto, ready for you.' },
+    { label: 'Referral and intake queue', desc: 'See every new referral in one list. Accept, decline or waitlist from the queue.' },
+    { label: 'Consent', desc: 'Record what each client has consented to and when, with a full history.' }
+  ]},
+  { name: 'Case work', items: [
+    { label: 'Case files and plans', desc: 'Open a case, set goals and track progress, all linked to the client.' },
+    { label: 'Case notes', desc: 'Write notes on a case or a client and choose who can read them.' },
+    { label: 'Document upload', desc: 'Attach files to a client, case or program record.' },
+    { label: 'Assessments and outcomes', desc: 'Score assessments at intake, during and at exit, and see the change over time.' }
+  ]},
+  { name: 'Scheduling and programs', items: [
+    { label: 'Appointments and calendars', desc: 'Book one-on-one appointments and see your day on a calendar.' },
+    { label: 'Classes groups and attendance', desc: 'Set up group sessions, take attendance and see who showed up over time.' },
+    { label: 'Waitlists', desc: 'Put clients on a waitlist and move them in when a spot opens.' },
+    { label: 'Reminders and automations', desc: 'Send appointment reminders and trigger follow-ups automatically.' }
+  ]},
+  { name: 'Reporting', items: [
+    { label: 'Funder reports', desc: 'Pull the numbers your funders ask for, in the format they need.' },
+    { label: 'Live dashboards', desc: 'See caseloads, attendance and outcomes on a dashboard that updates in real time.' },
+    { label: 'Exports to Excel and PDF', desc: 'Export any report or list to Excel or PDF with one click.' }
+  ]},
+  { name: 'Privacy and security', items: [
+    { label: 'Hosted in Canada', desc: 'Your data stays in Canada, on Canadian servers.' },
+    { label: 'Privacy by role', desc: 'Control what each role can see, edit and delete.' },
+    { label: 'Two-step login', desc: 'Every account is protected by two-step verification.' },
+    { label: 'Audit logs', desc: 'A record of who did what and when, for your privacy officer or board.' }
+  ]},
+  { name: 'Setup and support', items: [
+    { label: 'Built around what you need', desc: 'We set it up to match your programs, forms and workflow, not the other way around.' },
+    { label: 'Three rounds of changes', desc: 'After launch, three rounds of adjustments so it fits the way you actually work.' },
+    { label: 'Training for your team', desc: 'Live training sessions for your staff, included in setup.' },
+    { label: 'Help desk', desc: 'Reach our support team by email or chat when you need help.' }
+  ]}
+];
+
+/* ===============================================================
+   ADD-ON DATA
+   =============================================================== */
+const ADDONS = [
+  { id: 'surveys', name: 'Online surveys', price: 250, desc: 'Send satisfaction or outcome surveys by link, for example after a program ends. Answers land on the person\'s record and in your dashboards.' },
+  { id: 'signature', name: 'Online signatures', price: 250, desc: 'Clients sign consent and intake forms on screen or from a link, and the signed copy is saved to their record.' },
+  { id: 'finance', name: 'Financial assistance', price: 250, desc: 'Record requests, approvals and payments made for clients, with totals by program and funder.' },
+  { id: 'inventory', name: 'Inventory and distribution', price: 250, desc: 'Track stock, hampers or orders, and record what went to whom and when.' },
+  { id: 'housing', name: 'Housing units and beds', price: 250, desc: 'Track units and beds, occupancy, move-ins and move-outs, linked to the people living there.' },
+  { id: 'volunteer', name: 'Volunteer management', price: 250, desc: 'Keep volunteer records, track shifts and hours, and report on them alongside your programs.' }
+];
+
+const CALL_OPTIONS = [
+  { id: 'q_records', name: 'Bringing in your existing records', desc: 'Moving client records over from spreadsheets or another system. We look at what you have and fix the price before any work starts.' },
+  { id: 'q_connect', name: 'Connections to other software', desc: '' },
+  { id: 'q_onsite', name: 'On-site training', desc: '' },
+  { id: 'q_support', name: 'Advanced support', desc: '' }
+];
+
+const PERSONAL_DOMAINS = ['gmail.com','yahoo.com','yahoo.ca','hotmail.com','hotmail.ca','outlook.com','live.com','live.ca','icloud.com','me.com','aol.com','protonmail.com','proton.me','mail.com','zoho.com','yandex.com','gmx.com','gmx.ca','fastmail.com','tutanota.com','hey.com','pm.me'];
+
+/* ===============================================================
+   STATE
+   =============================================================== */
+let currentStep = 0; // 0 = landing
+let totalSteps = 5;
+let activeSteps = [1, 2, 3, 4, 5];
+let demoAnswers = null;
+let demoContact = null;
+let fromSource = 'direct';
+
+const STEP_NAMES = {
+  1: 'What every plan includes',
+  2: 'Your setup',
+  3: 'Anything extra',
+  4: 'Timing and role',
+  5: 'Where to send it'
+};
+
+/* ===============================================================
+   INIT
+   =============================================================== */
+(function init() {
+  const params = new URLSearchParams(location.search);
+  fromSource = params.get('from') || 'direct';
+
+  // Load demo answers
+  try { demoAnswers = JSON.parse(localStorage.getItem('mareto-demo-answers')); } catch(e) {}
+  try { demoContact = JSON.parse(localStorage.getItem('mareto-demo-contact')); } catch(e) {}
+
+  // Determine which steps are active
+  const hasTimingRole = demoAnswers && demoAnswers.timing && demoAnswers.role;
+  const hasContact = demoContact && demoContact.email;
+
+  if (hasTimingRole && hasContact) {
+    activeSteps = [1, 2, 3];
+  } else if (hasTimingRole) {
+    activeSteps = [1, 2, 3, 5];
+  } else if (hasContact) {
+    activeSteps = [1, 2, 3, 4];
+  } else {
+    activeSteps = [1, 2, 3, 4, 5];
+  }
+  totalSteps = activeSteps.length;
+
+  // Pre-fill from demo
+  if (demoAnswers) {
+    const sizeMap = { '1-5': 5, '6-15': 6, '16-30': 16, '31-50': 31, '50+': 50 };
+    const progMap = { '1-2': 1, '3-5': 3, '6-10': 6, '10+': 10 };
+    if (demoAnswers.size && sizeMap[demoAnswers.size]) {
+      document.getElementById('users').value = sizeMap[demoAnswers.size];
+      document.getElementById('badge-users').style.display = '';
+    }
+    if (demoAnswers.programs && progMap[demoAnswers.programs]) {
+      document.getElementById('programs').value = progMap[demoAnswers.programs];
+      document.getElementById('badge-programs').style.display = '';
+    }
+    if (demoAnswers.timing) {
+      const r = document.querySelector(`input[name="timing"][value="${demoAnswers.timing}"]`);
+      if (r) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
+    }
+    if (demoAnswers.role) {
+      const r = document.querySelector(`input[name="role"][value="${demoAnswers.role}"]`);
+      if (r) { r.checked = true; r.closest('.radio-option').classList.add('selected'); }
+    }
+  }
+
+  // Pre-fill from URL params
+  if (params.get('users')) document.getElementById('users').value = Math.max(1, Math.min(1000, parseInt(params.get('users')) || 15));
+  if (params.get('programs')) document.getElementById('programs').value = Math.max(1, Math.min(60, parseInt(params.get('programs')) || 1));
+  if (params.get('roles')) document.getElementById('roles').value = Math.max(1, Math.min(100, parseInt(params.get('roles')) || 3));
+
+  // Step 4 button text
+  if (hasContact) {
+    document.getElementById('step4-btn').textContent = 'Show my quote';
+    document.getElementById('step4-btn').onclick = function() { validateStep4(true); };
+  }
+
+  // Build dynamic UI
+  buildChipGroups();
+  buildAddonGrid();
+  buildCallOptions();
+
+  // Pre-select addons from URL
+  if (params.get('addons')) {
+    params.get('addons').split(',').forEach(id => {
+      const card = document.querySelector(`.addon-card[data-id="${id}"]`);
+      if (card) card.classList.add('selected');
+      const cb = document.getElementById(id);
+      if (cb) cb.checked = true;
+    });
+  }
+
+  // Stepper input listeners
+  ['users', 'programs', 'roles'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('change', () => clampInput(id));
+    el.addEventListener('input', () => clampInput(id));
+  });
+
+  // Show landing (step 0)
+  currentStep = 0;
+})();
+
+/* ===============================================================
+   BUILD UI
+   =============================================================== */
+function buildChipGroups() {
+  const wrap = document.getElementById('chip-groups');
+  INCLUDED_GROUPS.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'chip-group';
+    div.innerHTML = `<div class="chip-group-label">${g.name}</div><div class="chips"></div>`;
+    const chips = div.querySelector('.chips');
+    g.items.forEach(item => {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.textContent = item.label;
+      const desc = document.createElement('div');
+      desc.className = 'chip-desc';
+      desc.textContent = item.desc;
+      chip.addEventListener('click', () => {
+        const wasOpen = chip.classList.contains('open');
+        chips.querySelectorAll('.chip').forEach(c => c.classList.remove('open'));
+        chips.querySelectorAll('.chip-desc').forEach(d => d.classList.remove('show'));
+        if (!wasOpen) { chip.classList.add('open'); desc.classList.add('show'); }
+      });
+      chips.appendChild(chip);
+      chips.appendChild(desc);
+    });
+    wrap.appendChild(div);
+  });
+}
+
+function buildAddonGrid() {
+  const grid = document.getElementById('addon-grid');
+  ADDONS.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'addon-card';
+    card.dataset.id = a.id;
+    card.innerHTML = `
+      <div class="addon-top">
+        <div class="addon-check"><span style="display:none;">&#10003;</span></div>
+        <div class="addon-label"><span class="addon-name">${a.name}</span></div>
+        <span class="addon-price">$${a.price}</span>
+      </div>
+      <button type="button" class="addon-toggle" onclick="event.stopPropagation(); this.nextElementSibling.classList.toggle('show'); this.textContent = this.nextElementSibling.classList.contains('show') ? 'Hide details' : 'What does this do?';">What does this do?</button>
+      <div class="addon-detail">${a.desc}</div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.addon-toggle')) return;
+      card.classList.toggle('selected');
+      card.querySelector('.addon-check span').style.display = card.classList.contains('selected') ? '' : 'none';
+    });
+    grid.appendChild(card);
+  });
+}
+
+function buildCallOptions() {
+  const wrap = document.getElementById('call-options');
+  CALL_OPTIONS.forEach(o => {
+    const div = document.createElement('div');
+    div.className = 'call-option';
+    div.innerHTML = `
+      <label>
+        <input type="checkbox" id="${o.id}">
+        <div>
+          <span class="opt-name">${o.name}</span>
+          ${o.desc ? `<div class="opt-desc">${o.desc}</div>` : ''}
+        </div>
+      </label>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+/* ===============================================================
+   NAVIGATION
+   =============================================================== */
+function goStep(n) {
+  if (n === 0 || !activeSteps.includes(n)) return;
+  currentStep = n;
+  document.getElementById('landing').style.display = 'none';
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  updateProgress();
+  updateStepLabels();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextAfter(n) {
+  const idx = activeSteps.indexOf(n);
+  return idx < activeSteps.length - 1 ? activeSteps[idx + 1] : n;
+}
+
+function prevBefore(n) {
+  const idx = activeSteps.indexOf(n);
+  return idx > 0 ? activeSteps[idx - 1] : n;
+}
+
+function updateProgress() {
+  const idx = activeSteps.indexOf(currentStep);
+  const pct = ((idx + 1) / totalSteps) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function updateStepLabels() {
+  activeSteps.forEach((stepNum, idx) => {
+    const el = document.getElementById('label-' + stepNum);
+    if (el) el.textContent = `Step ${idx + 1} of ${totalSteps} \u00B7 ${STEP_NAMES[stepNum]}`;
+  });
+}
+
+/* ===============================================================
+   STEPPER
+   =============================================================== */
+function stepVal(id, dir) {
+  const el = document.getElementById(id);
+  const mn = parseInt(el.min), mx = parseInt(el.max);
+  let v = parseInt(el.value) || mn;
+  v += dir;
+  if (v < mn) v = mn;
+  if (v > mx) v = mx;
+  el.value = v;
+  updateStepperButtons(id);
+}
+
+function clampInput(id) {
+  const el = document.getElementById(id);
+  const mn = parseInt(el.min), mx = parseInt(el.max);
+  let v = parseInt(el.value);
+  if (isNaN(v) || v < mn) v = mn;
+  if (v > mx) v = mx;
+  el.value = v;
+  updateStepperButtons(id);
+}
+
+function updateStepperButtons(id) {
+  const el = document.getElementById(id);
+  const v = parseInt(el.value);
+  const btns = el.closest('.stepper').querySelectorAll('button');
+  btns[0].disabled = v <= parseInt(el.min);
+  btns[1].disabled = v >= parseInt(el.max);
+}
+
+/* ===============================================================
+   RADIO SELECTION
+   =============================================================== */
+function pickRadio(opt) {
+  const name = opt.querySelector('input').name;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.closest('.radio-option').classList.remove('selected'));
+  opt.classList.add('selected');
+  opt.querySelector('input').checked = true;
+}
+
+/* ===============================================================
+   VALIDATION
+   =============================================================== */
+function validateStep4(andSubmit) {
+  const t = document.querySelector('input[name="timing"]:checked');
+  const r = document.querySelector('input[name="role"]:checked');
+  if (!t || !r) {
+    document.getElementById('step4-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('step4-error').style.display = 'none';
+  if (andSubmit) {
+    submitQuote();
+  } else {
+    goStep(nextAfter(4));
+  }
+}
+
+function validateContact() {
+  let ok = true;
+  const fields = [
+    { id: 'q-name', test: v => v.trim().length > 0 },
+    { id: 'q-email', test: v => {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return false;
+      const domain = v.split('@')[1].toLowerCase();
+      if (PERSONAL_DOMAINS.includes(domain)) return false;
+      return true;
+    }},
+    { id: 'q-org', test: v => v.trim().length > 0 },
+    { id: 'q-province', test: v => v.length > 0 }
+  ];
+  fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    const field = el.closest('.field');
+    if (!f.test(el.value)) { field.classList.add('has-error'); ok = false; }
+    else { field.classList.remove('has-error'); }
+  });
+  // Custom email error message
+  const emailEl = document.getElementById('q-email');
+  const emailVal = emailEl.value.trim();
+  if (emailVal && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    const domain = emailVal.split('@')[1].toLowerCase();
+    if (PERSONAL_DOMAINS.includes(domain)) {
+      document.getElementById('email-error').textContent = 'Please use a work email, not a personal address.';
+    }
+  } else {
+    document.getElementById('email-error').textContent = 'Please enter a valid work email.';
+  }
+  return ok;
+}
+
+/* ===============================================================
+   SUBMIT
+   =============================================================== */
+function submitQuote() {
+  // Get contact -- from form or demo
+  let contact;
+  if (activeSteps.includes(5)) {
+    if (!validateContact()) return;
+    contact = {
+      name: document.getElementById('q-name').value.trim(),
+      title: document.getElementById('q-title').value.trim(),
+      email: document.getElementById('q-email').value.trim(),
+      org: document.getElementById('q-org').value.trim(),
+      province: document.getElementById('q-province').value
+    };
+  } else {
+    contact = demoContact;
+  }
+
+  // Get timing/role
+  let timing, role;
+  if (activeSteps.includes(4)) {
+    const t = document.querySelector('input[name="timing"]:checked');
+    const r = document.querySelector('input[name="role"]:checked');
+    if (!t || !r) { validateStep4(); return; }
+    timing = t.value;
+    role = r.value;
+  } else {
+    timing = demoAnswers.timing;
+    role = demoAnswers.role;
+  }
+
+  const users = parseInt(document.getElementById('users').value) || 15;
+  const programs = parseInt(document.getElementById('programs').value) || 1;
+  const roles = parseInt(document.getElementById('roles').value) || 3;
+
+  // Addons
+  const selectedAddons = [];
+  ADDONS.forEach(a => {
+    const card = document.querySelector(`.addon-card[data-id="${a.id}"]`);
+    if (card && card.classList.contains('selected')) selectedAddons.push(a);
+  });
+  const frenchChecked = document.getElementById('french').checked;
+  const piaChecked = document.getElementById('pia').checked;
+  const callItems = CALL_OPTIONS.filter(o => document.getElementById(o.id).checked);
+
+  const answers = {
+    users, programs, roles, timing, role,
+    addons: selectedAddons.map(a => a.id),
+    french: frenchChecked,
+    pia: piaChecked,
+    callItems: callItems.map(o => o.id),
+    from: fromSource
+  };
+
+  // Save
+  localStorage.setItem('mareto-quote-answers', JSON.stringify(answers));
+  localStorage.setItem('mareto-quote-contact', JSON.stringify(contact));
+
+  // HubSpot POST
+  postToHubSpot(contact, answers);
+
+  // Show result
+  showQuote(contact, answers);
+}
+
+function postToHubSpot(contact, answers) {
+  const nameParts = contact.name.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+  const body = {
+    portalId: '5183115',
+    formGuid: HUBSPOT_QUOTE_FORM_ID,
+    fields: [
+      { name: 'firstname', value: firstName },
+      { name: 'lastname', value: lastName },
+      { name: 'email', value: contact.email },
+      { name: 'company', value: contact.org },
+      { name: 'jobtitle', value: contact.title || '' },
+      { name: 'state', value: contact.province || '' }
+    ],
+    context: { pageUri: location.href, pageName: 'Receive a Quote' }
+  };
+  fetch(`https://api.hsforms.com/submissions/v3/integration/submit/5183115/${HUBSPOT_QUOTE_FORM_ID}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }).catch(() => {});
+}
+
+/* ===============================================================
+   SHOW QUOTE
+   =============================================================== */
+function showQuote(contact, answers) {
+  // Hide steps, show result
+  document.querySelector('.quiz-container').style.display = 'none';
+  document.querySelector('.progress-bar').style.display = 'none';
+  document.getElementById('quote-result').style.display = 'block';
+
+  const lic = licence(answers.users);
+  const extraPrograms = Math.max(0, answers.programs - PROGRAMS_INCLUDED);
+  const programCost = extraPrograms * PROGRAM_PRICE;
+  const addonTotal = Math.min(answers.addons.length * ADDON_PRICE, ADDON_CAP);
+  const frenchCost = answers.french ? 5000 : 0;
+  const piaCost = answers.pia ? 2500 : 0;
+  const setupTotal = BASE_SETUP + programCost + addonTotal + frenchCost + piaCost;
+  const monthly = lic.total;
+  const yearOne = setupTotal + (monthly * 12);
+  const prepayAnnual = monthly * 12 * (1 - PREPAY_PCT / 100);
+  const prepayYear1 = setupTotal + prepayAnnual;
+
+  const now = new Date();
+  const validUntil = new Date(now);
+  validUntil.setDate(validUntil.getDate() + QUOTE_VALID_DAYS);
+
+  // Heading
+  document.getElementById('qr-heading').textContent = 'Mareto for ' + contact.org;
+  let subText = 'Prepared for ' + contact.name;
+  if (contact.title) subText += ', ' + contact.title;
+  subText += '. Issued ' + fmtDate(now) + ', valid until ' + fmtDate(validUntil) + '.';
+  document.getElementById('qr-sub').textContent = subText;
+
+  // Year one
+  document.getElementById('qr-year1').textContent = fmt(yearOne);
+  document.getElementById('qr-setup').textContent = fmt(setupTotal);
+  document.getElementById('qr-monthly').textContent = fmt(monthly);
+
+  // Monthly sub
+  let monthlySub = '';
+  if (lic.atMin) {
+    monthlySub = 'Up to ' + MIN_COVERS + ' people included';
+  } else if (lic.atLevel) {
+    monthlySub = lic.n + ' people at the ' + lic.atLevel + '-person rate ($' + levelRate(lic.atLevel) + ' each)';
+  } else {
+    monthlySub = lic.n + ' people at $' + lic.rate + ' each';
+  }
+  document.getElementById('qr-monthly-sub').textContent = monthlySub;
+
+  // Priced with you
+  const pricedWrap = document.getElementById('qr-priced-with');
+  pricedWrap.innerHTML = '';
+  if (answers.callItems.length > 0) {
+    const items = answers.callItems.map(id => CALL_OPTIONS.find(o => o.id === id)).filter(Boolean);
+    items.forEach(item => {
+      const strip = document.createElement('div');
+      strip.className = 'strip';
+      strip.innerHTML = `<div class="strip-label">${item.name}</div><div class="strip-value">Priced on a call</div>`;
+      pricedWrap.appendChild(strip);
+    });
+  }
+
+  // Prepay
+  document.getElementById('qr-prepay').textContent = fmt(Math.round(prepayYear1));
+
+  // Demo card
+  const demoCardWrap = document.getElementById('qr-demo-card');
+  demoCardWrap.innerHTML = '';
+  const hasDone = !!demoAnswers;
+  const demoCard = document.createElement('div');
+  demoCard.className = 'demo-card';
+  if (hasDone) {
+    demoCard.innerHTML = `
+      <h3>Back to your demo</h3>
+      <p>Pick up where you left off in the interactive demo.</p>
+      <a href="mareto-interactive-demo.html" class="demo-link">Open my demo</a>
+    `;
+  } else {
+    demoCard.innerHTML = `
+      <h3>See it working</h3>
+      <p>Your interactive demo is ready.</p>
+      <a href="mareto-interactive-demo.html" class="demo-link">Open my demo</a>
+    `;
+  }
+  demoCardWrap.appendChild(demoCard);
+
+  // Breakdown lines
+  const linesWrap = document.getElementById('qr-lines');
+  linesWrap.innerHTML = '';
+  function addLine(label, value, isTotal) {
+    const div = document.createElement('div');
+    div.className = 'line-item' + (isTotal ? ' total' : '');
+    div.innerHTML = `<span class="li-label">${label}</span><span>${value}</span>`;
+    linesWrap.appendChild(div);
+  }
+  addLine('Base setup', fmt(BASE_SETUP));
+  if (extraPrograms > 0) addLine(extraPrograms + ' extra program' + (extraPrograms > 1 ? 's' : '') + ' (' + fmt(PROGRAM_PRICE) + ' each)', fmt(programCost));
+  if (answers.addons.length > 0) {
+    const addonNames = answers.addons.map(id => ADDONS.find(a => a.id === id)?.name).filter(Boolean).join(', ');
+    addLine('Add-ons: ' + addonNames, fmt(addonTotal));
+  }
+  if (answers.french) addLine('Mareto in French', fmt(frenchCost));
+  if (answers.pia) addLine('Privacy impact assessment', fmt(piaCost));
+  addLine('One-time setup total', fmt(setupTotal), true);
+  addLine('Monthly licence (' + monthlySub.toLowerCase() + ')', fmt(monthly));
+
+  // Tier table
+  const tbody = document.getElementById('qr-tier-body');
+  tbody.innerHTML = '';
+  TIERS.forEach(t => {
+    const isHighlight = answers.users >= t.from && (t.to === null || answers.users <= t.to);
+    const tr = document.createElement('tr');
+    if (isHighlight) tr.className = 'highlight';
+    tr.innerHTML = `<td>${t.label}</td><td>${t.price}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Talk section -- only if they have demo answers
+  const talkWrap = document.getElementById('qr-talk-section');
+  talkWrap.innerHTML = '';
+  if (demoAnswers) {
+    const meetUrl = `https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma?firstName=${encodeURIComponent(contact.name.split(' ')[0])}&email=${encodeURIComponent(contact.email)}`;
+    talkWrap.innerHTML = `
+      <div class="talk-section">
+        <h3>Ready to talk it through?</h3>
+        <p>30 minutes with Travis to confirm the details and answer your questions.</p>
+        <a href="${meetUrl}" target="_blank" class="talk-btn">Choose a time</a>
+      </div>
+    `;
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Auto-download PDF
+  setTimeout(() => downloadPdf(), 600);
+}
+
+/* ===============================================================
+   CHANGE ANSWERS
+   =============================================================== */
+function changeAnswers() {
+  document.getElementById('quote-result').style.display = 'none';
+  document.querySelector('.quiz-container').style.display = '';
+  document.querySelector('.progress-bar').style.display = '';
+  goStep(2);
+}
+
+/* ===============================================================
+   PDF GENERATION
+   =============================================================== */
+function buildQuotePdf(answers, contact) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const W = 612, H = 792;
+  const NAVY = [11, 31, 51];
+  const TEAL_C = [15, 185, 177];
+  const WHITE = [255, 255, 255];
+  const PALE = [224, 240, 238];
+  const MUTED = [74, 85, 104];
+  const BLACK = [45, 55, 72];
+  const MX = 48;
+
+  let latoRegularLoaded = false, latoBoldLoaded = false, latoLightLoaded = false;
+  let logoLoaded = false, logoImg = null;
+
+  function setFont(style) {
+    try {
+      if (style === 'bold' && latoBoldLoaded) { doc.setFont('Lato-Bold'); return; }
+      if (style === 'light' && latoLightLoaded) { doc.setFont('Lato-Light'); return; }
+      if (latoRegularLoaded) { doc.setFont('Lato-Regular'); return; }
+    } catch(e) {}
+    doc.setFont('helvetica', style === 'bold' ? 'bold' : 'normal');
+  }
+
+  // Pricing calc
+  const lic = licence(answers.users);
+  const extraPrograms = Math.max(0, answers.programs - PROGRAMS_INCLUDED);
+  const programCost = extraPrograms * PROGRAM_PRICE;
+  const addonTotal = Math.min(answers.addons.length * ADDON_PRICE, ADDON_CAP);
+  const frenchCost = answers.french ? 5000 : 0;
+  const piaCost = answers.pia ? 2500 : 0;
+  const setupTotal = BASE_SETUP + programCost + addonTotal + frenchCost + piaCost;
+  const monthly = lic.total;
+  const yearOne = setupTotal + (monthly * 12);
+  const prepayAnnual = monthly * 12 * (1 - PREPAY_PCT / 100);
+  const prepayYear1 = setupTotal + prepayAnnual;
+  const now = new Date();
+  const validUntil = new Date(now);
+  validUntil.setDate(validUntil.getDate() + QUOTE_VALID_DAYS);
+
+  let monthlySub = '';
+  if (lic.atMin) monthlySub = 'Up to ' + MIN_COVERS + ' people included';
+  else if (lic.atLevel) monthlySub = lic.n + ' people at the ' + lic.atLevel + '-person rate ($' + levelRate(lic.atLevel) + ' each)';
+  else monthlySub = lic.n + ' people at $' + lic.rate + ' each';
+
+  // --- PAGE 1: Cover ---
+  // Logo
+  if (logoLoaded && logoImg) {
+    try { doc.addImage(logoImg, 'PNG', MX, 36, 120, 36); } catch(e) {}
+  }
+  setFont('normal');
+  doc.setFontSize(10);
+  doc.setTextColor(...MUTED);
+  doc.text('mareto.ca', W - MX, 56, { align: 'right' });
+
+  // Teal line
+  doc.setFillColor(...TEAL_C);
+  doc.rect(0, 232, W, 4, 'F');
+
+  // Navy block
+  doc.setFillColor(...NAVY);
+  doc.rect(0, 236, W, H - 236, 'F');
+
+  // Eyebrow
+  doc.setTextColor(...TEAL_C);
+  setFont('bold');
+  doc.setFontSize(10);
+  doc.text('YOUR MARETO QUOTE', MX, 280);
+
+  // Org name
+  doc.setTextColor(...WHITE);
+  setFont('bold');
+  doc.setFontSize(28);
+  doc.text(contact.org, MX, 320);
+
+  // Prepared for
+  setFont('normal');
+  doc.setFontSize(12);
+  let preparedFor = 'Prepared for ' + contact.name;
+  if (contact.title) preparedFor += ', ' + contact.title;
+  doc.setTextColor(200, 210, 220);
+  doc.text(preparedFor, MX, 348);
+
+  // Stat boxes
+  const boxY = 400, boxH = 90, boxW = (W - MX * 2 - 24) / 3;
+  const stats = [
+    { label: 'Your first year', value: fmt(yearOne) },
+    { label: 'One-time setup', value: fmt(setupTotal) },
+    { label: 'Monthly licence', value: fmt(monthly) }
+  ];
+  stats.forEach((s, i) => {
+    const x = MX + i * (boxW + 12);
+    doc.setFillColor(30, 58, 95);
+    doc.rect(x, boxY, boxW, boxH, 'F');
+    doc.setTextColor(...TEAL_C);
+    setFont('bold');
+    doc.setFontSize(9);
+    doc.text(s.label.toUpperCase(), x + 14, boxY + 24);
+    doc.setTextColor(...WHITE);
+    setFont('bold');
+    doc.setFontSize(22);
+    doc.text(s.value, x + 14, boxY + 56);
+  });
+
+  // Dates
+  doc.setTextColor(200, 210, 220);
+  setFont('normal');
+  doc.setFontSize(9);
+  doc.text('Issued ' + fmtDate(now), MX, 530);
+  doc.text('Valid until ' + fmtDate(validUntil), MX, 546);
+  doc.text('CAD, before tax', MX, 562);
+
+  // --- PAGE 2: What every plan includes ---
+  doc.addPage();
+  setFont('bold');
+  doc.setFontSize(20);
+  doc.setTextColor(...NAVY);
+  doc.text('What every plan includes', MX, 56);
+
+  let py = 88;
+  INCLUDED_GROUPS.forEach(g => {
+    if (py > 700) { doc.addPage(); py = 56; }
+    setFont('bold');
+    doc.setFontSize(10);
+    doc.setTextColor(...MUTED);
+    doc.text(g.name.toUpperCase(), MX, py);
+    py += 16;
+    g.items.forEach(item => {
+      if (py > 740) { doc.addPage(); py = 56; }
+      doc.setTextColor(...TEAL_C);
+      doc.setFontSize(11);
+      doc.text('\u2713', MX, py);
+      doc.setTextColor(...BLACK);
+      setFont('normal');
+      doc.setFontSize(10);
+      doc.text(item.label, MX + 16, py);
+      py += 16;
+    });
+    py += 8;
+  });
+
+  // Never charged
+  if (py > 680) { doc.addPage(); py = 56; }
+  py += 8;
+  doc.setFillColor(...PALE);
+  doc.rect(MX, py, W - MX * 2, 80, 'F');
+  setFont('bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...NAVY);
+  doc.text('Never charged', MX + 12, py + 20);
+  setFont('normal');
+  doc.setFontSize(9);
+  doc.setTextColor(...MUTED);
+  const neverItems = ['Adding more clients or records', 'Updates and security patches', 'Exporting your data any time', 'Leaving. No exit fees.'];
+  neverItems.forEach((item, i) => {
+    doc.text('\u2713  ' + item, MX + 12, py + 38 + i * 13);
+  });
+
+  // --- PAGE 3: Your setup ---
+  doc.addPage();
+  setFont('bold');
+  doc.setFontSize(20);
+  doc.setTextColor(...NAVY);
+  doc.text('Your setup and anything extra', MX, 56);
+
+  py = 88;
+  const setupLines = [
+    { q: 'People who will log in', a: String(answers.users) },
+    { q: 'Programs', a: String(answers.programs) },
+    { q: 'Kinds of staff (roles)', a: String(answers.roles) }
+  ];
+  setupLines.forEach(sl => {
+    setFont('bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...BLACK);
+    doc.text(sl.q, MX, py);
+    setFont('normal');
+    doc.text(sl.a, W - MX, py, { align: 'right' });
+    py += 20;
+  });
+
+  // Tier table
+  py += 12;
+  setFont('bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...NAVY);
+  doc.text('Licence pricing levels', MX, py);
+  py += 16;
+
+  doc.setFillColor(...PALE);
+  doc.rect(MX, py, W - MX * 2, 18, 'F');
+  setFont('bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...MUTED);
+  doc.text('PEOPLE', MX + 8, py + 13);
+  doc.text('PER PERSON PER MONTH', 360, py + 13);
+  py += 22;
+
+  TIERS.forEach(t => {
+    const isHL = answers.users >= t.from && (t.to === null || answers.users <= t.to);
+    if (isHL) {
+      doc.setFillColor(224, 240, 238);
+      doc.rect(MX, py - 12, W - MX * 2, 18, 'F');
+      setFont('bold');
+    } else {
+      setFont('normal');
+    }
+    doc.setFontSize(10);
+    doc.setTextColor(...BLACK);
+    doc.text(t.label, MX + 8, py);
+    doc.text(t.price, 360, py);
+    py += 20;
+  });
+
+  // Add-ons and options
+  py += 16;
+  if (answers.addons.length > 0 || answers.french || answers.pia) {
+    setFont('bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...NAVY);
+    doc.text('Selected options', MX, py);
+    py += 18;
+    setFont('normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...BLACK);
+    answers.addons.forEach(id => {
+      const a = ADDONS.find(x => x.id === id);
+      if (a) { doc.text('\u2713  ' + a.name + ' (' + fmt(a.price) + ')', MX, py); py += 16; }
+    });
+    if (answers.french) { doc.text('\u2713  Mareto in French ($5,000)', MX, py); py += 16; }
+    if (answers.pia) { doc.text('\u2713  Privacy impact assessment ($2,500)', MX, py); py += 16; }
+  }
+
+  if (answers.callItems.length > 0) {
+    py += 8;
+    setFont('bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...NAVY);
+    doc.text('Priced with you', MX, py);
+    py += 18;
+    setFont('normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...BLACK);
+    answers.callItems.forEach(id => {
+      const o = CALL_OPTIONS.find(x => x.id === id);
+      if (o) { doc.text('\u2022  ' + o.name, MX, py); py += 16; }
+    });
+  }
+
+  // --- PAGE 4: Your quote ---
+  doc.addPage();
+  setFont('bold');
+  doc.setFontSize(20);
+  doc.setTextColor(...NAVY);
+  doc.text('Your quote', MX, 56);
+
+  py = 88;
+  // Year one box
+  doc.setFillColor(...PALE);
+  doc.rect(MX, py, W - MX * 2, 60, 'F');
+  setFont('bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...MUTED);
+  doc.text('YOUR FIRST YEAR', MX + 16, py + 22);
+  doc.setFontSize(24);
+  doc.setTextColor(...NAVY);
+  doc.text(fmt(yearOne), MX + 16, py + 48);
+  py += 76;
+
+  // Setup line items
+  setFont('bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...NAVY);
+  doc.text('One-time setup', MX, py);
+  py += 18;
+
+  const pdfLines = [];
+  pdfLines.push(['Base setup', fmt(BASE_SETUP)]);
+  if (extraPrograms > 0) pdfLines.push([extraPrograms + ' extra program' + (extraPrograms > 1 ? 's' : ''), fmt(programCost)]);
+  if (answers.addons.length > 0) pdfLines.push(['Add-ons (' + answers.addons.length + ')', fmt(addonTotal)]);
+  if (answers.french) pdfLines.push(['Mareto in French', fmt(frenchCost)]);
+  if (answers.pia) pdfLines.push(['Privacy impact assessment', fmt(piaCost)]);
+
+  setFont('normal');
+  doc.setFontSize(10);
+  pdfLines.forEach(([label, val]) => {
+    doc.setTextColor(...MUTED);
+    doc.text(label, MX, py);
+    doc.setTextColor(...BLACK);
+    doc.text(val, W - MX, py, { align: 'right' });
+    doc.setDrawColor(...PALE);
+    doc.line(MX, py + 6, W - MX, py + 6);
+    py += 20;
+  });
+
+  // Setup total
+  setFont('bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...BLACK);
+  doc.text('Setup total', MX, py);
+  doc.text(fmt(setupTotal), W - MX, py, { align: 'right' });
+  doc.setDrawColor(...NAVY);
+  doc.setLineWidth(1.5);
+  doc.line(MX, py + 6, W - MX, py + 6);
+  doc.setLineWidth(0.5);
+  py += 28;
+
+  // Monthly
+  setFont('bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...NAVY);
+  doc.text('Monthly licence', MX, py);
+  py += 18;
+  setFont('normal');
+  doc.setFontSize(10);
+  doc.setTextColor(...MUTED);
+  doc.text(monthlySub, MX, py);
+  doc.setTextColor(...BLACK);
+  doc.text(fmt(monthly) + ' / month', W - MX, py, { align: 'right' });
+  py += 28;
+
+  // Prepay
+  doc.setFillColor(224, 240, 238);
+  doc.rect(MX, py, W - MX * 2, 44, 'F');
+  setFont('bold');
+  doc.setFontSize(10);
+  doc.setTextColor(...NAVY);
+  doc.text('Pay the year up front and save 5%', MX + 12, py + 18);
+  doc.text(fmt(Math.round(prepayYear1)) + ' for the first year', MX + 12, py + 34);
+  py += 60;
+
+  // Next steps
+  setFont('bold');
+  doc.setFontSize(12);
+  doc.setTextColor(...NAVY);
+  doc.text('Next steps', MX, py);
+  py += 18;
+  setFont('normal');
+  doc.setFontSize(10);
+  doc.setTextColor(...MUTED);
+  const nextSteps = [
+    'Book a 30-minute call with Travis to confirm the details.',
+    'meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma',
+    '',
+    'Or reply to the email this quote came with.'
+  ];
+  nextSteps.forEach(line => {
+    doc.text(line, MX, py);
+    py += 14;
+  });
+
+  return doc;
+}
+
+async function downloadPdf() {
+  let answers, contact;
+  try {
+    answers = JSON.parse(localStorage.getItem('mareto-quote-answers'));
+    contact = JSON.parse(localStorage.getItem('mareto-quote-contact'));
+  } catch(e) { return; }
+  if (!answers || !contact) return;
+
+  const doc = buildQuotePdf(answers, contact);
+  const safeName = contact.org.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-').toLowerCase();
+  doc.save('mareto-quote-' + safeName + '.pdf');
+}
+
+</script>
+</body>
+</html>
