@@ -1675,6 +1675,35 @@ function buildQuotePdf(answers, contact, assets) {
   return doc;
 }
 
+let _pdfAssets = null;
+async function loadPdfAssets() {
+  if (_pdfAssets) return _pdfAssets;
+  const b64 = buf => {
+    let s = '';
+    const u = new Uint8Array(buf);
+    for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+    return btoa(s);
+  };
+  const base = window.location.href.replace(/[^/]*$/, '');
+  const loadFont = f => fetch(base + 'assets/fonts/' + f).then(r => { if (!r.ok) throw new Error('Font ' + f + ': ' + r.status); return r.arrayBuffer(); }).then(b64);
+  const loadLogo = () => fetch(base + 'assets/images/mareto-logo-pdf.png').then(r => { if (!r.ok) throw new Error('Logo: ' + r.status); return r.arrayBuffer(); }).then(buf => 'data:image/png;base64,' + b64(buf));
+  try {
+    const [reg, bold, light, logo] = await Promise.all([
+      loadFont('Lato-Regular.ttf'),
+      loadFont('Lato-Bold.ttf'),
+      loadFont('Lato-Light.ttf'),
+      loadLogo()
+    ]);
+    _pdfAssets = { fonts: { reg, bold, light }, logo };
+  } catch(e) {
+    console.error('PDF asset loading failed:', e);
+    _pdfAssets = { fonts: null, logo: null };
+  }
+  return _pdfAssets;
+}
+// Pre-load assets as soon as the page loads
+loadPdfAssets();
+
 async function downloadPdf() {
   let answers, contact;
   try {
@@ -1683,33 +1712,7 @@ async function downloadPdf() {
   } catch(e) { return; }
   if (!answers || !contact) return;
 
-  // Load fonts and logo
-  const b64 = buf => {
-    let s = '';
-    const u = new Uint8Array(buf);
-    for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
-    return btoa(s);
-  };
-  const loadFont = f => fetch('./assets/fonts/' + f).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); }).then(b64).catch(() => null);
-  const loadLogo = () => fetch('./assets/images/mareto-logo-pdf.png').then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); }).then(buf => {
-    let s = '';
-    const u = new Uint8Array(buf);
-    for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
-    return 'data:image/png;base64,' + btoa(s);
-  }).catch(() => null);
-
-  const [reg, bold, light, logo] = await Promise.all([
-    loadFont('Lato-Regular.ttf'),
-    loadFont('Lato-Bold.ttf'),
-    loadFont('Lato-Light.ttf'),
-    loadLogo()
-  ]);
-
-  const assets = {
-    fonts: reg && bold && light ? { reg, bold, light } : null,
-    logo: logo
-  };
-
+  const assets = await loadPdfAssets();
   const doc = buildQuotePdf(answers, contact, assets);
   doc.save('Mareto quote - ' + contact.org.replace(/[^\w ]+/g, '').trim() + '.pdf');
 }
