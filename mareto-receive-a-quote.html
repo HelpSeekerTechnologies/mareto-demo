@@ -775,6 +775,7 @@ const STEP_NAMES = {
    =============================================================== */
 (function init() {
   const params = new URLSearchParams(location.search);
+  if (params.has('reset')) { ['mareto-demo-contact','mareto-demo-unlocked','mareto-demo-answers','mareto-fit-finder','mareto-quote-contact','mareto-quote-answers'].forEach(k => localStorage.removeItem(k)); location.href = location.pathname; return; }
   fromSource = params.get('from') || 'direct';
 
   // Load demo answers
