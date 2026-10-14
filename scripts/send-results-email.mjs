@@ -428,14 +428,17 @@ const DEMO_PROPERTIES = [
 ];
 
 async function searchUnsentDemo() {
+  // Search by mareto_org_type (set by the demo form) instead of mareto_flow,
+  // because mareto_flow gets overwritten to "quote" when the same contact
+  // completes the quote form after the demo.
   return hsSearch(
     [
       { filters: [
-        { propertyName: 'mareto_flow', operator: 'EQ', value: 'demo' },
+        { propertyName: 'mareto_org_type', operator: 'HAS_PROPERTY' },
         { propertyName: 'mareto_demo_email_sent', operator: 'NOT_HAS_PROPERTY' }
       ]},
       { filters: [
-        { propertyName: 'mareto_flow', operator: 'EQ', value: 'demo' },
+        { propertyName: 'mareto_org_type', operator: 'HAS_PROPERTY' },
         { propertyName: 'mareto_demo_email_sent', operator: 'NEQ', value: 'true' }
       ]}
     ],
@@ -610,14 +613,16 @@ const QUOTE_PROPERTIES = [
 ];
 
 async function searchUnsentQuote() {
+  // Search by mareto_exact_users (set by the quote form) instead of mareto_flow,
+  // so it works even when the same contact did both demo and quote.
   return hsSearch(
     [
       { filters: [
-        { propertyName: 'mareto_flow', operator: 'EQ', value: 'quote' },
+        { propertyName: 'mareto_exact_users', operator: 'HAS_PROPERTY' },
         { propertyName: 'mareto_quote_email_sent', operator: 'NOT_HAS_PROPERTY' }
       ]},
       { filters: [
-        { propertyName: 'mareto_flow', operator: 'EQ', value: 'quote' },
+        { propertyName: 'mareto_exact_users', operator: 'HAS_PROPERTY' },
         { propertyName: 'mareto_quote_email_sent', operator: 'NEQ', value: 'true' }
       ]}
     ],
