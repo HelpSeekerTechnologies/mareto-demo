@@ -1130,27 +1130,27 @@ function postToHubSpot(contact, answers) {
   const nameParts = contact.name.split(' ');
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
+  const prov = contact.prov || contact.province || '';
+  const f = (name, value, oid) => ({ objectTypeId: oid || '0-1', name, value: value || '' });
   const body = {
-    portalId: '5183115',
-    formGuid: HUBSPOT_QUOTE_FORM_ID,
     fields: [
-      { name: 'firstname', value: firstName },
-      { name: 'lastname', value: lastName },
-      { name: 'email', value: contact.email },
-      { name: 'company', value: contact.org },
-      { name: 'jobtitle', value: contact.title || '' },
-      { name: 'state', value: contact.prov || contact.province || '' },
-      { name: 'mareto_flow', value: 'quote' },
-      { name: 'mareto_from', value: new URLSearchParams(location.search).get('from') || 'direct' },
-      { name: 'mareto_exact_users', value: String(answers.users) },
-      { name: 'mareto_exact_programs', value: String(answers.programs) },
-      { name: 'mareto_staff_types', value: String(answers.roles) },
-      { name: 'mareto_addons', value: (answers.addons || []).join(';') },
-      { name: 'mareto_extras', value: [answers.french ? 'french' : '', answers.pia ? 'pia' : ''].filter(Boolean).join(';') },
-      { name: 'mareto_quoted_items', value: (answers.callItems || []).join(';') },
-      { name: 'mareto_timeline', value: answers.time || '' },
-      { name: 'mareto_role', value: answers.role || '' },
-      { name: 'mareto_province', value: contact.prov || contact.province || '' }
+      f('firstname', firstName),
+      f('lastname', lastName),
+      f('email', contact.email),
+      f('name', contact.org, '0-2'),
+      f('jobtitle', contact.title),
+      f('state', prov),
+      f('mareto_flow', 'quote'),
+      f('mareto_from', new URLSearchParams(location.search).get('from') || 'direct'),
+      f('mareto_exact_users', String(answers.users)),
+      f('mareto_exact_programs', String(answers.programs)),
+      f('mareto_staff_types', String(answers.roles)),
+      f('mareto_addons', (answers.addons || []).join(';')),
+      f('mareto_extras', [answers.french ? 'french' : '', answers.pia ? 'pia' : ''].filter(Boolean).join(';')),
+      f('mareto_quoted_items', (answers.callItems || []).join(';')),
+      f('mareto_timeline', answers.time),
+      f('mareto_role', answers.role),
+      f('mareto_province', prov)
     ],
     context: { pageUri: location.href, pageName: 'Receive a Quote' }
   };
