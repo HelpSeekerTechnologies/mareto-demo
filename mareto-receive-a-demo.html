@@ -563,6 +563,16 @@ function finishDemo(contact) {
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
 
+  /* Maps from our internal values to the HubSpot property option values */
+  const HS_ORG = { nonprofit: 'Non-Profit / Charity', indigenous_gov: 'Indigenous Government', indigenous_org: 'Indigenous Organization', municipal: 'Government / Municipal', public: 'Other', other: 'Other' };
+  const HS_SVC = { child_family: 'Child & Family Services', indigenous: 'Indigenous Services', mental_health: 'Mental Health & Addictions', addictions: 'Mental Health & Addictions', housing: 'Housing & Homelessness', dv: 'Domestic Violence', employment: 'Employment Services', food: 'Food Security', seniors: 'Seniors or Disability Services', disability: 'Seniors or Disability Services', youth: 'Youth Services', newcomers: 'Other', lgbtq: 'Other', childcare: 'Other', other: 'Other' };
+  const HS_CH = { reporting: 'Reporting to funders', duplicates: 'Duplicate records', tools: 'Data silos / spreadsheets', history: 'No client history across programs', entry: 'Too much data entry', hosting: 'Data hosted outside Canada', fit: 'Software does not fit', outcomes: 'Outcomes hard to track' };
+  const HS_TIME = { now: 'Immediately', '3m': '1-3 months', '6m': '3-6 months', exploring: 'Just exploring' };
+  const HS_ROLE = { decision: 'Decision maker', evaluator: 'Evaluator', researcher: 'Researcher', curious: 'Just exploring' };
+  const HS_USERS = { '1-5': '1 to 5', '6-15': '6 to 15', '16-30': '16 to 30', '31-50': '31 to 50', '50+': 'More than 50' };
+  const HS_PROV = { 'Northwest Territories': 'Yukon, NWT or Nunavut', 'Nunavut': 'Yukon, NWT or Nunavut', 'Yukon': 'Yukon, NWT or Nunavut', 'New Brunswick': 'Atlantic Canada', 'Newfoundland and Labrador': 'Atlantic Canada', 'Nova Scotia': 'Atlantic Canada', 'Prince Edward Island': 'Atlantic Canada' };
+  const mapList = (vals, map) => [...new Set(vals.map(v => map[v] || v))].join(';');
+
   const f = (name, value, oid) => ({ objectTypeId: oid || '0-1', name, value: value || '' });
   const hsPayload = {
     fields: [
@@ -574,16 +584,16 @@ function finishDemo(contact) {
       f('state', contact.prov),
       f('mareto_flow', 'demo'),
       f('mareto_from', fromParam),
-      f('mareto_org_type', answers.org.join(';')),
+      f('mareto_org_type', mapList(answers.org, HS_ORG)),
       f('mareto_org_other', answers.org_other),
-      f('mareto_services', answers.svc.join(';')),
+      f('mareto_services', mapList(answers.svc, HS_SVC)),
       f('mareto_svc_other', answers.svc_other),
-      f('mareto_challenges', answers.ch.join(';')),
-      f('mareto_users', answers.size),
+      f('mareto_challenges', mapList(answers.ch, HS_CH)),
+      f('mareto_users', HS_USERS[answers.size] || answers.size),
       f('mareto_programs', answers.progs),
-      f('mareto_timeline', answers.time),
-      f('mareto_role', answers.role),
-      f('mareto_province', contact.prov)
+      f('mareto_timeline', HS_TIME[answers.time] || answers.time),
+      f('mareto_role', HS_ROLE[answers.role] || answers.role),
+      f('mareto_province', HS_PROV[contact.prov] || contact.prov)
     ],
     context: {
       pageUri: location.href,
