@@ -1115,6 +1115,9 @@ function submitQuote() {
   // Save
   localStorage.setItem('mareto-quote-answers', JSON.stringify(answers));
   localStorage.setItem('mareto-quote-contact', JSON.stringify(contact));
+  // Unlock the interactive demo so it skips the gate
+  localStorage.setItem('mareto-demo-unlocked', new Date().toISOString());
+  localStorage.setItem('mareto-demo-contact', JSON.stringify({ name: contact.name, email: contact.email, org: contact.org, title: contact.title }));
 
   // HubSpot POST
   postToHubSpot(contact, answers);
@@ -1221,13 +1224,13 @@ function showQuote(contact, answers) {
     demoCard.innerHTML = `
       <h3>Back to your demo</h3>
       <p>Pick up where you left off in the interactive demo.</p>
-      <a href="mareto-interactive-demo.html" class="demo-link">Open my demo</a>
+      <a href="mareto-interactive-demo.html?unlocked" class="demo-link">Open my demo</a>
     `;
   } else {
     demoCard.innerHTML = `
       <h3>See it working</h3>
       <p>Your interactive demo is ready.</p>
-      <a href="mareto-interactive-demo.html" class="demo-link">Open my demo</a>
+      <a href="mareto-interactive-demo.html?unlocked" class="demo-link">Open my demo</a>
     `;
   }
   demoCardWrap.appendChild(demoCard);
