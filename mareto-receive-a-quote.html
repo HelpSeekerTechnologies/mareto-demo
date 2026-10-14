@@ -670,7 +670,7 @@ const TIERS = [
 const PREPAY_PCT = 5;
 const QUOTE_VALID_DAYS = 30;
 
-const HUBSPOT_QUOTE_FORM_ID = 'HUBSPOT_QUOTE_FORM_ID';
+const HUBSPOT_QUOTE_FORM_ID = '91a72e57-dc04-4a00-9fcc-408af3fa8fb1';
 
 function levelRate(n) { let r = LEVELS[0][1]; for (const [from, x] of LEVELS) if (n >= from) r = x; return r; }
 function licence(users) {
@@ -1139,7 +1139,18 @@ function postToHubSpot(contact, answers) {
       { name: 'email', value: contact.email },
       { name: 'company', value: contact.org },
       { name: 'jobtitle', value: contact.title || '' },
-      { name: 'state', value: contact.province || '' }
+      { name: 'state', value: contact.prov || contact.province || '' },
+      { name: 'mareto_flow', value: 'quote' },
+      { name: 'mareto_from', value: new URLSearchParams(location.search).get('from') || 'direct' },
+      { name: 'mareto_exact_users', value: String(answers.users) },
+      { name: 'mareto_exact_programs', value: String(answers.programs) },
+      { name: 'mareto_staff_types', value: String(answers.roles) },
+      { name: 'mareto_addons', value: (answers.addons || []).join(';') },
+      { name: 'mareto_extras', value: [answers.french ? 'french' : '', answers.pia ? 'pia' : ''].filter(Boolean).join(';') },
+      { name: 'mareto_quoted_items', value: (answers.callItems || []).join(';') },
+      { name: 'mareto_timeline', value: answers.time || '' },
+      { name: 'mareto_role', value: answers.role || '' },
+      { name: 'mareto_province', value: contact.prov || contact.province || '' }
     ],
     context: { pageUri: location.href, pageName: 'Receive a Quote' }
   };
