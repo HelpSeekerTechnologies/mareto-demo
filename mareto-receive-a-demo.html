@@ -308,20 +308,20 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
             <label for="c-prov">Province or territory <span class="req">*</span></label>
             <select id="c-prov">
               <option value="">Select...</option>
-              <option value="AB">Alberta</option>
-              <option value="BC">British Columbia</option>
-              <option value="MB">Manitoba</option>
-              <option value="NB">New Brunswick</option>
-              <option value="NL">Newfoundland and Labrador</option>
-              <option value="NS">Nova Scotia</option>
-              <option value="ON">Ontario</option>
-              <option value="PE">Prince Edward Island</option>
-              <option value="QC">Quebec</option>
-              <option value="SK">Saskatchewan</option>
-              <option value="NT">Northwest Territories</option>
-              <option value="NU">Nunavut</option>
-              <option value="YT">Yukon</option>
-              <option value="XX">Outside Canada</option>
+              <option value="Alberta">Alberta</option>
+              <option value="British Columbia">British Columbia</option>
+              <option value="Manitoba">Manitoba</option>
+              <option value="New Brunswick">New Brunswick</option>
+              <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+              <option value="Nova Scotia">Nova Scotia</option>
+              <option value="Ontario">Ontario</option>
+              <option value="Prince Edward Island">Prince Edward Island</option>
+              <option value="Quebec">Quebec</option>
+              <option value="Saskatchewan">Saskatchewan</option>
+              <option value="Northwest Territories">Northwest Territories</option>
+              <option value="Nunavut">Nunavut</option>
+              <option value="Yukon">Yukon</option>
+              <option value="Outside Canada">Outside Canada</option>
             </select>
             <div class="error-msg" id="err-prov">Please select a province or territory.</div>
           </div>
@@ -590,7 +590,7 @@ function finishDemo(contact) {
       f('mareto_svc_other', answers.svc_other),
       f('mareto_challenges', mapList(answers.ch, HS_CH)),
       f('mareto_users', HS_USERS[answers.size] || answers.size),
-      f('mareto_programs', answers.progs),
+      f('mareto_programs', String(parseInt(answers.progs) || 1)),
       f('mareto_timeline', HS_TIME[answers.time] || answers.time),
       f('mareto_role', HS_ROLE[answers.role] || answers.role),
       f('mareto_province', HS_PROV[contact.prov] || contact.prov)
