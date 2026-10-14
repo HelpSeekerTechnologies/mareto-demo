@@ -563,26 +563,27 @@ function finishDemo(contact) {
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
 
+  const f = (name, value, oid) => ({ objectTypeId: oid || '0-1', name, value: value || '' });
   const hsPayload = {
     fields: [
-      { name: 'firstname', value: firstName },
-      { name: 'lastname', value: lastName },
-      { name: 'email', value: contact.email },
-      { name: 'jobtitle', value: contact.title },
-      { name: 'company', value: contact.org },
-      { name: 'state', value: contact.prov },
-      { name: 'mareto_flow', value: 'demo' },
-      { name: 'mareto_from', value: fromParam },
-      { name: 'mareto_org_type', value: answers.org.join(';') },
-      { name: 'mareto_org_other', value: answers.org_other || '' },
-      { name: 'mareto_services', value: answers.svc.join(';') },
-      { name: 'mareto_svc_other', value: answers.svc_other || '' },
-      { name: 'mareto_challenges', value: answers.ch.join(';') },
-      { name: 'mareto_users', value: answers.size },
-      { name: 'mareto_programs', value: answers.progs },
-      { name: 'mareto_timeline', value: answers.time },
-      { name: 'mareto_role', value: answers.role },
-      { name: 'mareto_province', value: contact.prov }
+      f('firstname', firstName),
+      f('lastname', lastName),
+      f('email', contact.email),
+      f('jobtitle', contact.title),
+      f('name', contact.org, '0-2'),
+      f('state', contact.prov),
+      f('mareto_flow', 'demo'),
+      f('mareto_from', fromParam),
+      f('mareto_org_type', answers.org.join(';')),
+      f('mareto_org_other', answers.org_other),
+      f('mareto_services', answers.svc.join(';')),
+      f('mareto_svc_other', answers.svc_other),
+      f('mareto_challenges', answers.ch.join(';')),
+      f('mareto_users', answers.size),
+      f('mareto_programs', answers.progs),
+      f('mareto_timeline', answers.time),
+      f('mareto_role', answers.role),
+      f('mareto_province', contact.prov)
     ],
     context: {
       pageUri: location.href,
