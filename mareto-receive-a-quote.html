@@ -1131,6 +1131,9 @@ function postToHubSpot(contact, answers) {
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
   const prov = contact.prov || contact.province || '';
+  const HS_TIME = { now: 'Immediately', '3m': '1-3 months', '6m': '3-6 months', exploring: 'Just exploring' };
+  const HS_ROLE = { decision: 'Decision maker', evaluator: 'Evaluator', researcher: 'Researcher', curious: 'Just exploring' };
+  const HS_PROV = { 'Northwest Territories': 'Yukon, NWT or Nunavut', 'Nunavut': 'Yukon, NWT or Nunavut', 'Yukon': 'Yukon, NWT or Nunavut', 'New Brunswick': 'Atlantic Canada', 'Newfoundland and Labrador': 'Atlantic Canada', 'Nova Scotia': 'Atlantic Canada', 'Prince Edward Island': 'Atlantic Canada' };
   const f = (name, value, oid) => ({ objectTypeId: oid || '0-1', name, value: value || '' });
   const body = {
     fields: [
@@ -1146,11 +1149,11 @@ function postToHubSpot(contact, answers) {
       f('mareto_exact_programs', String(answers.programs)),
       f('mareto_staff_types', String(answers.roles)),
       f('mareto_addons', (answers.addons || []).join(';')),
-      f('mareto_extras', [answers.french ? 'french' : '', answers.pia ? 'pia' : ''].filter(Boolean).join(';')),
+      f('mareto_extras', [answers.french ? 'french' : '', answers.pia ? 'PIA' : ''].filter(Boolean).join(';')),
       f('mareto_quoted_items', (answers.callItems || []).join(';')),
-      f('mareto_timeline', answers.time),
-      f('mareto_role', answers.role),
-      f('mareto_province', prov)
+      f('mareto_timeline', HS_TIME[answers.time] || answers.time || ''),
+      f('mareto_role', HS_ROLE[answers.role] || answers.role || ''),
+      f('mareto_province', HS_PROV[prov] || prov)
     ],
     context: { pageUri: location.href, pageName: 'Receive a Quote' }
   };
