@@ -580,6 +580,11 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
           </div>
         </div>
 
+        <div class="field" id="f-web">
+          <label for="q-web">Website</label>
+          <input type="url" id="q-web" autocomplete="url" placeholder="https://yourorg.ca">
+        </div>
+
         <p class="contact-note">We use this to send your quote and follow up about Mareto. Unsubscribe any time.</p>
       </div>
     </div>
@@ -1072,7 +1077,8 @@ function submitQuote() {
       title: document.getElementById('q-title').value.trim(),
       email: document.getElementById('q-email').value.trim(),
       org: document.getElementById('q-org').value.trim(),
-      province: document.getElementById('q-province').value
+      province: document.getElementById('q-province').value,
+      website: document.getElementById('q-web').value.trim()
     };
   } else {
     contact = demoContact;
@@ -1119,7 +1125,7 @@ function submitQuote() {
   localStorage.setItem('mareto-quote-contact', JSON.stringify(contact));
   // Unlock the interactive demo so it skips the gate
   localStorage.setItem('mareto-demo-unlocked', new Date().toISOString());
-  localStorage.setItem('mareto-demo-contact', JSON.stringify({ name: contact.name, email: contact.email, org: contact.org, title: contact.title }));
+  localStorage.setItem('mareto-demo-contact', JSON.stringify({ name: contact.name, email: contact.email, org: contact.org, title: contact.title, website: contact.website || '' }));
 
   // HubSpot POST
   postToHubSpot(contact, answers);
@@ -1142,6 +1148,7 @@ function postToHubSpot(contact, answers) {
       f('firstname', firstName),
       f('lastname', lastName),
       f('email', contact.email),
+      f('website', contact.website || ''),
       f('name', contact.org, '0-2'),
       f('jobtitle', contact.title),
       f('state', prov),

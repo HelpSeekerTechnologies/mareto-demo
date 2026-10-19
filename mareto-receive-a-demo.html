@@ -327,6 +327,11 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
           </div>
         </div>
 
+        <div class="field" id="f-web">
+          <label for="c-web">Website</label>
+          <input type="url" id="c-web" autocomplete="url" placeholder="https://yourorg.ca">
+        </div>
+
         <p class="contact-note">We use this to send your demo link and follow up about Mareto. Unsubscribe any time.</p>
       </div>
     </div>
@@ -522,6 +527,7 @@ function submitForm() {
   const email = document.getElementById('c-email').value.trim();
   const org = document.getElementById('c-org').value.trim();
   const prov = document.getElementById('c-prov').value;
+  const website = document.getElementById('c-web').value.trim();
 
   if (!name) { showErr('err-name'); document.getElementById('f-name').classList.add('has-error'); ok = false; }
   if (!email) { showErr('err-email'); document.getElementById('f-email').classList.add('has-error'); ok = false; }
@@ -532,7 +538,7 @@ function submitForm() {
 
   if (!ok) return;
 
-  const contact = { name, title, email, org, prov };
+  const contact = { name, title, email, org, prov, website };
   finishDemo(contact);
 }
 
@@ -580,6 +586,7 @@ function finishDemo(contact) {
       f('lastname', lastName),
       f('email', contact.email),
       f('jobtitle', contact.title),
+      f('website', contact.website),
       f('name', contact.org, '0-2'),
       f('state', contact.prov),
       f('mareto_flow', 'demo'),
