@@ -420,7 +420,7 @@ async function processFitFinder() {
 //  2. DEMO FLOW
 // ========================================================================
 const DEMO_PROPERTIES = [
-  'email', 'firstname', 'lastname', 'company', 'jobtitle',
+  'email', 'firstname', 'lastname', 'company', 'jobtitle', 'website',
   'mareto_flow', 'mareto_from', 'mareto_org_type', 'mareto_org_other',
   'mareto_services', 'mareto_svc_other', 'mareto_challenges',
   'mareto_users', 'mareto_programs', 'mareto_timeline', 'mareto_role',
@@ -523,7 +523,9 @@ function buildTravisDemoEmail(contact) {
 
   const rows = [
     buildDemoBriefRow('Contact', contactName + (p.jobtitle ? ` (${p.jobtitle})` : '')),
+    buildDemoBriefRow('Email', p.email ? `<a href="mailto:${p.email}" style="color:#275C99;">${p.email}</a>` : ''),
     buildDemoBriefRow('Organization', orgName),
+    buildDemoBriefRow('Website', p.website ? `<a href="${p.website}" style="color:#275C99;">${p.website}</a>` : ''),
     buildDemoBriefRow('Came through', p.mareto_from || 'direct'),
     buildDemoBriefRow('Org type', p.mareto_org_type),
     buildDemoBriefRow('Services', (p.mareto_services || '').replace(/;/g, ', ')),
@@ -603,7 +605,7 @@ async function processDemo() {
 //  3. QUOTE FLOW
 // ========================================================================
 const QUOTE_PROPERTIES = [
-  'email', 'firstname', 'lastname', 'company', 'jobtitle',
+  'email', 'firstname', 'lastname', 'company', 'jobtitle', 'website',
   'mareto_flow', 'mareto_from', 'mareto_org_type', 'mareto_org_other',
   'mareto_services', 'mareto_svc_other', 'mareto_challenges',
   'mareto_users', 'mareto_programs', 'mareto_timeline', 'mareto_role',
@@ -1134,7 +1136,9 @@ function buildTravisQuoteEmail(contact, answers, pricing) {
 
   const briefRows = [
     row('Contact', contactName + (p.jobtitle ? ` (${p.jobtitle})` : '')),
+    row('Email', p.email ? `<a href="mailto:${p.email}" style="color:#275C99;">${p.email}</a>` : ''),
     row('Organization', orgName),
+    row('Website', p.website ? `<a href="${p.website}" style="color:#275C99;">${p.website}</a>` : ''),
     row('Came through', p.mareto_from || 'direct'),
     row('Org type', p.mareto_org_type),
     row('Services', (p.mareto_services || '').replace(/;/g, ', ')),
