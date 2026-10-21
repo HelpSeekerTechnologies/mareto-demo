@@ -593,7 +593,7 @@ async function processDemo() {
         subject: `New Mareto demo: ${p.company || 'Unknown'}`,
         html: buildTravisDemoEmail(contact)
       });
-      await hsUpdate(contact.id, { mareto_demo_email_sent: 'true' });
+      await hsUpdate(contact.id, { mareto_demo_email_sent: 'true', mareto_demo_email_sent_at: new Date().toISOString() });
       console.log(`[Demo] Sent to ${p.email}`);
     } catch (err) {
       console.error(`[Demo] Failed for ${p.email}: ${err.message}`);
@@ -1248,10 +1248,237 @@ async function processQuote() {
         attachments: [pdfAttachment]
       });
 
-      await hsUpdate(contact.id, { mareto_quote_email_sent: 'true' });
+      await hsUpdate(contact.id, { mareto_quote_email_sent: 'true', mareto_quote_email_sent_at: new Date().toISOString() });
       console.log(`[Quote] Sent to ${p.email}`);
     } catch (err) {
       console.error(`[Quote] Failed for ${p.email}: ${err.message}`);
+    }
+  }
+}
+
+// ========================================================================
+//  4. FOLLOW-UP SEQUENCE (Day 3, Day 5, Day 7)
+// ========================================================================
+const FOLLOWUP_PROPERTIES = [
+  'email', 'firstname', 'lastname', 'company', 'jobtitle', 'website',
+  'mareto_demo_email_sent', 'mareto_quote_email_sent',
+  'mareto_demo_email_sent_at', 'mareto_quote_email_sent_at',
+  'mareto_followup_day3_sent', 'mareto_followup_day5_sent', 'mareto_followup_day7_sent'
+];
+
+async function searchFollowupEligible() {
+  return hsSearch(
+    [
+      { filters: [
+        { propertyName: 'mareto_demo_email_sent_at', operator: 'HAS_PROPERTY' },
+        { propertyName: 'mareto_followup_day7_sent', operator: 'NOT_HAS_PROPERTY' }
+      ]},
+      { filters: [
+        { propertyName: 'mareto_quote_email_sent_at', operator: 'HAS_PROPERTY' },
+        { propertyName: 'mareto_followup_day7_sent', operator: 'NOT_HAS_PROPERTY' }
+      ]}
+    ],
+    FOLLOWUP_PROPERTIES
+  );
+}
+
+function daysSince(isoString) {
+  if (!isoString) return 0;
+  return (Date.now() - new Date(isoString).getTime()) / (1000 * 60 * 60 * 24);
+}
+
+function followupEmail(subject, bodyHtml) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${subject}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F9FAFB;font-family:'Helvetica Neue',Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F9FAFB;">
+<tr><td align="center" style="padding:32px 16px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;max-width:600px;width:100%;">
+
+<tr><td style="padding:32px 40px 0;">
+  ${bodyHtml}
+</td></tr>
+
+<tr><td style="padding:24px 40px 32px;border-top:1px solid #eee;">
+  <p style="margin:0;font-size:14px;color:#2D3748;">Best,</p>
+  <p style="margin:4px 0 0;font-size:14px;font-weight:700;color:#0B1F33;">Travis Turner</p>
+  <p style="margin:2px 0 0;font-size:13px;color:#4A5568;">HelpSeeker Technologies</p>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function ctaButton(url, label) {
+  return `<p style="margin:16px 0;"><a href="${url}" style="display:inline-block;background:#0B1F33;color:#ffffff;font-size:15px;font-weight:700;padding:14px 32px;border-radius:10px;text-decoration:none;">${label}</a></p>`;
+}
+
+// ---- Day 3 templates ----
+
+function buildDay3DemoOnly(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('See what Mareto would cost for your team', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">You had a look at Mareto a few days ago and I wanted to follow up.</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">One thing people usually want to know after the demo is what it would actually cost. Our quote builder puts together a full breakdown based on your team size, programs, and the features you need. Takes about two minutes and you get a PDF you can share internally.</p>
+  ${ctaButton(QUOTE_URL + '?from=followup-day3', 'Get your quote')}
+  `);
+}
+
+function buildDay3QuoteOnly(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('See how Mareto works day to day', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">You put together a Mareto quote a few days ago and I wanted to make sure you've seen the other side of it too.</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Our interactive demo walks through what Mareto actually looks like when your team is using it: client intake, case notes, program dashboards, funder reports. It's set up for an organization like yours based on the answers you gave us.</p>
+  ${ctaButton(DEMO_URL + '&from=followup-day3', 'Try the interactive demo')}
+  `);
+}
+
+function buildDay3Both(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const orgName = p.company || 'your organization';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('A few things worth knowing about Mareto', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Thanks for taking the time to explore Mareto and put together a quote for ${orgName}. I wanted to share a few things that don't always come through in a demo or a pricing page:</p>
+  <ul style="margin:0 0 12px 18px;font-size:16px;color:#2D3748;line-height:1.8;">
+    <li><strong style="color:#0B1F33;">Your data stays in Canada.</strong> Mareto is hosted entirely on Canadian infrastructure. No exceptions.</li>
+    <li><strong style="color:#0B1F33;">Setup includes hands-on support.</strong> We configure your programs, staff types, and forms with you. You're not left to figure it out alone.</li>
+    <li><strong style="color:#0B1F33;">Training is built in.</strong> Your team gets live walkthroughs before go-live, not a link to a help centre.</li>
+  </ul>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">If you'd like to talk through what setup would look like for ${orgName}, I'm happy to walk you through it.</p>
+  ${ctaButton(MEETING_URL, 'Book a quick call')}
+  `);
+}
+
+// ---- Day 5 templates ----
+
+function buildDay5DemoOnly(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const orgName = p.company || 'your organization';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('Your Mareto pricing breakdown', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">I know things get busy, so I wanted to send one more reminder. Our quote builder gives you a full pricing breakdown for ${orgName} based on your team size and the programs you run. You get a PDF you can share with your team or bring to a budget conversation.</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Takes about two minutes.</p>
+  ${ctaButton(QUOTE_URL + '?from=followup-day5', 'Get your quote')}
+  `);
+}
+
+function buildDay5QuoteOnly(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const orgName = p.company || 'your organization';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('See Mareto working for an org like yours', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">I know things get busy, so I wanted to send one more reminder. Our interactive demo is set up for an organization like ${orgName} so you can see what the day-to-day actually looks like: how your team would log client visits, track outcomes, and pull funder reports.</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Takes a few minutes to walk through.</p>
+  ${ctaButton(DEMO_URL + '&from=followup-day5', 'Try the interactive demo')}
+  `);
+}
+
+function buildDay5Both(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const orgName = p.company || 'your organization';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('Next steps for ' + orgName, `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">You've had a chance to try the Mareto demo and see what it would cost for ${orgName}. If you're thinking about moving forward, the next step is usually a short call where we walk through your specific setup: which programs to start with, how to handle your existing data, and what the timeline looks like.</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">15 minutes is usually enough to cover it.</p>
+  ${ctaButton(MEETING_URL, 'Book a quick call')}
+  `);
+}
+
+// ---- Day 7 template (same for everyone) ----
+
+function buildDay7(contact) {
+  const p = contact.properties;
+  const name = p.firstname || '';
+  const orgName = p.company || 'your organization';
+  const greeting = name ? `Hi ${name},` : 'Hi there,';
+  return followupEmail('Here if you need us', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Just wanted to let you know that if you have any questions about Mareto or decide you want to move forward, don't hesitate to reach out. We're here whenever the timing is right for ${orgName}.</p>
+  ${ctaButton(MEETING_URL, 'Book a meeting')}
+  `);
+}
+
+// ---- Follow-up processor ----
+
+async function processFollowups() {
+  const contacts = await searchFollowupEligible();
+  console.log(`[Followup] Found ${contacts.length} eligible contact(s)`);
+
+  for (const contact of contacts) {
+    const p = contact.properties;
+    if (!p.email) continue;
+
+    const demoAt = p.mareto_demo_email_sent_at;
+    const quoteAt = p.mareto_quote_email_sent_at;
+
+    // Use the earliest timestamp as the sequence start
+    const earliest = [demoAt, quoteAt].filter(Boolean).sort()[0];
+    if (!earliest) continue;
+
+    const days = daysSince(earliest);
+    const didDemo = !!demoAt;
+    const didQuote = !!quoteAt;
+    const didBoth = didDemo && didQuote;
+
+    let scenario;
+    if (didBoth) scenario = 'both';
+    else if (didDemo) scenario = 'demo_only';
+    else scenario = 'quote_only';
+
+    // Send one email per contact per cron run (earliest unsent step first).
+    // This prevents blasting 3 emails at once if the system goes live mid-sequence.
+    try {
+      if (!p.mareto_followup_day3_sent && days >= 3) {
+        const html = scenario === 'both' ? buildDay3Both(contact)
+          : scenario === 'demo_only' ? buildDay3DemoOnly(contact)
+          : buildDay3QuoteOnly(contact);
+        const subject = scenario === 'both' ? 'A few things worth knowing about Mareto'
+          : scenario === 'demo_only' ? 'See what Mareto would cost for your team'
+          : 'See how Mareto works day to day';
+        await sendViaResend({ to: p.email, subject, html });
+        await hsUpdate(contact.id, { mareto_followup_day3_sent: new Date().toISOString() });
+        console.log(`[Followup] Day 3 sent to ${p.email} (${scenario})`);
+      }
+      else if (!p.mareto_followup_day5_sent && days >= 5) {
+        const html = scenario === 'both' ? buildDay5Both(contact)
+          : scenario === 'demo_only' ? buildDay5DemoOnly(contact)
+          : buildDay5QuoteOnly(contact);
+        const subject = scenario === 'both' ? `Next steps for ${p.company || 'your organization'}`
+          : scenario === 'demo_only' ? 'Your Mareto pricing breakdown'
+          : 'See Mareto working for an org like yours';
+        await sendViaResend({ to: p.email, subject, html });
+        await hsUpdate(contact.id, { mareto_followup_day5_sent: new Date().toISOString() });
+        console.log(`[Followup] Day 5 sent to ${p.email} (${scenario})`);
+      }
+      else if (!p.mareto_followup_day7_sent && days >= 7) {
+        await sendViaResend({ to: p.email, subject: 'Here if you need us', html: buildDay7(contact) });
+        await hsUpdate(contact.id, { mareto_followup_day7_sent: new Date().toISOString() });
+        console.log(`[Followup] Day 7 sent to ${p.email}`);
+      }
+    } catch (err) {
+      console.error(`[Followup] Failed for ${p.email}: ${err.message}`);
     }
   }
 }
@@ -1265,10 +1492,11 @@ async function main() {
     process.exit(1);
   }
 
-  // Run all three flows independently
+  // Run all flows
   await processFitFinder();
   await processDemo();
   await processQuote();
+  await processFollowups();
 
   console.log('Done');
 }
