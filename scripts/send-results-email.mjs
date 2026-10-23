@@ -83,7 +83,7 @@ const INCLUDED_GROUPS = [
   ]},
   { name: 'Setup and support', items: [
     { label: 'Built around what you need' }, { label: 'Three rounds of changes' },
-    { label: 'Training for your team' }, { label: 'Help desk' }
+    { label: 'Training for your team' }, { label: 'Support plan' }
   ]}
 ];
 
@@ -113,7 +113,7 @@ const SHORT = {
   'Built around what you need': 'Set up around your programs, forms and way of working.',
   'Three rounds of changes': 'Once you see it working, three rounds of changes before go-live.',
   'Training for your team': 'Recorded lessons for each role and a live session.',
-  'Help desk': 'A help desk inside Mareto, how-to help, and ongoing small changes.'
+  'Support plan': 'A help desk inside Mareto, how-to help, new staff accounts and access changes, and ongoing small changes.'
 };
 
 // ========================================================================
@@ -266,12 +266,12 @@ function buildPricingSection(p) {
   const pr = getPricing(calcUsers, priceEstimate);
 
   let howLines = '';
-  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Setup and training, up to 2 programs, all staff types</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(BASE_SETUP)}</td></tr>`;
+  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Setup and training for up to 2 programs and all staff types</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(BASE_SETUP)}</td></tr>`;
   if (pr.setup > BASE_SETUP) {
     howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Additional programs and add-ons</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.setup - BASE_SETUP)}</td></tr>`;
   }
-  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Licence for ${pr.userCount} people</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.licence)} /mo</td></tr>`;
-  howLines += `<tr><td style="padding:8px 0;font-size:13px;color:#4A5568;">Support plan</td><td style="padding:8px 0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.support)} /mo</td></tr>`;
+  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Licences for ${pr.userCount} people</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.licence)} a month</td></tr>`;
+  howLines += `<tr><td style="padding:8px 0;font-size:13px;color:#4A5568;">Support plan</td><td style="padding:8px 0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.support)} a month</td></tr>`;
 
   return `
 <!-- Pricing Card -->
@@ -280,7 +280,7 @@ function buildPricingSection(p) {
   <tr><td style="background:#EDF5F4;padding:22px 26px 18px;">
     <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:1px;color:#0E8C86;">YOUR FIRST-YEAR PRICE</p>
     <p style="margin:6px 0 0;font-size:38px;font-weight:900;color:#0B1F33;line-height:1.15;">${fmtCAD(pr.firstYear)}</p>
-    <p style="margin:4px 0 0;font-size:14px;color:#4A5568;">Then ${fmtCAD(pr.monthly)} a month after the first year.</p>
+    <p style="margin:4px 0 0;font-size:14px;color:#4A5568;">From year two, ${fmtCAD(pr.monthly)} a month.</p>
   </td></tr>
   <tr><td style="background:#ffffff;padding:6px 26px;border:1px solid #E2E8F0;border-top:0;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
@@ -666,11 +666,11 @@ function computeQuotePricing(answers) {
   const validDate = new Date(now);
   validDate.setDate(validDate.getDate() + QUOTE_VALID_DAYS);
   const prepayAnnual = mo * 12 * (1 - PREPAY_PCT / 100);
-  const prepayY1 = Math.round(setupTotal + prepayAnnual);
+  const prepayY1 = Math.round((setupTotal + mo * 12) * (1 - PREPAY_PCT / 100));
   const savingY1 = (setupTotal + mo * 12) - prepayY1;
 
   const licNote = pr.capped
-    ? pr.n + ' people, capped at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price'
+    ? pr.n + ' people, charged at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price'
     : pr.n + ' people at ' + money(pr.rate) + ' each';
 
   const tierIdx = pr.tierIdx;
@@ -768,9 +768,9 @@ function buildQuotePdfServer(answers, contactInfo) {
   const PWY = 'Priced with you';
 
   const SETUP_QS = [
-    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Licences are $40 a person a month, with a minimum of 15 people, so from $600 a month. Every plan also includes a support plan, from $250 a month.', val: answers.users },
+    { q: 'How many people will log in?', help: 'Count the staff and volunteers who will use Mareto. Licences are $40 per person per month, with a minimum of 15 people ($600 a month). Every plan also includes a support plan, starting at $250 a month.', val: answers.users },
     { q: 'How many programs will you run in it?', help: 'Your first two programs are included.', val: answers.programs },
-    { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. All are included, at no extra cost.', val: answers.roles }
+    { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. All staff types are included.', val: answers.roles }
   ];
 
   /* ===== Page 1: Cover ===== */
@@ -808,7 +808,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   /* ===== Page 2: What every plan includes ===== */
   doc.addPage();
   y = pageHead('Step 1 \u00B7 What every plan includes', 'What every Mareto plan includes',
-    'This quote follows the same steps you took on our website. It starts with what you get as standard: all of this comes with every plan, at no extra cost.') - 4;
+    'This quote follows the same steps you took on our website. It starts with what comes standard with every plan.') - 4;
 
   const g3 = 12, cw = (CW - 2 * g3) / 3, pad = 13, tw = cw - 2 * pad - 13;
   const cardH = g => 46 + g.items.reduce((h, item) => h + 11 + wrap(SHORT[item.label] || '', tw, 7.6).length * 9.2 + 6, 0) + 4;
@@ -842,7 +842,7 @@ function buildQuotePdfServer(answers, contactInfo) {
       t(s2, nx + 14, ny, 9.5, WHITE);
     });
     doc.setDrawColor(52, 80, 106); doc.setLineWidth(.6); doc.line(x + 18, y + 100, x + w - 18, y + 100);
-    [['Your licence covers', 'Hosting in Canada, updates and security patches.'], ['Renewals', 'Increases are capped at 4 percent a year, in writing.']].forEach(([k, v], i) => {
+    [['Your licence covers', 'Hosting in Canada, backups, updates and security patches.'], ['Renewals', 'Increases are capped at 4 percent a year, in writing.']].forEach(([k, v], i) => {
       const ly = y + 114 + i * 30;
       eyebrow(k, x + 18, ly, AQUA, { charSpace: .8 });
       t(v, x + 18, ly + 15, 9.5, WHITE);
@@ -876,7 +876,7 @@ function buildQuotePdfServer(answers, contactInfo) {
     t(tr.supportLabel + ' support', lx + lw / 2, y + 42, 7.8, me ? ONDARK : MUTED, 'normal', { align: 'center' });
   });
   y += 52;
-  if (pr.capped) { y += 14; t(licNote + ', which is lower.', M, y, 8.3, MUTED, 'light'); }
+  if (pr.capped) { y += 14; t('The ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price is lower, so that is what you pay.', M, y, 8.3, MUTED, 'light'); }
 
   // Anything extra
   y += 28;
@@ -933,9 +933,9 @@ function buildQuotePdfServer(answers, contactInfo) {
   glow([M, y, kw1, kh, 8], M + kw1 - 10, y + 8, 34, .14);
   eyebrow('Your first year', M + 18, y + 24, AQUA);
   t(money(y1), M + 18, y + 58, 30, WHITE, 'bold');
-  t('Setup plus 12 months of licence', M + 18, y + 76, 8.5, ONDARK);
+  t('Setup plus 12 months of licences and support', M + 18, y + 76, 8.5, ONDARK);
 
-  [['One-time setup', money(setupTotal), 'Paid once'], ['Monthly plan', money(mo), licNote + ' plus support plan']].forEach(([k, v, n], i) => {
+  [['One-time setup', money(setupTotal), 'Paid once'], ['Monthly plan', money(mo), licNote + ', plus a ' + money(pr.support) + ' support plan']].forEach(([k, v, n], i) => {
     const x = M + kw1 + 10 + i * (kw2 + 10);
     box(WHITE, x, y, kw2, kh, 8);
     outline(BORDER, x, y, kw2, kh, 8);
@@ -997,9 +997,9 @@ function buildQuotePdfServer(answers, contactInfo) {
   parts.forEach(p => line(p.txt, p.note, money(p.lo)));
   y += 2;
   band('One-time setup', money(setupTotal), PALE, NAVY);
-  line('Monthly licence', licNote, money(pr.capped ? mo - pr.support : pr.licence) + ' a month');
+  line('Licences', licNote, money(pr.capped ? mo - pr.support : pr.licence) + ' a month');
   line('Support plan', null, money(pr.support) + ' a month');
-  if (pr.capped) line('Monthly total (capped at ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price)', null, money(mo) + ' a month');
+  if (pr.capped) line('Monthly total', null, money(mo) + ' a month');
   else { y += 2; band('Monthly total', money(mo) + ' a month', PALE, NAVY); }
   y += 2;
   band('Year one', money(y1), NAVY, WHITE);
@@ -1082,7 +1082,7 @@ function buildQuoteEmail(contact, pricing) {
   <tr><td style="background:#EDF5F4;padding:22px 26px 18px;">
     <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:1px;color:#0E8C86;">YOUR FIRST-YEAR PRICE</p>
     <p style="margin:6px 0 0;font-size:38px;font-weight:900;color:#0B1F33;line-height:1.15;">${money(y1)}</p>
-    <p style="margin:4px 0 0;font-size:14px;color:#4A5568;">Then ${money(mo)} a month after the first year.</p>
+    <p style="margin:4px 0 0;font-size:14px;color:#4A5568;">From year two, ${money(mo)} a month.</p>
   </td></tr>
   <tr><td style="background:#ffffff;padding:6px 26px;border:1px solid #E2E8F0;border-top:0;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">

@@ -60,11 +60,11 @@
       </ul>
     </div>
     <div class="card">
-      <div class="k">Licences, from</div>
-      <div class="v">$40 <small>a person a month</small></div>
+      <div class="k">Licences from</div>
+      <div class="v">$40 <small>per person, per month</small></div>
       <ul>
-        <li>A minimum of 15 people, so from $600 a month</li>
-        <li>Plus a support plan, from $250 a month</li>
+        <li>Minimum of 15 people ($600 a month)</li>
+        <li>Plus a support plan from $250 a month</li>
       </ul>
     </div>
   </div>
@@ -80,7 +80,7 @@
       <p class="sub">Change anything and the price updates. CAD, before tax.</p>
 
       <div class="row">
-        <label for="cUsers">People who will log in<small>15 minimum, over 200 custom</small></label>
+        <label for="cUsers">People who will log in<small>Minimum of 15. Custom quote over 200.</small></label>
         <div class="step"><button type="button" data-f="cUsers" data-d="-1">&minus;</button><input id="cUsers" type="number" min="15" max="201" value="15"><button type="button" data-f="cUsers" data-d="1">+</button></div>
       </div>
 
@@ -151,12 +151,12 @@
       $('cY1').textContent = 'Custom quote';
       $('cSetup').textContent = 'Custom quote';
       $('cMonthly').textContent = 'Custom quote';
-      $('cLines').innerHTML = '<div><span>For organizations over 200 people we price setup, licences and support together on a short call.</span></div>';
+      $('cLines').innerHTML = '<div><span>For organizations with more than 200 people, we price setup, licences and support together on a short call.</span></div>';
       return;
     }
     var picks = [].slice.call(document.querySelectorAll('.pzs .chk input:checked')).map(function (i) { return i.value; });
     var addons = picks.filter(function (v) { return v !== 'french' && v !== 'pia'; });
-    var lines = [['Setup and training, up to 2 programs', 7500]];
+    var lines = [['Setup and training for up to 2 programs', 7500]];
     if (p > 2) lines.push([(p - 2) + ' more program' + (p > 3 ? 's' : '') + ' at $1,500', (p - 2) * 1500]);
     if (addons.length) lines.push([addons.length + ' add-on' + (addons.length > 1 ? 's' : '') + ' at $250', Math.min(addons.length * 250, 1000)]);
     if (picks.indexOf('french') > -1) lines.push(['Mareto in French', 5000]);
@@ -166,12 +166,12 @@
     $('cSetup').textContent = money(setup);
     $('cMonthly').textContent = money(pr.total);
     var licNote = pr.capped
-      ? 'Licence: ' + pr.n + ' people, capped at the ' + TIERS[pr.tierIdx + 1].from + '-person price'
-      : 'Licence: ' + pr.n + ' people at ' + money(pr.rate) + ' each';
+      ? 'Licences: ' + pr.n + ' people, charged at the ' + TIERS[pr.tierIdx + 1].from + '-person price'
+      : 'Licences: ' + pr.n + ' people at ' + money(pr.rate) + ' each';
     $('cLines').innerHTML = lines.map(function (l) { return '<div><span>' + l[0] + '</span><span>' + money(l[1]) + '</span></div>'; }).join('') +
       '<div><span>' + licNote + '</span><span>' + money(pr.capped ? pr.total - pr.support : pr.lic) + ' a month</span></div>' +
       '<div><span>Support plan</span><span>' + money(pr.support) + ' a month</span></div>' +
-      '<div><span><strong>Monthly total' + (pr.capped ? ' (capped)' : '') + '</strong></span><span><strong>' + money(pr.total) + ' a month</strong></span></div>';
+      '<div><span><strong>Monthly total' + '' + '</strong></span><span><strong>' + money(pr.total) + ' a month</strong></span></div>';
     // Update the quote link with the calculator values
     var params = 'from=pricing-calculator&users=' + u + '&programs=' + p;
     if (picks.length) params += '&addons=' + picks.join(',');

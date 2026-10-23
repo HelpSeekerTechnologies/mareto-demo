@@ -2277,7 +2277,7 @@
 </div>
 </div></div></div><div class="fe-block fe-block-a4d6067e1ea40b769c66"><div class="sqs-block website-component-block sqs-block-website-component sqs-block-html html-block" data-block-css="[&quot;https://definitions.sqspcdn.com/website-component-definition/static-assets/website.components.html/45a223c2-0a7f-41e1-910b-7e4ed1931d30_973/website.components.html.styles.css&quot;]" data-block-scripts="[&quot;https://definitions.sqspcdn.com/website-component-definition/static-assets/website.components.html/45a223c2-0a7f-41e1-910b-7e4ed1931d30_973/website.components.html.visitor.js&quot;]" data-block-type="1337" data-definition-name="website.components.html" data-sqsp-block="text" data-website-component-id="a4d6067e1ea40b769c66" id="block-a4d6067e1ea40b769c66"><div class="sqs-block-content"><div class="sqs-text-block-container">
   
-  <div class="sqs-html-content" data-sqsp-text-block-content=""><p class="" style="white-space:pre-wrap;" data-rte-preserve-empty="true">Mareto offers flexible, predictable pricing for nonprofits and social-service organizations, with user licences from $40 a person a month (a minimum of 15 people), a support plan from $250 a month, and initial setup starting at $7,500.</p><p style="margin-top: 22px;"><a href="#" data-go="{&quot;flow&quot;:&quot;quote&quot;,&quot;from&quot;:&quot;pricing&quot;}" style="display:inline-block;background:#28D7D2;color:#000;font-family:Lato,sans-serif;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:15px 26px;text-decoration:none">Receive a quote</a></p></div>
+  <div class="sqs-html-content" data-sqsp-text-block-content=""><p class="" style="white-space:pre-wrap;" data-rte-preserve-empty="true">Mareto offers clear, predictable pricing for nonprofits and social-service organizations. Licences start at $40 per person per month for a minimum of 15 people, every plan includes a support plan from $250 a month, and setup starts at $7,500.</p><p style="margin-top: 22px;"><a href="#" data-go="{&quot;flow&quot;:&quot;quote&quot;,&quot;from&quot;:&quot;pricing&quot;}" style="display:inline-block;background:#28D7D2;color:#000;font-family:Lato,sans-serif;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:15px 26px;text-decoration:none">Receive a quote</a></p></div>
 
 
   
@@ -2477,8 +2477,8 @@
   <div class="cards">
     <div class="card"><div class="k">Setup, from</div><div class="v">$7,500 <small>one time</small></div>
       <ul><li>Up to two programs</li><li>All your staff types</li><li>Training and three rounds of changes</li></ul></div>
-    <div class="card"><div class="k">Licences, from</div><div class="v">$40 <small>a person a month</small></div>
-      <ul><li>A minimum of 15 people, so from $600 a month</li><li>Plus a support plan, from $250 a month</li></ul></div>
+    <div class="card"><div class="k">Licences from</div><div class="v">$40 <small>per person, per month</small></div>
+      <ul><li>Minimum of 15 people ($600 a month)</li><li>Plus a support plan from $250 a month</li></ul></div>
   </div>
   <div class="cta">
     <a class="go" href="#" data-go='{"flow":"quote","from":"pricing"}'>Receive a quote</a>
@@ -2488,7 +2488,7 @@
   <div class="calc">
     <h4>Price calculator</h4>
     <p class="sub">Change anything and the price updates. CAD, before tax.</p>
-    <div class="row"><label for="cUsers">People who will log in<small>15 minimum, over 200 custom</small></label><div class="step"><button type="button" data-f="cUsers" data-d="-1">&minus;</button><input id="cUsers" type="number" min="15" max="201" value="15"><button type="button" data-f="cUsers" data-d="1">+</button></div></div>
+    <div class="row"><label for="cUsers">People who will log in<small>Minimum of 15. Custom quote over 200.</small></label><div class="step"><button type="button" data-f="cUsers" data-d="-1">&minus;</button><input id="cUsers" type="number" min="15" max="201" value="15"><button type="button" data-f="cUsers" data-d="1">+</button></div></div>
     <div class="row"><label for="cProgs">Programs<small>First two included</small></label><div class="step"><button type="button" data-f="cProgs" data-d="-1">&minus;</button><input id="cProgs" type="number" min="1" max="60" value="2"><button type="button" data-f="cProgs" data-d="1">+</button></div></div>
     <div class="chk"><div class="h">Add-ons, $250 each</div>
       <label><input type="checkbox" value="surveys">Online surveys</label><label><input type="checkbox" value="signature">Online signatures</label>
@@ -2540,12 +2540,12 @@
       $('cY1').textContent = 'Custom quote';
       $('cSetup').textContent = 'Custom quote';
       $('cMonthly').textContent = 'Custom quote';
-      $('cLines').innerHTML = '<div><span>For organizations over 200 people we price setup, licences and support together on a short call.</span></div>';
+      $('cLines').innerHTML = '<div><span>For organizations with more than 200 people, we price setup, licences and support together on a short call.</span></div>';
       return;
     }
     var picks = [].slice.call(document.querySelectorAll('.pzc .chk input:checked')).map(function (i) { return i.value; });
     var addons = picks.filter(function (v) { return v !== 'french' && v !== 'pia'; });
-    var lines = [['Setup and training, up to 2 programs', 7500]];
+    var lines = [['Setup and training for up to 2 programs', 7500]];
     if (p > 2) lines.push([(p - 2) + ' more program' + (p > 3 ? 's' : '') + ' at $1,500', (p - 2) * 1500]);
     if (addons.length) lines.push([addons.length + ' add-on' + (addons.length > 1 ? 's' : '') + ' at $250', Math.min(addons.length * 250, 1000)]);
     if (picks.indexOf('french') > -1) lines.push(['Mareto in French', 5000]);
@@ -2555,12 +2555,12 @@
     $('cSetup').textContent = money(setup);
     $('cMonthly').textContent = money(pr.total);
     var licNote = pr.capped
-      ? 'Licence: ' + pr.n + ' people, capped at the ' + TIERS[pr.tierIdx + 1].from + '-person price'
-      : 'Licence: ' + pr.n + ' people at ' + money(pr.rate) + ' each';
+      ? 'Licences: ' + pr.n + ' people, charged at the ' + TIERS[pr.tierIdx + 1].from + '-person price'
+      : 'Licences: ' + pr.n + ' people at ' + money(pr.rate) + ' each';
     $('cLines').innerHTML = lines.map(function (l) { return '<div><span>' + l[0] + '</span><span>' + money(l[1]) + '</span></div>'; }).join('') +
       '<div><span>' + licNote + '</span><span>' + money(pr.capped ? pr.total - pr.support : pr.lic) + ' a month</span></div>' +
       '<div><span>Support plan</span><span>' + money(pr.support) + ' a month</span></div>' +
-      '<div><span><strong>Monthly total' + (pr.capped ? ' (capped)' : '') + '</strong></span><span><strong>' + money(pr.total) + ' a month</strong></span></div>';
+      '<div><span><strong>Monthly total' + '' + '</strong></span><span><strong>' + money(pr.total) + ' a month</strong></span></div>';
     $('cGo').setAttribute('data-go', JSON.stringify({ flow: 'quote', from: 'pricing-calculator', preset: { users: u, programs: p, addons: picks } }));
   }
   document.querySelectorAll('.pzc .step button').forEach(function (b) { b.addEventListener('click', function () { var e = $(b.dataset.f); e.value = Math.min(+e.max, Math.max(+e.min, val(b.dataset.f) + +b.dataset.d)); render(); }); });

@@ -964,12 +964,12 @@ function calcPricing() {
   if (!usersEl) return null;
   const users = Math.min(+usersEl.max, Math.max(+usersEl.min, parseInt(usersEl.value, 10) || +usersEl.min));
   const programs = Math.min(+progsEl.max, Math.max(+progsEl.min, parseInt(progsEl.value, 10) || +progsEl.min));
-  const parts = [{ txt: 'Setup and training, up to 2 programs, all staff types', lo: BASE_SETUP, hi: BASE_SETUP }];
+  const parts = [{ txt: 'Setup and training for up to 2 programs and all staff types', lo: BASE_SETUP, hi: BASE_SETUP }];
   const extra = Math.max(0, programs - PROGRAMS_INCLUDED);
   if (extra) parts.push({ txt: extra + ' more program' + (extra > 1 ? 's' : '') + ' at $1,500', lo: extra * PROGRAM_PRICE, hi: extra * PROGRAM_PRICE });
   const picked = FEATURES.filter(function (f) { return document.getElementById('cf_' + f.id) && document.getElementById('cf_' + f.id).checked; });
   const ap = Math.min(picked.length * ADDON_PRICE, ADDON_CAP);
-  if (picked.length) parts.push({ txt: picked.length + ' add-on' + (picked.length > 1 ? 's' : '') + (picked.length * ADDON_PRICE > ADDON_CAP ? ' (capped at $1,000)' : ' at $250') + ': ' + picked.map(function (f) { return f.name.toLowerCase(); }).join(', '), lo: ap, hi: ap });
+  if (picked.length) parts.push({ txt: picked.length + ' add-on' + (picked.length > 1 ? 's' : '') + (picked.length * ADDON_PRICE > ADDON_CAP ? ' (never more than $1,000)' : ' at $250') + ': ' + picked.map(function (f) { return f.name.toLowerCase(); }).join(', '), lo: ap, hi: ap });
   var frenchEl = document.getElementById('cf_french'), piaEl = document.getElementById('cf_pia');
   if (frenchEl && frenchEl.checked) parts.push({ txt: 'French', lo: FRENCH_PRICE, hi: FRENCH_PRICE });
   if (piaEl && piaEl.checked) parts.push({ txt: 'Privacy impact assessment', lo: PIA_PRICE, hi: PIA_PRICE });
@@ -992,7 +992,7 @@ function renderCalc() {
     document.getElementById('ceSetup').textContent = 'Custom quote';
     document.getElementById('ceMonthly').textContent = 'Custom quote';
     document.getElementById('ceMsg').textContent = '';
-    document.getElementById('ceHow').innerHTML = '<p>For organizations over 200 people we price setup, licences and support together on a short call.</p>';
+    document.getElementById('ceHow').innerHTML = '<p>For organizations with more than 200 people, we price setup, licences and support together on a short call.</p>';
     return;
   }
   var money = function (n) { return '$' + Math.round(n).toLocaleString('en-CA'); };
@@ -1003,24 +1003,24 @@ function renderCalc() {
   document.getElementById('ceYear').textContent = r.fixed ? money(y1) : (r.lo === r.hi ? 'from ' + money(y1) : range(r500(y1, false), r500(y2, true)));
   document.getElementById('ceSub').textContent = r.essentials
     ? 'The price is fixed.'
-    : 'Then ' + money(r.monthly) + ' a month after the first year.';
+    : 'From year two, ' + money(r.monthly) + ' a month.';
   document.getElementById('ceSetup').textContent = range(r.lo, r.hi);
-  document.getElementById('ceMonthly').textContent = money(r.monthly) + ' for ' + r.users + ' people, including support';
+  document.getElementById('ceMonthly').textContent = money(r.monthly) + ' a month, including the support plan';
   document.getElementById('ceMsg').textContent = r.fixed
     ? 'This is your price. Book a short call and we will confirm what you need, then send it to sign.'
     : r.quoted.length
-      ? 'Everything shown here is fixed. We price ' + r.quoted.join(', ').toLowerCase() + ' with you on a short call, and the price is fixed before we build anything.'
+      ? 'Everything else shown here is fixed. We price ' + (r.quoted.length > 1 ? r.quoted.slice(0, -1).join(', ') + ' and ' + r.quoted[r.quoted.length - 1] : r.quoted[0]).toLowerCase() + ' with you on a short call and agree the price before any work starts.'
       : 'This is your price.';
   var h = '';
   r.parts.forEach(function (p) { h += '<div class="line"><span>' + p.txt + '</span><span>' + range(p.lo, p.hi) + '</span></div>'; });
   r.quoted.forEach(function (t) { h += '<div class="line"><span>' + t + '</span><span>priced with you</span></div>'; });
   var licNote = r.capped
-    ? 'Licence for ' + r.users + ' people, capped at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price'
-    : 'Licence for ' + r.users + ' people at ' + money(r.rate) + ' each';
-  h += '<div class="line"><span>' + licNote + '</span><span>' + money(r.capped ? r.monthly - r.support : r.licence) + ' /mo</span></div>';
-  h += '<div class="line"><span>Support plan</span><span>' + money(r.support) + ' /mo</span></div>';
-  h += '<div class="line"><span><strong>Monthly total' + (r.capped ? ' (capped)' : '') + '</strong></span><span><strong>' + money(r.monthly) + ' /mo</strong></span></div>';
-  h += '<p>One rate for everyone, set by the total: $40 per person for 15 to 29 people, $35 for 30 to 49, $30 for 50 to 99, $25 for 100 to 200. Every plan includes a support plan.</p>';
+    ? 'Licences for ' + r.users + ' people, charged at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price'
+    : 'Licences for ' + r.users + ' people at ' + money(r.rate) + ' each';
+  h += '<div class="line"><span>' + licNote + '</span><span>' + money(r.capped ? r.monthly - r.support : r.licence) + ' a month</span></div>';
+  h += '<div class="line"><span>Support plan</span><span>' + money(r.support) + ' a month</span></div>';
+  h += '<div class="line"><span><strong>Monthly total' + '' + '</strong></span><span><strong>' + money(r.monthly) + ' a month</strong></span></div>';
+  h += '<p>Everyone pays the same rate, set by your total number of people: $40 per person for 15 to 29 people, $35 for 30 to 49, $30 for 50 to 99 and $25 for 100 to 200. Every plan also includes a support plan.</p>';
   document.getElementById('ceHow').innerHTML = h;
 }
 
@@ -1092,10 +1092,10 @@ function showResults() {
   var a = answers, ch = a.challenges || [], budget = a.budget || 'unknown', s = sizing(a);
   var fp = fitPoints();
   var strong = fp >= 8, good = fp >= 5;
-  var lowBudget = budget === 'under5k';
+  var lowBudget = budget === 'under5k' || budget === '5-10k' || budget === '10-15k';
 
   var fitLabel, fitDesc;
-  if (lowBudget) { fitLabel = 'A fit, once the budget is sorted'; fitDesc = 'Under $5,000 in year one is tight for a system that will hold up, and phasing and funding routes exist. Here is the size of build you would be working toward, and how Mareto answers the problems you named. If a funder or a partner could carry part of it, we talk it through honestly once you are in the demo.'; }
+  if (lowBudget) { fitLabel = 'A fit, once the budget is sorted'; fitDesc = 'Mareto starts at $17,700 in year one, so a budget under $15,000 is tight. Phasing and funding routes can help. Here is the size of build you would be working toward, and how Mareto answers the problems you named. If a funder or partner could carry part of the cost, we can talk it through in the demo.'; }
   else if (strong) { fitLabel = 'A strong fit'; fitDesc = 'The problems you named are the ones Mareto was built for. Here is the size of build you would need and how each problem is answered.'; }
   else if (good) { fitLabel = 'A good fit'; fitDesc = 'Mareto answers several of the problems you named. Here is what a build would look like for you.'; }
   else { fitLabel = 'Worth a look'; fitDesc = 'Mareto may fit, depending on what you need. Here is what we would suggest exploring.'; }
