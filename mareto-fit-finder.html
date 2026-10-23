@@ -936,12 +936,7 @@ const FEATURES = [
   { id: 'volunteer', name: 'Volunteer management', desc: 'Volunteer records, shifts worked and hours for reports.' },
   { id: 'surveys', name: 'Online surveys', desc: 'Send clients satisfaction or outcome surveys by link, with results in your dashboards.' }
 ];
-const DATA_MIGRATION = {
-  fresh: null, small: null,
-  sheets: { txt: 'Bringing in your spreadsheets', lo: 500, hi: 1500 },
-  system: { txt: 'Moving records from another system', lo: 2000, hi: 4000 },
-  several: { txt: 'Moving records from several systems', lo: 3500, hi: 6000 }
-};
+// Migration is now priced-with-you (no ranges)
 
 function monthlyPricing(users, programs) {
   var n = Math.max(users, MIN_PEOPLE);
@@ -965,11 +960,10 @@ function monthlyPricing(users, programs) {
 }
 
 function calcPricing() {
-  const usersEl = document.getElementById('calcUsers'), progsEl = document.getElementById('calcPrograms'), rolesEl = document.getElementById('calcRoles');
+  const usersEl = document.getElementById('calcUsers'), progsEl = document.getElementById('calcPrograms');
   if (!usersEl) return null;
   const users = Math.min(+usersEl.max, Math.max(+usersEl.min, parseInt(usersEl.value, 10) || +usersEl.min));
   const programs = Math.min(+progsEl.max, Math.max(+progsEl.min, parseInt(progsEl.value, 10) || +progsEl.min));
-  const roles = Math.min(+rolesEl.max, Math.max(+rolesEl.min, parseInt(rolesEl.value, 10) || +rolesEl.min));
   const parts = [{ txt: 'Setup and training, up to 2 programs, all staff types', lo: BASE_SETUP, hi: BASE_SETUP }];
   const extra = Math.max(0, programs - PROGRAMS_INCLUDED);
   if (extra) parts.push({ txt: extra + ' more program' + (extra > 1 ? 's' : '') + ' at $1,500', lo: extra * PROGRAM_PRICE, hi: extra * PROGRAM_PRICE });
@@ -979,24 +973,31 @@ function calcPricing() {
   var frenchEl = document.getElementById('cf_french'), piaEl = document.getElementById('cf_pia');
   if (frenchEl && frenchEl.checked) parts.push({ txt: 'French', lo: FRENCH_PRICE, hi: FRENCH_PRICE });
   if (piaEl && piaEl.checked) parts.push({ txt: 'Privacy impact assessment', lo: PIA_PRICE, hi: PIA_PRICE });
-  var dataEl = document.getElementById('calcData');
-  var d = dataEl ? DATA_MIGRATION[dataEl.value] : null;
-  if (d) parts.push(d);
   var lo = parts.reduce(function (t, p) { return t + p.lo; }, 0);
   var hi = parts.reduce(function (t, p) { return t + p.hi; }, 0);
-  var quoted = [['cq_connect', 'Connections to other software'], ['cq_onsite', 'On-site training']].filter(function (a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function (a) { return a[1]; });
+  var quoted = [['cq_migrate', 'Moving records'], ['cq_connect', 'Connections to other software'], ['cq_onsite', 'On-site training']].filter(function (a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function (a) { return a[1]; });
   var pr = monthlyPricing(users, programs);
-  return { users: users, programs: programs, roles: roles, parts: parts, lo: lo, hi: hi, quoted: quoted, monthly: pr.total, licence: pr.licence, support: pr.support, rate: pr.rate, capped: pr.capped, tierIdx: pr.tierIdx, fixed: lo === hi && !quoted.length, essentials: parts.length === 1 && !quoted.length };
+  return { users: users, programs: programs, custom: pr.custom, parts: parts, lo: lo, hi: hi, quoted: quoted, monthly: pr.total, licence: pr.licence, support: pr.support, rate: pr.rate, capped: pr.capped, tierIdx: pr.tierIdx, fixed: lo === hi && !quoted.length, essentials: parts.length === 1 && !quoted.length };
 }
 
 function renderCalc() {
   var r = calcPricing(); if (!r) return;
-  var money = function (n) { return '$' + Math.round(n).toLocaleString('en-CA'); };
-  var range = function (a, b) { return a === b ? money(a) : money(a) + ' to ' + money(b); };
-  var r500 = function (n, up) { return (up ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500; };
   // disable minus buttons at min
   document.querySelectorAll('#calcSection .stepper button[data-d="-1"]').forEach(function (b) { var el = document.getElementById(b.dataset.for); b.disabled = parseInt(el.value, 10) <= +el.min; });
   document.querySelectorAll('#calcSection .stepper button[data-d="1"]').forEach(function (b) { var el = document.getElementById(b.dataset.for); b.disabled = parseInt(el.value, 10) >= +el.max; });
+  if (r.custom) {
+    document.getElementById('ceLabel').textContent = 'Over 200 people';
+    document.getElementById('ceYear').textContent = 'Custom quote';
+    document.getElementById('ceSub').textContent = 'Contact us and we will put your price together.';
+    document.getElementById('ceSetup').textContent = 'Custom quote';
+    document.getElementById('ceMonthly').textContent = 'Custom quote';
+    document.getElementById('ceMsg').textContent = '';
+    document.getElementById('ceHow').innerHTML = '<p>For organizations over 200 people we price setup, licences and support together on a short call.</p>';
+    return;
+  }
+  var money = function (n) { return '$' + Math.round(n).toLocaleString('en-CA'); };
+  var range = function (a, b) { return a === b ? money(a) : money(a) + ' to ' + money(b); };
+  var r500 = function (n, up) { return (up ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500; };
   var y1 = r.lo + r.monthly * 12, y2 = r.hi + r.monthly * 12;
   document.getElementById('ceLabel').textContent = r.fixed ? 'Your first-year price' : 'Your first-year estimate';
   document.getElementById('ceYear').textContent = r.fixed ? money(y1) : (r.lo === r.hi ? 'from ' + money(y1) : range(r500(y1, false), r500(y2, true)));
@@ -1004,19 +1005,19 @@ function renderCalc() {
     ? 'The price is fixed.'
     : 'Then ' + money(r.monthly) + ' a month after the first year.';
   document.getElementById('ceSetup').textContent = range(r.lo, r.hi);
-  document.getElementById('ceMonthly').textContent = money(r.monthly) + ' for ' + r.users + ' people';
+  document.getElementById('ceMonthly').textContent = money(r.monthly) + ' for ' + r.users + ' people, including support';
   document.getElementById('ceMsg').textContent = r.fixed
     ? 'This is your price. Book a short call and we will confirm what you need, then send it to sign.'
     : r.quoted.length
-      ? (r.lo === r.hi ? 'Everything shown here is fixed. ' : 'Moving records is confirmed on the call. ') + 'We price ' + r.quoted.join(', ').toLowerCase() + ' with you on a short call.'
-      : 'Moving records depends on how much you have and what shape it is in. We confirm it on a short call, and the price is fixed before we build anything.';
+      ? 'Everything shown here is fixed. We price ' + r.quoted.join(', ').toLowerCase() + ' with you on a short call, and the price is fixed before we build anything.'
+      : 'This is your price.';
   var h = '';
   r.parts.forEach(function (p) { h += '<div class="line"><span>' + p.txt + '</span><span>' + range(p.lo, p.hi) + '</span></div>'; });
   r.quoted.forEach(function (t) { h += '<div class="line"><span>' + t + '</span><span>priced with you</span></div>'; });
   var licNote = r.capped
     ? 'Licence for ' + r.users + ' people, capped at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price'
     : 'Licence for ' + r.users + ' people at ' + money(r.rate) + ' each';
-  h += '<div class="line"><span>' + licNote + '</span><span>' + money(r.licence) + ' /mo</span></div>';
+  h += '<div class="line"><span>' + licNote + '</span><span>' + money(r.capped ? r.monthly - r.support : r.licence) + ' /mo</span></div>';
   h += '<div class="line"><span>Support plan</span><span>' + money(r.support) + ' /mo</span></div>';
   h += '<div class="line"><span><strong>Monthly total' + (r.capped ? ' (capped)' : '') + '</strong></span><span><strong>' + money(r.monthly) + ' /mo</strong></span></div>';
   h += '<p>One rate for everyone, set by the total: $40 per person for 15 to 29 people, $35 for 30 to 49, $30 for 50 to 99, $25 for 100 to 200. Every plan includes a support plan.</p>';
@@ -1156,26 +1157,12 @@ function showResults() {
     '<p class="calc-subtitle">Tell us your size and pick the features you want. Your first-year price updates as you go. Prices in CAD before tax.</p>' +
     '<div class="calc-grid"><div class="calc-inputs">' +
     '<div class="calc-q calc-qrow"><h4 id="calcUsersL">How many people will log in?</h4>' +
-    '<div class="stepper"><button type="button" data-for="calcUsers" data-d="-1" onclick="stepCalc(this)">\u2212</button><input id="calcUsers" type="number" min="15" max="200" value="' + defaultUsers + '" onchange="clampCalc(this);renderCalc()" aria-labelledby="calcUsersL"><button type="button" data-for="calcUsers" data-d="1" onclick="stepCalc(this)">+</button></div>' +
+    '<div class="stepper"><button type="button" data-for="calcUsers" data-d="-1" onclick="stepCalc(this)">\u2212</button><input id="calcUsers" type="number" min="15" max="201" value="' + defaultUsers + '" onchange="clampCalc(this);renderCalc()" aria-labelledby="calcUsersL"><button type="button" data-for="calcUsers" data-d="1" onclick="stepCalc(this)">+</button></div>' +
     '<p class="hint">Staff or volunteers who use it. Plans start at 5 people.</p></div>' +
 
     '<div class="calc-q calc-qrow"><h4 id="calcProgsL">How many programs will you run in it?</h4>' +
     '<div class="stepper"><button type="button" data-for="calcPrograms" data-d="-1" onclick="stepCalc(this)">\u2212</button><input id="calcPrograms" type="number" min="1" max="60" value="' + defaultPrograms + '" onchange="clampCalc(this);renderCalc()" aria-labelledby="calcProgsL"><button type="button" data-for="calcPrograms" data-d="1" onclick="stepCalc(this)">+</button></div>' +
-    '<p class="hint">For example a housing program, a youth program and a food bank would be three. Your first program is included.</p></div>' +
-
-    '<div class="calc-q calc-qrow"><h4 id="calcRolesL">How many kinds of staff see different things?</h4>' +
-    '<div class="stepper"><button type="button" data-for="calcRoles" data-d="-1" onclick="stepCalc(this)">\u2212</button><input id="calcRoles" type="number" min="1" max="100" value="3" onchange="clampCalc(this);renderCalc()" aria-labelledby="calcRolesL"><button type="button" data-for="calcRoles" data-d="1" onclick="stepCalc(this)">+</button></div>' +
-    '<p class="hint">For example front desk, case worker and manager. Three are included.</p></div>' +
-
-    '<div class="calc-q"><h4>Do you want to bring existing client records into Mareto?</h4>' +
-    '<p class="hint">Records you keep today in spreadsheets or another system.</p>' +
-    '<select class="calc-sel" id="calcData" onchange="renderCalc()" aria-label="Bringing in existing client records">' +
-    '<option value="fresh"' + (defaultData === 'fresh' ? ' selected' : '') + '>No, we are starting fresh</option>' +
-    '<option value="small"' + (defaultData === 'small' ? ' selected' : '') + '>Yes, from one small spreadsheet</option>' +
-    '<option value="sheets"' + (defaultData === 'sheets' ? ' selected' : '') + '>Yes, from several spreadsheets</option>' +
-    '<option value="system"' + (defaultData === 'system' ? ' selected' : '') + '>Yes, from another software system</option>' +
-    '<option value="several"' + (defaultData === 'several' ? ' selected' : '') + '>Yes, from more than one system</option>' +
-    '</select></div>' +
+    '<p class="hint">For example a housing program, a youth program and a food bank would be three. Your first two programs are included.</p></div>' +
 
     '<div class="calc-q"><h4>Add-ons</h4>' +
     '<p class="hint">Every plan already covers the core of case management, including client records, intake forms, appointments, classes, waitlists, assessments, family tree, reminders and dashboards. Add-ons are $250 each, never more than $1,000 in total.</p>' +
@@ -1188,14 +1175,14 @@ function showResults() {
     '<div class="calc-q"><h4>Also available, priced with you</h4>' +
     '<p class="hint">These depend on your setup, so we price them on a short call.</p>' +
     '<div class="calc-choices">' +
+    '<label class="calc-choice"><input type="checkbox" id="cq_migrate" onchange="renderCalc()"><span>Moving records from your current system</span></label>' +
     '<label class="calc-choice"><input type="checkbox" id="cq_connect" onchange="renderCalc()"><span>Connections to other software</span></label>' +
     '<label class="calc-choice"><input type="checkbox" id="cq_onsite" onchange="renderCalc()"><span>On-site training</span></label>' +
-    '' +
     '</div></div>' +
 
     '</div><div class="calc-estimate">' +
     '<div class="calc-est-top"><div class="k" id="ceLabel">Your first-year price</div><div class="big" id="ceYear">$0</div><div class="sub" id="ceSub"></div></div>' +
-    '<div class="calc-est-rows"><div class="calc-est-row"><span>One-time setup</span><span id="ceSetup">$0</span></div><div class="calc-est-row"><span>Monthly licence</span><span id="ceMonthly">$0</span></div></div>' +
+    '<div class="calc-est-rows"><div class="calc-est-row"><span>One-time setup</span><span id="ceSetup">$0</span></div><div class="calc-est-row"><span>Monthly plan</span><span id="ceMonthly">$0</span></div></div>' +
     '<p class="est-msg" id="ceMsg" style="padding:0 26px 18px;font-size:14px;margin:0;color:var(--hs-muted)"></p>' +
     '<details><summary style="padding:14px 26px;cursor:pointer;font-weight:700;font-size:14px;color:var(--hs-pine);list-style:none;border-top:1px solid var(--hs-border)">How we worked this out</summary><div class="calc-how" id="ceHow"></div></details>' +
     '</div></div>' +

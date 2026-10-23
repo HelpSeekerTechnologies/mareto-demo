@@ -2488,7 +2488,7 @@
   <div class="calc">
     <h4>Price calculator</h4>
     <p class="sub">Change anything and the price updates. CAD, before tax.</p>
-    <div class="row"><label for="cUsers">People who will log in<small>15 minimum</small></label><div class="step"><button type="button" data-f="cUsers" data-d="-1">&minus;</button><input id="cUsers" type="number" min="15" max="200" value="15"><button type="button" data-f="cUsers" data-d="1">+</button></div></div>
+    <div class="row"><label for="cUsers">People who will log in<small>15 minimum, over 200 custom</small></label><div class="step"><button type="button" data-f="cUsers" data-d="-1">&minus;</button><input id="cUsers" type="number" min="15" max="201" value="15"><button type="button" data-f="cUsers" data-d="1">+</button></div></div>
     <div class="row"><label for="cProgs">Programs<small>First two included</small></label><div class="step"><button type="button" data-f="cProgs" data-d="-1">&minus;</button><input id="cProgs" type="number" min="1" max="60" value="2"><button type="button" data-f="cProgs" data-d="1">+</button></div></div>
     <div class="chk"><div class="h">Add-ons, $250 each</div>
       <label><input type="checkbox" value="surveys">Online surveys</label><label><input type="checkbox" value="signature">Online signatures</label>
@@ -2534,6 +2534,15 @@
   }
   function render() {
     var u = val('cUsers'), p = val('cProgs');
+    document.querySelectorAll('.pzc .step button').forEach(function (b) { var e = $(b.dataset.f), v = val(b.dataset.f); b.disabled = (+b.dataset.d < 0 && v <= +e.min) || (+b.dataset.d > 0 && v >= +e.max); b.style.opacity = b.disabled ? .35 : 1; });
+    var pr = calc(u, p);
+    if (pr.n > 200) {
+      $('cY1').textContent = 'Custom quote';
+      $('cSetup').textContent = 'Custom quote';
+      $('cMonthly').textContent = 'Custom quote';
+      $('cLines').innerHTML = '<div><span>For organizations over 200 people we price setup, licences and support together on a short call.</span></div>';
+      return;
+    }
     var picks = [].slice.call(document.querySelectorAll('.pzc .chk input:checked')).map(function (i) { return i.value; });
     var addons = picks.filter(function (v) { return v !== 'french' && v !== 'pia'; });
     var lines = [['Setup and training, up to 2 programs', 7500]];
@@ -2541,7 +2550,7 @@
     if (addons.length) lines.push([addons.length + ' add-on' + (addons.length > 1 ? 's' : '') + ' at $250', Math.min(addons.length * 250, 1000)]);
     if (picks.indexOf('french') > -1) lines.push(['Mareto in French', 5000]);
     if (picks.indexOf('pia') > -1) lines.push(['Privacy impact assessment', 2500]);
-    var setup = lines.reduce(function (a, l) { return a + l[1]; }, 0), pr = calc(u, p);
+    var setup = lines.reduce(function (a, l) { return a + l[1]; }, 0);
     $('cY1').textContent = money(setup + pr.total * 12);
     $('cSetup').textContent = money(setup);
     $('cMonthly').textContent = money(pr.total);
@@ -2549,11 +2558,10 @@
       ? 'Licence: ' + pr.n + ' people, capped at the ' + TIERS[pr.tierIdx + 1].from + '-person price'
       : 'Licence: ' + pr.n + ' people at ' + money(pr.rate) + ' each';
     $('cLines').innerHTML = lines.map(function (l) { return '<div><span>' + l[0] + '</span><span>' + money(l[1]) + '</span></div>'; }).join('') +
-      '<div><span>' + licNote + '</span><span>' + money(pr.lic) + ' a month</span></div>' +
+      '<div><span>' + licNote + '</span><span>' + money(pr.capped ? pr.total - pr.support : pr.lic) + ' a month</span></div>' +
       '<div><span>Support plan</span><span>' + money(pr.support) + ' a month</span></div>' +
-      (pr.capped ? '<div><span>Monthly total (capped)</span><span>' + money(pr.total) + ' a month</span></div>' : '<div><span>Monthly total</span><span>' + money(pr.total) + ' a month</span></div>');
+      '<div><span><strong>Monthly total' + (pr.capped ? ' (capped)' : '') + '</strong></span><span><strong>' + money(pr.total) + ' a month</strong></span></div>';
     $('cGo').setAttribute('data-go', JSON.stringify({ flow: 'quote', from: 'pricing-calculator', preset: { users: u, programs: p, addons: picks } }));
-    document.querySelectorAll('.pzc .step button').forEach(function (b) { var e = $(b.dataset.f), v = val(b.dataset.f); b.disabled = (+b.dataset.d < 0 && v <= +e.min) || (+b.dataset.d > 0 && v >= +e.max); b.style.opacity = b.disabled ? .35 : 1; });
   }
   document.querySelectorAll('.pzc .step button').forEach(function (b) { b.addEventListener('click', function () { var e = $(b.dataset.f); e.value = Math.min(+e.max, Math.max(+e.min, val(b.dataset.f) + +b.dataset.d)); render(); }); });
   document.querySelectorAll('.pzc input').forEach(function (i) { i.addEventListener('change', function () { if (i.type === 'number') i.value = val(i.id); render(); }); });

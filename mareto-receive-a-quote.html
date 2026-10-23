@@ -417,7 +417,7 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
       <div class="stepper-help">Staff or volunteers who use it. Plans start at $850 a month with a minimum of 15 people.</div>
       <div class="stepper">
         <button type="button" onclick="stepVal('users',-1)">&#8722;</button>
-        <input type="number" id="users" value="15" min="1" max="200">
+        <input type="number" id="users" value="15" min="15" max="201">
         <button type="button" onclick="stepVal('users',1)">+</button>
       </div>
     </div>
@@ -764,7 +764,7 @@ const ADDONS = [
 ];
 
 const CALL_OPTIONS = [
-  { id: 'q_records', name: 'Bringing in your existing records', desc: 'Moving client records over from spreadsheets or another system. We look at what you have and fix the price before any work starts.' },
+  { id: 'q_records', name: 'Moving records from your current system', desc: 'Moving client records over from spreadsheets or another system. We look at what you have and fix the price before any work starts.' },
   { id: 'q_connect', name: 'Connections to other software', desc: '' },
   { id: 'q_onsite', name: 'On-site training', desc: '' }
 ];
@@ -1202,8 +1202,9 @@ function showQuote(contact, answers) {
   const frenchCost = answers.french ? 5000 : 0;
   const piaCost = answers.pia ? 2500 : 0;
   const setupTotal = BASE_SETUP + programCost + addonTotal + frenchCost + piaCost;
+  const isCustom = pr.custom;
   const monthly = pr.total;
-  const yearOne = setupTotal + (monthly * 12);
+  const yearOne = isCustom ? 0 : setupTotal + (monthly * 12);
   const prepayAnnual = monthly * 12 * (1 - PREPAY_PCT / 100);
   const prepayYear1 = setupTotal + prepayAnnual;
 
@@ -1219,13 +1220,15 @@ function showQuote(contact, answers) {
   document.getElementById('qr-sub').textContent = subText;
 
   // Year one
-  document.getElementById('qr-year1').textContent = fmt(yearOne);
-  document.getElementById('qr-setup').textContent = fmt(setupTotal);
-  document.getElementById('qr-monthly').textContent = fmt(monthly);
+  document.getElementById('qr-year1').textContent = isCustom ? 'Custom quote' : fmt(yearOne);
+  document.getElementById('qr-setup').textContent = isCustom ? 'Custom quote' : fmt(setupTotal);
+  document.getElementById('qr-monthly').textContent = isCustom ? 'Custom quote' : fmt(monthly);
 
   // Monthly sub
   let monthlySub = '';
-  if (pr.capped) {
+  if (isCustom) {
+    monthlySub = 'Over 200 people. Contact us and we will put your price together.';
+  } else if (pr.capped) {
     monthlySub = pr.n + ' people, capped at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price';
   } else {
     monthlySub = pr.n + ' people at $' + pr.rate + ' each plus support plan';
@@ -1290,7 +1293,7 @@ function showQuote(contact, answers) {
   const licLabel = pr.capped
     ? 'Licence: ' + pr.n + ' people, capped at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price'
     : 'Licence: ' + pr.n + ' people at $' + pr.rate + ' each';
-  addLine(licLabel, fmt(pr.licence));
+  addLine(licLabel, fmt(pr.capped ? pr.total - pr.support : pr.licence));
   addLine('Support plan', fmt(pr.support) + ' a month');
   if (pr.capped) addLine('Monthly total (capped)', fmt(monthly) + ' a month', true);
   else addLine('Monthly total', fmt(monthly) + ' a month', true);
@@ -1671,7 +1674,7 @@ function buildQuotePdf(answers, contact, assets) {
   parts.forEach(p => line(p.txt, p.note, money(p.lo)));
   y += 2;
   band('One-time setup', money(setupTotal), PALE, NAVY);
-  line('Monthly licence', licNote, money(pr.licence) + ' a month');
+  line('Monthly licence', licNote, money(pr.capped ? mo - pr.support : pr.licence) + ' a month');
   line('Support plan', null, money(pr.support) + ' a month');
   if (pr.capped) line('Monthly total (capped at ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price)', null, money(mo) + ' a month');
   else { y += 2; band('Monthly total', money(mo) + ' a month', PALE, NAVY); }

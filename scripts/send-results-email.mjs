@@ -997,7 +997,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   parts.forEach(p => line(p.txt, p.note, money(p.lo)));
   y += 2;
   band('One-time setup', money(setupTotal), PALE, NAVY);
-  line('Monthly licence', licNote, money(pr.licence) + ' a month');
+  line('Monthly licence', licNote, money(pr.capped ? mo - pr.support : pr.licence) + ' a month');
   line('Support plan', null, money(pr.support) + ' a month');
   if (pr.capped) line('Monthly total (capped at ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price)', null, money(mo) + ' a month');
   else { y += 2; band('Monthly total', money(mo) + ' a month', PALE, NAVY); }
