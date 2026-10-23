@@ -97,7 +97,7 @@
           <input id="mpUsers" type="number" min="15" max="201" value="15" onchange="mpClamp(this);mpRender()" aria-labelledby="mpUsersL">
           <button type="button" data-for="mpUsers" data-d="1" onclick="mpStep(this)">+</button>
         </div>
-        <p class="mp-hint">Staff or volunteers who use it. Plans start at $850 a month with a minimum of 15 people. Over 200 people, we put together a custom quote.</p>
+        <p class="mp-hint">Staff or volunteers who use it. Licences are $40 a person a month, with a minimum of 15 people, so from $600 a month. Every plan also includes a support plan, from $250 a month. Over 200 people, we put together a custom quote.</p>
       </div>
 
       <div class="mp-q mp-qrow">
@@ -139,7 +139,9 @@
       </div>
       <div class="mp-est-rows">
         <div class="mp-est-row"><span>One-time setup</span><span id="mpSetup">$0</span></div>
-        <div class="mp-est-row"><span>Monthly plan</span><span id="mpMonthly">$0</span></div>
+        <div class="mp-est-row"><span id="mpLicL">Licences</span><span id="mpLic">$0</span></div>
+        <div class="mp-est-row"><span>Support plan</span><span id="mpSup">$0</span></div>
+        <div class="mp-est-row"><span>Monthly total</span><span id="mpMonthly">$0</span></div>
       </div>
       <p class="mp-msg" id="mpMsg"></p>
       <details>
@@ -261,6 +263,8 @@
       document.getElementById('mpSub').textContent = 'Contact us and we will put your price together.';
       document.getElementById('mpSetup').textContent = 'Custom quote';
       document.getElementById('mpMonthly').textContent = 'Custom quote';
+      document.getElementById('mpLic').textContent = 'Custom quote';
+      document.getElementById('mpSup').textContent = 'Custom quote';
       document.getElementById('mpMsg').textContent = '';
       document.getElementById('mpHow').innerHTML = '<p>For organizations over 200 people we price setup, licences and support together on a short call.</p>';
       return;
@@ -278,7 +282,10 @@
       ? 'The price is fixed.'
       : 'Then ' + money(r.monthly) + ' a month after the first year.';
     document.getElementById('mpSetup').textContent = range(r.lo, r.hi);
-    document.getElementById('mpMonthly').textContent = money(r.monthly) + ' for ' + r.users + ' people, including support';
+    document.getElementById('mpLicL').textContent = r.capped ? 'Licences (' + r.users + ' people, capped at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price)' : 'Licences (' + Math.max(r.users, 15) + ' people at ' + money(r.rate) + ')';
+    document.getElementById('mpLic').textContent = money(r.capped ? r.monthly - r.support : r.licence) + ' a month';
+    document.getElementById('mpSup').textContent = money(r.support) + ' a month';
+    document.getElementById('mpMonthly').textContent = money(r.monthly) + ' a month';
     document.getElementById('mpMsg').textContent = r.fixed
       ? 'This is your price. Book a short call and we will confirm what you need, then send it to sign.'
       : r.quoted.length

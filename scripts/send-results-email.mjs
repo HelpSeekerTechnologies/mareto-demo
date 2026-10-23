@@ -768,7 +768,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   const PWY = 'Priced with you';
 
   const SETUP_QS = [
-    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Plans start at $850 a month with a minimum of 15 people.', val: answers.users },
+    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Licences are $40 a person a month, with a minimum of 15 people, so from $600 a month. Every plan also includes a support plan, from $250 a month.', val: answers.users },
     { q: 'How many programs will you run in it?', help: 'Your first two programs are included.', val: answers.programs },
     { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. All are included, at no extra cost.', val: answers.roles }
   ];

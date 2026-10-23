@@ -414,7 +414,7 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
 
     <div class="stepper-card">
       <label>How many people will log in? <span id="badge-users" class="prefill-badge" style="display:none;">From your demo answers</span></label>
-      <div class="stepper-help">Staff or volunteers who use it. Plans start at $850 a month with a minimum of 15 people.</div>
+      <div class="stepper-help">Staff or volunteers who use it. Licences are $40 a person a month, with a minimum of 15 people, so from $600 a month. Every plan also includes a support plan, from $250 a month.</div>
       <div class="stepper">
         <button type="button" onclick="stepVal('users',-1)">&#8722;</button>
         <input type="number" id="users" value="15" min="15" max="201">
@@ -619,7 +619,7 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
           <div class="tile-sub">Paid once</div>
         </div>
         <div class="tile">
-          <div class="tile-label">Monthly licence</div>
+          <div class="tile-label">Monthly plan</div>
           <div class="tile-num" id="qr-monthly"></div>
           <div class="tile-sub" id="qr-monthly-sub"></div>
         </div>
@@ -1229,9 +1229,9 @@ function showQuote(contact, answers) {
   if (isCustom) {
     monthlySub = 'Over 200 people. Contact us and we will put your price together.';
   } else if (pr.capped) {
-    monthlySub = pr.n + ' people, capped at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price';
+    monthlySub = 'Licences ' + fmt(pr.total - pr.support) + ' (' + pr.n + ' people, capped at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price) plus support plan ' + fmt(pr.support);
   } else {
-    monthlySub = pr.n + ' people at $' + pr.rate + ' each plus support plan';
+    monthlySub = 'Licences ' + fmt(pr.licence) + ' (' + pr.n + ' people at $' + pr.rate + ') plus support plan ' + fmt(pr.support);
   }
   document.getElementById('qr-monthly-sub').textContent = monthlySub;
 
@@ -1442,7 +1442,7 @@ function buildQuotePdf(answers, contact, assets) {
 
   // Question text and help text for page 3
   const SETUP_QS = [
-    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Plans start at $850 a month with a minimum of 15 people.', val: answers.users },
+    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Licences are $40 a person a month, with a minimum of 15 people, so from $600 a month. Every plan also includes a support plan, from $250 a month.', val: answers.users },
     { q: 'How many programs will you run in it?', help: 'Your first two programs are included.', val: answers.programs },
     { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. All are included, at no extra cost.', val: answers.roles }
   ];
@@ -1612,7 +1612,7 @@ function buildQuotePdf(answers, contact, assets) {
   t(money(y1), M + 18, y + 58, 30, WHITE, 'bold');
   t('Setup plus 12 months of licence', M + 18, y + 76, 8.5, ONDARK);
 
-  [['One-time setup', money(setupTotal), 'Paid once'], ['Monthly plan', money(mo), licNote + ' plus support plan']].forEach(([k, v, n], i) => {
+  [['One-time setup', money(setupTotal), 'Paid once'], ['Monthly plan', money(mo), 'Licences ' + money(pr.capped ? mo - pr.support : pr.licence) + ' plus support plan ' + money(pr.support)]].forEach(([k, v, n], i) => {
     const x = M + kw1 + 10 + i * (kw2 + 10);
     box(WHITE, x, y, kw2, kh, 8);
     outline(BORDER, x, y, kw2, kh, 8);
