@@ -1,0 +1,186 @@
+<style>
+  .pzs { background:#fff; padding:90px 0 96px; font-family:Lato,sans-serif; color:#000; }
+  .pzs .in { max-width:1080px; margin:0 auto; padding:0 55px; text-align:center; }
+  .pzs .eb { font-size:14.4px; font-weight:700; color:#0E4576; text-transform:uppercase; margin:0 0 14px; }
+  .pzs h3 { font-family:Lato,sans-serif; font-weight:400; font-size:42px; line-height:1.1; margin:0 0 40px; color:#000 !important; }
+  .pzs .cards { display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
+  .pzs .card { background:#EDF1F3; padding:34px 36px; }
+  .pzs .card .k { font-size:14.4px; font-weight:700; color:#0E4576; text-transform:uppercase; }
+  .pzs .card .v { font-size:44px; line-height:1.1; margin:10px 0 2px; }
+  .pzs .card .v small { font-size:17px; color:#4A5560; white-space:nowrap; }
+  .pzs .card ul { list-style:none; padding:0; margin:18px 0 0; font-size:16.5px; line-height:1.5; }
+  .pzs .card li { padding:6px 0 6px 26px; position:relative; border-top:1px solid #D7DEE3; }
+  .pzs .card li:before { content:''; position:absolute; left:2px; top:12px; width:10px; height:6px; border-left:2px solid #0FB9B1; border-bottom:2px solid #0FB9B1; transform:rotate(-45deg); }
+  .pzs .cta { margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .pzs .cta .go { display:inline-block; background:#28D7D2; color:#000; font-weight:700; font-size:13px; letter-spacing:.05em; text-transform:uppercase; padding:17px 34px; text-decoration:none; }
+  .pzs .cta .go:hover { background:#20bfba; }
+  .pzs .cta .calcLink { background:none; border:0; color:#0E4576; font-family:inherit; font-size:15px; text-decoration:underline; cursor:pointer; }
+
+  /* Calculator */
+  .pzs .calcBox { max-width:640px; margin:28px auto 0; text-align:left; }
+  .pzs .calc { background:#EDF1F3; padding:30px 32px; }
+  .pzs .calc h4 { font-family:Lato,sans-serif; font-weight:400; font-size:26px; margin:0 0 4px; }
+  .pzs .calc .sub { font-size:14.4px; color:#4A5560; margin:0 0 18px; }
+  .pzs .row { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:12px 0; border-top:1px solid #D7DEE3; }
+  .pzs .row label { font-size:15.5px; }
+  .pzs .row label small { display:block; font-size:12.5px; color:#4A5560; }
+  .pzs .step { display:flex; border:1px solid #C8D2DA; background:#fff; flex:none; }
+  .pzs .step button { width:40px; height:40px; border:0; background:#fff; font-size:18px; color:#0E4576; cursor:pointer; }
+  .pzs .step input { width:56px; height:40px; border:0; border-left:1px solid #C8D2DA; border-right:1px solid #C8D2DA; text-align:center; font-family:inherit; font-size:16px; font-weight:700; color:#000; }
+  .pzs .chk { display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; padding:12px 0; border-top:1px solid #D7DEE3; font-size:14.4px; }
+  .pzs .chk label { display:flex; gap:8px; align-items:flex-start; cursor:pointer; }
+  .pzs .chk input { accent-color:#0E4576; width:16px; height:16px; margin-top:2px; }
+  .pzs .chk .h { grid-column:1 / -1; font-size:15.5px; margin-bottom:2px; }
+  .pzs .out { background:#13324B; color:#fff; padding:20px 22px; margin-top:14px; }
+  .pzs .out .k { font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:#28D7D2; font-weight:700; }
+  .pzs .out .big { font-size:40px; line-height:1.05; margin:4px 0 4px; }
+  .pzs .out .two { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,.2); font-size:14px; color:#DCE6EE; }
+  .pzs .out .two b { display:block; color:#fff; font-size:19px; font-weight:400; }
+  .pzs .lines { font-size:13.5px; color:#4A5560; margin:12px 0 0; }
+  .pzs .lines div { display:flex; justify-content:space-between; gap:10px; padding:3px 0; }
+  .pzs .go { display:block; text-align:center; background:#28D7D2; color:#000; font-weight:700; font-size:13px; letter-spacing:.05em; text-transform:uppercase; padding:16px; margin-top:16px; text-decoration:none; }
+  .pzs .go:hover { background:#20bfba; }
+  .pzs .fine { font-size:12.5px; color:#4A5560; margin:10px 0 0; }
+  @media (max-width:900px) { .pzs .cards { grid-template-columns:1fr; } .pzs .in { padding:0 22px; } .pzs h3 { font-size:32px; } .pzs .calc { padding:22px; } .pzs .chk { grid-template-columns:1fr; } }
+</style>
+
+<div class="pzs">
+<div class="in">
+  <p class="eb">How pricing works</p>
+  <h3>One setup, then a monthly plan.</h3>
+
+  <div class="cards">
+    <div class="card">
+      <div class="k">Setup, from</div>
+      <div class="v">$7,500 <small>one time</small></div>
+      <ul>
+        <li>Up to two programs</li>
+        <li>All your staff types</li>
+        <li>Training and three rounds of changes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="k">Licences from</div>
+      <div class="v">$40 <small>per person, per month</small></div>
+      <ul>
+        <li>Minimum of 15 people ($600 a month)</li>
+        <li>Plus a support plan from $250 a month</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta">
+    <a class="go" href="https://demo.helpseeker.org/mareto-receive-a-quote.html?from=pricing" target="_blank" rel="noopener">Receive a quote</a>
+    <button type="button" class="calcLink" id="calcToggle" aria-expanded="false" aria-controls="calcBox">Prefer to work it out yourself? Open the price calculator</button>
+  </div>
+
+  <div class="calcBox" id="calcBox" hidden>
+    <div class="calc">
+      <h4>Price calculator</h4>
+      <p class="sub">Change anything and the price updates. CAD, before tax.</p>
+
+      <div class="row">
+        <label for="cUsers">People who will log in<small>Minimum of 15. Custom quote over 200.</small></label>
+        <div class="step"><button type="button" data-f="cUsers" data-d="-1">&minus;</button><input id="cUsers" type="number" min="15" max="201" value="15"><button type="button" data-f="cUsers" data-d="1">+</button></div>
+      </div>
+
+      <div class="row">
+        <label for="cProgs">Programs<small>First two included</small></label>
+        <div class="step"><button type="button" data-f="cProgs" data-d="-1">&minus;</button><input id="cProgs" type="number" min="1" max="60" value="2"><button type="button" data-f="cProgs" data-d="1">+</button></div>
+      </div>
+
+      <div class="chk">
+        <div class="h">Add-ons, $250 each</div>
+        <label><input type="checkbox" value="surveys">Online surveys</label>
+        <label><input type="checkbox" value="signature">Online signatures</label>
+        <label><input type="checkbox" value="finance">Financial assistance</label>
+        <label><input type="checkbox" value="inventory">Inventory and distribution</label>
+        <label><input type="checkbox" value="housing">Housing units and beds</label>
+        <label><input type="checkbox" value="volunteer">Volunteer management</label>
+        <div class="h" style="margin-top:6px">Other options</div>
+        <label><input type="checkbox" value="french">Mareto in French, $5,000</label>
+        <label><input type="checkbox" value="pia">Privacy impact assessment, $2,500</label>
+      </div>
+
+      <div class="out">
+        <div class="k">Your first year</div>
+        <div class="big" id="cY1"></div>
+        <div class="two">
+          <div>One-time setup<b id="cSetup"></b></div>
+          <div>Monthly plan<b id="cMonthly"></b></div>
+        </div>
+      </div>
+      <div class="lines" id="cLines"></div>
+      <a class="go" id="cGo" href="https://demo.helpseeker.org/mareto-receive-a-quote.html?from=pricing-calculator" target="_blank" rel="noopener">Receive your detailed quote</a>
+      <p class="fine">Your detailed quote comes as a PDF to share with your team, with your interactive demo.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  var TIERS = [{ from: 15, to: 29, rate: 40, support: 250 }, { from: 30, to: 49, rate: 35, support: 500 }, { from: 50, to: 99, rate: 30, support: 750 }, { from: 100, to: 200, rate: 25, support: 1000 }];
+  var $ = function (id) { return document.getElementById(id); };
+  var money = function (n) { return '$' + Math.round(n).toLocaleString('en-CA'); };
+  function val(id) { var e = $(id); return Math.min(+e.max, Math.max(+e.min, parseInt(e.value, 10) || +e.min)); }
+  function calc(users, programs) {
+    var n = Math.max(users, 15);
+    var tierIdx = 0;
+    for (var i = 0; i < TIERS.length; i++) { if (n >= TIERS[i].from && n <= TIERS[i].to) { tierIdx = i; break; } }
+    var tier = TIERS[tierIdx];
+    var licCost = n * tier.rate;
+    var supportIdx = tierIdx;
+    if (programs >= 5 && supportIdx < TIERS.length - 1) supportIdx++;
+    var supportCost = TIERS[supportIdx].support;
+    var total = licCost + supportCost, capped = false;
+    if (tierIdx < TIERS.length - 1) {
+      var next = TIERS[tierIdx + 1];
+      var nextSupportIdx = tierIdx + 1;
+      if (programs >= 5 && nextSupportIdx < TIERS.length - 1) nextSupportIdx++;
+      var nextTotal = next.from * next.rate + TIERS[nextSupportIdx].support;
+      if (total > nextTotal) { total = nextTotal; capped = true; }
+    }
+    return { total: total, lic: licCost, support: supportCost, rate: tier.rate, n: n, capped: capped, tierIdx: tierIdx };
+  }
+  function render() {
+    var u = val('cUsers'), p = val('cProgs');
+    document.querySelectorAll('.pzs .step button').forEach(function (b) { var e = $(b.dataset.f), v = val(b.dataset.f); b.disabled = (+b.dataset.d < 0 && v <= +e.min) || (+b.dataset.d > 0 && v >= +e.max); b.style.opacity = b.disabled ? .35 : 1; });
+    var pr = calc(u, p);
+    if (pr.n > 200) {
+      $('cY1').textContent = 'Custom quote';
+      $('cSetup').textContent = 'Custom quote';
+      $('cMonthly').textContent = 'Custom quote';
+      $('cLines').innerHTML = '<div><span>For organizations with more than 200 people, we price setup, licences and support together on a short call.</span></div>';
+      return;
+    }
+    var picks = [].slice.call(document.querySelectorAll('.pzs .chk input:checked')).map(function (i) { return i.value; });
+    var addons = picks.filter(function (v) { return v !== 'french' && v !== 'pia'; });
+    var lines = [['Setup and training for up to 2 programs', 7500]];
+    if (p > 2) lines.push([(p - 2) + ' more program' + (p > 3 ? 's' : '') + ' at $1,500', (p - 2) * 1500]);
+    if (addons.length) lines.push([addons.length + ' add-on' + (addons.length > 1 ? 's' : '') + ' at $250', Math.min(addons.length * 250, 1000)]);
+    if (picks.indexOf('french') > -1) lines.push(['Mareto in French', 5000]);
+    if (picks.indexOf('pia') > -1) lines.push(['Privacy impact assessment', 2500]);
+    var setup = lines.reduce(function (a, l) { return a + l[1]; }, 0);
+    $('cY1').textContent = money(setup + pr.total * 12);
+    $('cSetup').textContent = money(setup);
+    $('cMonthly').textContent = money(pr.total);
+    var licNote = pr.capped
+      ? 'Licences: ' + pr.n + ' people, charged at the ' + TIERS[pr.tierIdx + 1].from + '-person price'
+      : 'Licences: ' + pr.n + ' people at ' + money(pr.rate) + ' each';
+    $('cLines').innerHTML = lines.map(function (l) { return '<div><span>' + l[0] + '</span><span>' + money(l[1]) + '</span></div>'; }).join('') +
+      '<div><span>' + licNote + '</span><span>' + money(pr.capped ? pr.total - pr.support : pr.lic) + ' a month</span></div>' +
+      '<div><span>Support plan</span><span>' + money(pr.support) + ' a month</span></div>' +
+      '<div><span><strong>Monthly total' + '' + '</strong></span><span><strong>' + money(pr.total) + ' a month</strong></span></div>';
+    // Update the quote link with the calculator values
+    var params = 'from=pricing-calculator&users=' + u + '&programs=' + p;
+    if (picks.length) params += '&addons=' + picks.join(',');
+    $('cGo').href = 'https://demo.helpseeker.org/mareto-receive-a-quote.html?' + params;
+  }
+  document.querySelectorAll('.pzs .step button').forEach(function (b) { b.addEventListener('click', function () { var e = $(b.dataset.f); e.value = Math.min(+e.max, Math.max(+e.min, val(b.dataset.f) + +b.dataset.d)); render(); }); });
+  document.querySelectorAll('.pzs input').forEach(function (i) { i.addEventListener('change', function () { if (i.type === 'number') i.value = val(i.id); render(); }); });
+  render();
+  var tg = $('calcToggle'), bx = $('calcBox');
+  tg.addEventListener('click', function () { var open = bx.hidden; bx.hidden = !open; tg.setAttribute('aria-expanded', String(open)); tg.textContent = open ? 'Hide the price calculator' : 'Prefer to work it out yourself? Open the price calculator'; });
+})();
+</script>

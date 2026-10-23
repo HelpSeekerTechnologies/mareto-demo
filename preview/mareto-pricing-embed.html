@@ -1,0 +1,321 @@
+<!--
+  Mareto Pricing Calculator — Squarespace Embed
+  Paste this entire block into a Squarespace Code Block (Add Block > Code, toggle "Display Source" OFF).
+-->
+<style>
+.mareto-pricing *,.mareto-pricing *::before,.mareto-pricing *::after{box-sizing:border-box;margin:0;padding:0}
+.mareto-pricing{
+  --mp-navy:#0B1F33;--mp-pine:#0B7A6F;--mp-pale:#E8F5F3;--mp-mist:#F4F6F8;
+  --mp-ink:#1a2a3a;--mp-muted:#6b7b8d;--mp-border:#E2E6EA;--mp-surface:#fff;
+  --mp-radius:12px;--mp-radius-sm:8px;
+  --mp-sh1:0 1px 3px rgba(11,31,51,.08);--mp-sh2:0 4px 16px rgba(11,31,51,.10);
+  --mp-gradient:linear-gradient(135deg,#0B7A6F,#10A89C);
+  font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--mp-ink);
+  max-width:960px;margin:0 auto;padding:0 16px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+/* layout */
+.mp-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:28px;align-items:start}
+.mp-grid .mp-inputs{display:flex;flex-direction:column}
+.mp-grid .mp-estimate{position:sticky;top:16px;border:1px solid var(--mp-border);border-radius:var(--mp-radius);box-shadow:var(--mp-sh2);overflow:hidden;background:var(--mp-surface)}
+@media(max-width:880px){.mp-grid{grid-template-columns:minmax(0,1fr)}.mp-grid .mp-estimate{position:static}}
+
+/* question rows */
+.mp-q{padding-block:20px;border-bottom:1px solid var(--mp-border)}
+.mp-q:last-child{border-bottom:0}
+.mp-q h4{font-size:16px;font-weight:700;color:var(--mp-navy);margin:0 0 2px}
+.mp-q .mp-hint{color:var(--mp-muted);font-size:13px;margin:2px 0 12px}
+.mp-qrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center}
+.mp-qrow .mp-hint{grid-column:1/-1;margin:0}
+.mp-qrow h4{font-size:16px}
+
+/* stepper */
+.mp-stepper{display:inline-flex;align-items:center;border:1px solid var(--mp-border);border-radius:var(--mp-radius-sm);overflow:hidden}
+.mp-stepper button{font:inherit;width:42px;height:42px;border:0;background:var(--mp-mist);color:var(--mp-ink);cursor:pointer;font-size:20px}
+.mp-stepper button:hover:not(:disabled){background:var(--mp-pale)}
+.mp-stepper button:disabled{color:var(--mp-border);cursor:default}
+.mp-stepper input{width:70px;height:42px;border:0;text-align:center;font:inherit;font-size:18px;font-weight:700;background:var(--mp-surface);color:var(--mp-ink);font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.mp-stepper input::-webkit-outer-spin-button,.mp-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* select */
+.mp-sel{font-family:'Lato',sans-serif;font-size:14px;height:42px;border:1px solid var(--mp-border);border-radius:var(--mp-radius-sm);padding:0 10px;background:var(--mp-surface);color:var(--mp-ink);max-width:100%}
+
+/* feature checkboxes */
+.mp-feats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:560px){.mp-feats{grid-template-columns:minmax(0,1fr)}}
+.mp-feat{position:relative;display:block}
+.mp-feat input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
+.mp-feat .mp-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;height:100%;padding:12px 14px;border:1px solid var(--mp-border);border-radius:var(--mp-radius);background:var(--mp-surface)}
+.mp-feat .mp-fname{font-weight:700;font-size:14px;color:var(--mp-navy)}
+.mp-feat .mp-fprice{font-weight:700;font-size:13px;color:var(--mp-pine);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mp-feat .mp-fdesc{grid-column:1/-1;color:var(--mp-muted);font-size:12.5px;line-height:1.4}
+.mp-feat input:checked+.mp-box{border-color:var(--mp-pine);background:var(--mp-pale);box-shadow:inset 0 0 0 1px var(--mp-pine)}
+.mp-feat input:checked+.mp-box .mp-fname::before{content:"\2713 ";color:var(--mp-pine)}
+
+/* pill choices */
+.mp-choices{display:flex;flex-wrap:wrap;gap:8px}
+.mp-choices.mp-stack .mp-choice{width:100%}
+.mp-choices.mp-stack .mp-choice span{width:100%}
+.mp-choice{position:relative}
+.mp-choice input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.mp-choice span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--mp-border);border-radius:var(--mp-radius-sm);background:var(--mp-surface);font-size:14px;cursor:pointer}
+.mp-choice input:checked+span{border-color:var(--mp-pine);background:var(--mp-pale);font-weight:700}
+
+/* estimate panel */
+.mp-est-top{background:var(--mp-pale);padding:22px 26px 20px;border-radius:var(--mp-radius) var(--mp-radius) 0 0}
+.mp-est-top .mp-k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mp-pine)}
+.mp-est-top .mp-big{font-size:clamp(30px,5vw,40px);font-weight:900;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums;color:var(--mp-navy)}
+.mp-est-top .mp-sub{color:var(--mp-muted);font-size:14px;margin-top:4px}
+.mp-est-rows{padding:6px 26px}
+.mp-est-row{display:flex;justify-content:space-between;gap:16px;padding-block:12px;border-bottom:1px solid var(--mp-border)}
+.mp-est-row:last-child{border-bottom:0}
+.mp-est-row span:first-child{color:var(--mp-muted)}
+.mp-est-row span:last-child{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.mp-msg{padding:0 26px 18px;font-size:14px;margin:0;color:var(--mp-muted)}
+.mp-how-toggle{padding:14px 26px;cursor:pointer;font-weight:700;font-size:14px;color:var(--mp-pine);list-style:none;border-top:1px solid var(--mp-border)}
+.mp-how{padding:0 26px 18px;font-size:13px}
+.mp-how .mp-line{display:flex;justify-content:space-between;gap:12px;padding-block:6px;border-bottom:1px dashed var(--mp-border)}
+.mp-how .mp-line span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.mp-how p{color:var(--mp-muted);margin:10px 0 0}
+
+/* included chips */
+.mp-included h4{font-size:16px;font-weight:700;color:var(--mp-navy);margin:0 0 8px}
+.mp-chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.mp-chips li{background:var(--mp-pale);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--mp-pine)}
+.mp-note{font-size:12px;color:var(--mp-muted);text-align:center;margin-top:16px;font-style:italic}
+</style>
+
+<div class="mareto-pricing" id="maretoPricing">
+  <div class="mp-grid">
+    <div class="mp-inputs">
+
+      <div class="mp-q mp-qrow">
+        <h4 id="mpUsersL">How many people will log in?</h4>
+        <div class="mp-stepper">
+          <button type="button" data-for="mpUsers" data-d="-1" onclick="mpStep(this)">&minus;</button>
+          <input id="mpUsers" type="number" min="15" max="201" value="15" onchange="mpClamp(this);mpRender()" aria-labelledby="mpUsersL">
+          <button type="button" data-for="mpUsers" data-d="1" onclick="mpStep(this)">+</button>
+        </div>
+        <p class="mp-hint">Count the staff and volunteers who will use Mareto. Licences are $40 per person per month, with a minimum of 15 people ($600 a month). Every plan also includes a support plan, starting at $250 a month. For more than 200 people, we prepare a custom quote.</p>
+      </div>
+
+      <div class="mp-q mp-qrow">
+        <h4 id="mpProgsL">How many programs will you run in it?</h4>
+        <div class="mp-stepper">
+          <button type="button" data-for="mpPrograms" data-d="-1" onclick="mpStep(this)">&minus;</button>
+          <input id="mpPrograms" type="number" min="1" max="60" value="1" onchange="mpClamp(this);mpRender()" aria-labelledby="mpProgsL">
+          <button type="button" data-for="mpPrograms" data-d="1" onclick="mpStep(this)">+</button>
+        </div>
+        <p class="mp-hint">For example a housing program, a youth program and a food bank would be three. Your first two programs are included.</p>
+      </div>
+
+      <div class="mp-q">
+        <h4>Add-ons</h4>
+        <p class="mp-hint">Every plan already covers the core of case management, including client records, intake forms, appointments, classes, waitlists, assessments, family tree, reminders and dashboards. Add-ons are $250 each, never more than $1,000 in total.</p>
+        <div class="mp-feats" id="mpFeats"></div>
+        <div class="mp-choices mp-stack" style="margin-top:12px">
+          <label class="mp-choice"><input type="checkbox" id="mpf_french" onchange="mpRender()"><span>Mareto in French, $5,000</span></label>
+          <label class="mp-choice"><input type="checkbox" id="mpf_pia" onchange="mpRender()"><span>Privacy impact assessment, $2,500</span></label>
+        </div>
+      </div>
+
+      <div class="mp-q">
+        <h4>Also available, priced with you</h4>
+        <p class="mp-hint">These depend on your setup, so we price them on a short call.</p>
+        <div class="mp-choices">
+          <label class="mp-choice"><input type="checkbox" id="mpq_migrate" onchange="mpRender()"><span>Moving records from your current system</span></label>
+          <label class="mp-choice"><input type="checkbox" id="mpq_connect" onchange="mpRender()"><span>Connections to other software</span></label>
+          <label class="mp-choice"><input type="checkbox" id="mpq_onsite" onchange="mpRender()"><span>On-site training</span></label>
+        </div>
+      </div>
+
+    </div>
+    <div class="mp-estimate">
+      <div class="mp-est-top">
+        <div class="mp-k" id="mpLabel">Your first-year price</div>
+        <div class="mp-big" id="mpYear">$0</div>
+        <div class="mp-sub" id="mpSub"></div>
+      </div>
+      <div class="mp-est-rows">
+        <div class="mp-est-row"><span>One-time setup</span><span id="mpSetup">$0</span></div>
+        <div class="mp-est-row"><span id="mpLicL">Licences</span><span id="mpLic">$0</span></div>
+        <div class="mp-est-row"><span>Support plan</span><span id="mpSup">$0</span></div>
+        <div class="mp-est-row"><span>Monthly total</span><span id="mpMonthly">$0</span></div>
+      </div>
+      <p class="mp-msg" id="mpMsg"></p>
+      <details>
+        <summary class="mp-how-toggle">How we worked this out</summary>
+        <div class="mp-how" id="mpHow"></div>
+      </details>
+    </div>
+  </div>
+
+  <div class="mp-included" style="margin-top:24px">
+    <h4>Your support plan</h4>
+    <p class="mp-hint" style="color:var(--mp-muted);font-size:13px;margin:0 0 10px">The support plan is sized to your organization: $250 a month for 15 to 29 people, $500 for 30 to 49, $750 for 50 to 99 and $1,000 for 100 to 200. Organizations running 5 or more programs start one level up. It covers:</p>
+    <ul class="mp-chips">
+      <li>A help desk inside Mareto</li>
+      <li>How-to help for staff and administrators</li>
+      <li>New staff accounts and access changes</li>
+      <li>Ongoing small changes as your work changes</li>
+    </ul>
+    <p class="mp-hint" style="color:var(--mp-muted);font-size:13px;margin:10px 0 0">Larger pieces of work, such as a new workflow, a new program, a connection to other software or a new funder report, are quoted first at $250 an hour.</p>
+  </div>
+
+  <div class="mp-included" style="margin-top:24px">
+    <h4>Every plan includes</h4>
+    <ul class="mp-chips">
+      <li>Client records, case notes and plans</li>
+      <li>Online intake and referral forms</li>
+      <li>Appointments and staff calendar</li>
+      <li>Classes, groups and attendance</li>
+      <li>Waitlists</li>
+      <li>Assessments and outcomes</li>
+      <li>Family tree</li>
+      <li>Email reminders</li>
+      <li>Documents</li>
+      <li>Dashboards and your first funder report</li>
+      <li>Roles and permissions</li>
+      <li>Exports to Excel and PDF</li>
+      <li>Two-step login</li>
+      <li>Hosting in Canada</li>
+      <li>Setup and training</li>
+      <li>Three rounds of changes before you go live</li>
+      <li>No exit fees</li>
+    </ul>
+  </div>
+
+  <p class="mp-note">Hosting in Canada, backups, updates and data export are included. Prices are in CAD before tax, and renewal increases are capped at 4 percent a year, in writing.</p>
+</div>
+
+<script>
+(function(){
+  var LICENCE_TIERS = [
+    { from: 15, to: 29, rate: 40, support: 250 },
+    { from: 30, to: 49, rate: 35, support: 500 },
+    { from: 50, to: 99, rate: 30, support: 750 },
+    { from: 100, to: 200, rate: 25, support: 1000 }
+  ];
+  var MIN_PEOPLE = 15, MAX_PEOPLE = 200, BASE_SETUP = 7500, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1500;
+  var ADDON_PRICE = 250, ADDON_CAP = 1000, FRENCH_PRICE = 5000, PIA_PRICE = 2500;
+  var FEATURES = [
+    { id: 'signature', name: 'Online signatures', desc: 'Clients sign consent and intake forms on screen or online.' },
+    { id: 'inventory', name: 'Inventory and distribution', desc: 'Stock, hampers or orders, and what went to whom.' },
+    { id: 'finance', name: 'Financial assistance', desc: 'Requests, approvals and payments made for clients.' },
+    { id: 'housing', name: 'Housing units and beds', desc: 'Units, beds, occupancy, move-ins and move-outs.' },
+    { id: 'volunteer', name: 'Volunteer management', desc: 'Volunteer records, shifts worked and hours for reports.' },
+    { id: 'surveys', name: 'Online surveys', desc: 'Send clients satisfaction or outcome surveys by link, with results in your dashboards.' }
+  ];
+  // build feature checkboxes
+  var featsEl = document.getElementById('mpFeats');
+  featsEl.innerHTML = FEATURES.map(function(f) {
+    return '<label class="mp-feat"><input type="checkbox" id="mpf_' + f.id + '" onchange="mpRender()"><span class="mp-box"><span class="mp-fname">' + f.name + '</span><span class="mp-fprice">+$250</span><span class="mp-fdesc">' + f.desc + '</span></span></label>';
+  }).join('');
+
+  function monthlyPricing(users, programs) {
+    var n = Math.max(users, MIN_PEOPLE);
+    if (n > MAX_PEOPLE) return { total: 0, licence: 0, support: 0, rate: 0, n: n, tierIdx: -1, capped: false, custom: true };
+    var tierIdx = 0;
+    for (var i = 0; i < LICENCE_TIERS.length; i++) { if (n >= LICENCE_TIERS[i].from && n <= LICENCE_TIERS[i].to) { tierIdx = i; break; } }
+    var tier = LICENCE_TIERS[tierIdx];
+    var licCost = n * tier.rate;
+    var supportIdx = tierIdx;
+    if (programs >= 5 && supportIdx < LICENCE_TIERS.length - 1) supportIdx++;
+    var supportCost = LICENCE_TIERS[supportIdx].support;
+    var total = licCost + supportCost, capped = false;
+    if (tierIdx < LICENCE_TIERS.length - 1) {
+      var next = LICENCE_TIERS[tierIdx + 1];
+      var nextSupportIdx = tierIdx + 1;
+      if (programs >= 5 && nextSupportIdx < LICENCE_TIERS.length - 1) nextSupportIdx++;
+      var nextTotal = next.from * next.rate + LICENCE_TIERS[nextSupportIdx].support;
+      if (total > nextTotal) { total = nextTotal; capped = true; }
+    }
+    return { total: total, licence: licCost, support: supportCost, rate: tier.rate, n: n, tierIdx: tierIdx, capped: capped, custom: false };
+  }
+
+  function calcPricing() {
+    var usersEl = document.getElementById('mpUsers'), progsEl = document.getElementById('mpPrograms');
+    if (!usersEl) return null;
+    var users = Math.min(+usersEl.max, Math.max(+usersEl.min, parseInt(usersEl.value, 10) || +usersEl.min));
+    var programs = Math.min(+progsEl.max, Math.max(+progsEl.min, parseInt(progsEl.value, 10) || +progsEl.min));
+    var parts = [{ txt: 'Setup and training for up to 2 programs and all staff types', lo: BASE_SETUP, hi: BASE_SETUP }];
+    var extra = Math.max(0, programs - PROGRAMS_INCLUDED);
+    if (extra) parts.push({ txt: extra + ' more program' + (extra > 1 ? 's' : '') + ' at $1,500', lo: extra * PROGRAM_PRICE, hi: extra * PROGRAM_PRICE });
+    var picked = FEATURES.filter(function(f) { return document.getElementById('mpf_' + f.id) && document.getElementById('mpf_' + f.id).checked; });
+    var ap = Math.min(picked.length * ADDON_PRICE, ADDON_CAP);
+    if (picked.length) parts.push({ txt: picked.length + ' add-on' + (picked.length > 1 ? 's' : '') + (picked.length * ADDON_PRICE > ADDON_CAP ? ' (never more than $1,000)' : ' at $250') + ': ' + picked.map(function(f) { return f.name.toLowerCase(); }).join(', '), lo: ap, hi: ap });
+    var frenchEl = document.getElementById('mpf_french'), piaEl = document.getElementById('mpf_pia');
+    if (frenchEl && frenchEl.checked) parts.push({ txt: 'French', lo: FRENCH_PRICE, hi: FRENCH_PRICE });
+    if (piaEl && piaEl.checked) parts.push({ txt: 'Privacy impact assessment', lo: PIA_PRICE, hi: PIA_PRICE });
+    var lo = parts.reduce(function(t, p) { return t + p.lo; }, 0);
+    var hi = parts.reduce(function(t, p) { return t + p.hi; }, 0);
+    var quoted = [['mpq_migrate', 'Moving records'], ['mpq_connect', 'Connections to other software'], ['mpq_onsite', 'On-site training']].filter(function(a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function(a) { return a[1]; });
+    var pr = monthlyPricing(users, programs);
+    return { users: users, programs: programs, custom: pr.custom, parts: parts, lo: lo, hi: hi, quoted: quoted, monthly: pr.total, licence: pr.licence, support: pr.support, rate: pr.rate, capped: pr.capped, tierIdx: pr.tierIdx, fixed: lo === hi && !quoted.length, essentials: parts.length === 1 && !quoted.length };
+  }
+
+  window.mpRender = function() {
+    var r = calcPricing(); if (!r) return;
+    if (r.custom) {
+      document.getElementById('mpLabel').textContent = 'Over 200 people';
+      document.getElementById('mpYear').textContent = 'Custom quote';
+      document.getElementById('mpSub').textContent = 'Contact us and we will put your price together.';
+      document.getElementById('mpSetup').textContent = 'Custom quote';
+      document.getElementById('mpMonthly').textContent = 'Custom quote';
+      document.getElementById('mpLic').textContent = 'Custom quote';
+      document.getElementById('mpSup').textContent = 'Custom quote';
+      document.getElementById('mpMsg').textContent = '';
+      document.getElementById('mpHow').innerHTML = '<p>For organizations with more than 200 people, we price setup, licences and support together on a short call.</p>';
+      return;
+    }
+    var money = function(n) { return '$' + Math.round(n).toLocaleString('en-CA'); };
+    var range = function(a, b) { return a === b ? money(a) : money(a) + ' to ' + money(b); };
+    var r500 = function(n, up) { return (up ? Math.ceil(n / 500) : Math.floor(n / 500)) * 500; };
+    // disable stepper buttons at limits
+    document.querySelectorAll('#maretoPricing .mp-stepper button[data-d="-1"]').forEach(function(b) { var el = document.getElementById(b.dataset.for); b.disabled = parseInt(el.value, 10) <= +el.min; });
+    document.querySelectorAll('#maretoPricing .mp-stepper button[data-d="1"]').forEach(function(b) { var el = document.getElementById(b.dataset.for); b.disabled = parseInt(el.value, 10) >= +el.max; });
+    var y1 = r.lo + r.monthly * 12, y2 = r.hi + r.monthly * 12;
+    document.getElementById('mpLabel').textContent = r.fixed ? 'Your first-year price' : 'Your first-year estimate';
+    document.getElementById('mpYear').textContent = r.fixed ? money(y1) : (r.lo === r.hi ? 'from ' + money(y1) : range(r500(y1, false), r500(y2, true)));
+    document.getElementById('mpSub').textContent = r.essentials
+      ? 'The price is fixed.'
+      : 'From year two, ' + money(r.monthly) + ' a month.';
+    document.getElementById('mpSetup').textContent = range(r.lo, r.hi);
+    document.getElementById('mpLicL').textContent = r.capped ? 'Licences (' + r.users + ' people, charged at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price)' : 'Licences (' + Math.max(r.users, 15) + ' people at ' + money(r.rate) + ')';
+    document.getElementById('mpLic').textContent = money(r.capped ? r.monthly - r.support : r.licence) + ' a month';
+    document.getElementById('mpSup').textContent = money(r.support) + ' a month';
+    document.getElementById('mpMonthly').textContent = money(r.monthly) + ' a month';
+    document.getElementById('mpMsg').textContent = r.fixed
+      ? 'This is your price. Book a short call and we will confirm what you need, then send it to sign.'
+      : r.quoted.length
+        ? 'Everything else shown here is fixed. We price ' + (r.quoted.length > 1 ? r.quoted.slice(0, -1).join(', ') + ' and ' + r.quoted[r.quoted.length - 1] : r.quoted[0]).toLowerCase() + ' with you on a short call and agree the price before any work starts.'
+        : 'This is your price.';
+    var h = '';
+    r.parts.forEach(function(p) { h += '<div class="mp-line"><span>' + p.txt + '</span><span>' + range(p.lo, p.hi) + '</span></div>'; });
+    r.quoted.forEach(function(t) { h += '<div class="mp-line"><span>' + t + '</span><span>priced with you</span></div>'; });
+    var licNote = r.capped
+      ? 'Licences for ' + r.users + ' people, charged at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price'
+      : 'Licences for ' + r.users + ' people at ' + money(r.rate) + ' each';
+    h += '<div class="mp-line"><span>' + licNote + '</span><span>' + money(r.capped ? r.monthly - r.support : r.licence) + ' a month</span></div>';
+    h += '<div class="mp-line"><span>Support plan</span><span>' + money(r.support) + ' a month</span></div>';
+    h += '<div class="mp-line"><span><strong>Monthly total' + '' + '</strong></span><span><strong>' + money(r.monthly) + ' a month</strong></span></div>';
+    h += '<p>Everyone pays the same rate, set by your total number of people: $40 per person for 15 to 29 people, $35 for 30 to 49, $30 for 50 to 99 and $25 for 100 to 200. Every plan also includes a support plan.</p>';
+    document.getElementById('mpHow').innerHTML = h;
+  };
+
+  window.mpStep = function(btn) {
+    var el = document.getElementById(btn.dataset.for);
+    el.value = Math.min(+el.max, Math.max(+el.min, (parseInt(el.value, 10) || +el.min) + parseInt(btn.dataset.d, 10)));
+    mpRender();
+  };
+
+  window.mpClamp = function(el) {
+    el.value = Math.min(+el.max, Math.max(+el.min, parseInt(el.value, 10) || +el.min));
+    mpRender();
+  };
+
+  // initial render
+  mpRender();
+})();
+</script>
