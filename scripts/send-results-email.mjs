@@ -24,15 +24,19 @@ const TRAVIS_EMAIL = 'travis@helpseeker.org';
 // ========================================================================
 //  PRICING CONSTANTS (approved — must match mareto-receive-a-quote.html)
 // ========================================================================
-const BASE_SETUP = 5000, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1000;
-const ADDON_PRICE = 250, ADDON_CAP = 1000, MIN_MONTHLY = 525, MIN_COVERS = 15;
-const LEVELS = [[11, 35], [20, 30], [50, 27], [100, 25]];
+const BASE_SETUP = 7500, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1500;
+const ADDON_PRICE = 250, ADDON_CAP = 1000, MIN_PEOPLE = 15, MAX_PEOPLE = 200;
+const LICENCE_TIERS = [
+  { from: 15, to: 29, rate: 40, support: 250 },
+  { from: 30, to: 49, rate: 35, support: 500 },
+  { from: 50, to: 99, rate: 30, support: 750 },
+  { from: 100, to: 200, rate: 25, support: 1000 }
+];
 const TIERS = [
-  { from: 1, to: 15, label: 'Up to 15 people', price: '$525 a month' },
-  { from: 16, to: 19, label: '16 to 19', price: '$35' },
-  { from: 20, to: 49, label: '20 to 49', price: '$30' },
-  { from: 50, to: 99, label: '50 to 99', price: '$27' },
-  { from: 100, to: null, label: '100 or more', price: '$25' }
+  { from: 15, to: 29, label: '15 to 29 people', rateLabel: '$40', supportLabel: '$250' },
+  { from: 30, to: 49, label: '30 to 49', rateLabel: '$35', supportLabel: '$500' },
+  { from: 50, to: 99, label: '50 to 99', rateLabel: '$30', supportLabel: '$750' },
+  { from: 100, to: 200, label: '100 to 200', rateLabel: '$25', supportLabel: '$1,000' }
 ];
 const PREPAY_PCT = 5;
 const QUOTE_VALID_DAYS = 30;
@@ -49,8 +53,7 @@ const ADDONS = [
 const CALL_OPTIONS = [
   { id: 'q_records', name: 'Bringing in your existing records', desc: 'Moving client records over from spreadsheets or another system. We look at what you have and fix the price before any work starts.' },
   { id: 'q_connect', name: 'Connections to other software', desc: '' },
-  { id: 'q_onsite', name: 'On-site training', desc: '' },
-  { id: 'q_support', name: 'Advanced support', desc: '' }
+  { id: 'q_onsite', name: 'On-site training', desc: '' }
 ];
 
 const INCLUDED_GROUPS = [
@@ -110,21 +113,30 @@ const SHORT = {
   'Built around what you need': 'Set up around your programs, forms and way of working.',
   'Three rounds of changes': 'Once you see it working, three rounds of changes before go-live.',
   'Training for your team': 'Recorded lessons for each role and a live session.',
-  'Help desk': 'Questions and problems go to our help desk.'
+  'Help desk': 'A help desk inside Mareto, how-to help, and ongoing small changes.'
 };
 
 // ========================================================================
 //  PRICING ENGINE (must match mareto-receive-a-quote.html)
 // ========================================================================
-function levelRate(n) { let r = LEVELS[0][1]; for (const [from, x] of LEVELS) if (n >= from) r = x; return r; }
-
-function licence(users) {
-  const n = Math.max(users, 1);
-  if (n <= MIN_COVERS) return { total: MIN_MONTHLY, rate: null, n, atLevel: null, atMin: true };
-  let total = n * levelRate(n), atLevel = null, atMin = false;
-  for (const [from, x] of LEVELS) if (from > n && from * x < total) { total = from * x; atLevel = from; }
-  if (total < MIN_MONTHLY) { total = MIN_MONTHLY; atMin = true; atLevel = null; }
-  return { total, rate: levelRate(n), n, atLevel, atMin };
+function pricing(users, programs) {
+  const n = Math.max(users, MIN_PEOPLE);
+  if (n > MAX_PEOPLE) return { total: 0, licence: 0, support: 0, rate: 0, n, tierIdx: -1, capped: false, custom: true };
+  const tierIdx = LICENCE_TIERS.findIndex(t => n >= t.from && n <= t.to);
+  const tier = LICENCE_TIERS[tierIdx];
+  const licenceCost = n * tier.rate;
+  let supportIdx = tierIdx;
+  if (programs >= 5 && supportIdx < LICENCE_TIERS.length - 1) supportIdx++;
+  const supportCost = LICENCE_TIERS[supportIdx].support;
+  let total = licenceCost + supportCost, capped = false;
+  if (tierIdx < LICENCE_TIERS.length - 1) {
+    const next = LICENCE_TIERS[tierIdx + 1];
+    let nextSupportIdx = tierIdx + 1;
+    if (programs >= 5 && nextSupportIdx < LICENCE_TIERS.length - 1) nextSupportIdx++;
+    const nextTotal = next.from * next.rate + LICENCE_TIERS[nextSupportIdx].support;
+    if (total > nextTotal) { total = nextTotal; capped = true; }
+  }
+  return { total, licence: licenceCost, support: supportCost, rate: tier.rate, n, tierIdx, capped, custom: false };
 }
 
 function money(n) { return '$' + Math.round(n).toLocaleString('en-CA'); }
@@ -135,32 +147,20 @@ function longDate(d) {
 }
 
 // ========================================================================
-//  TRAVIS v2 PRICING ENGINE (for Fit Finder email — unchanged)
+//  FIT FINDER PRICING (must match mareto-fit-finder.html)
 // ========================================================================
-const FF_BRACKETS = [[10, 40], [25, 34], [50, 32], [100, 30], [Infinity, 27]];
-const FF_MIN_USERS = 5;
-const FF_BASE_SETUP = 5000;
-
-function licenceMonthly(users) {
-  let left = Math.max(users, FF_MIN_USERS), prev = 0, total = 0;
-  for (const [cap, rate] of FF_BRACKETS) {
-    const n = Math.min(left, cap - prev); if (n <= 0) break;
-    total += n * rate; left -= n; prev = cap;
-  }
-  return total;
-}
-
 function getPricing(calcUsers, priceEstimate) {
   let userCount;
   if (calcUsers && parseInt(calcUsers, 10) > 0) userCount = parseInt(calcUsers, 10);
-  else userCount = 5;
-  const billed = Math.max(FF_MIN_USERS, userCount);
-  const monthly = licenceMonthly(billed);
+  else userCount = 15;
+  const billed = Math.max(MIN_PEOPLE, userCount);
+  const pr = pricing(billed, 2);
+  const monthly = pr.total;
   const annual = monthly * 12;
   const posted = parseInt(priceEstimate, 10);
-  let setup = Number.isFinite(posted) && posted > annual ? posted - annual : FF_BASE_SETUP;
+  let setup = Number.isFinite(posted) && posted > annual ? posted - annual : BASE_SETUP;
   const firstYear = setup + annual;
-  return { userCount: billed, monthly, annual, setup, firstYear };
+  return { userCount: billed, monthly, annual, setup, firstYear, licence: pr.licence, support: pr.support };
 }
 
 // ========================================================================
@@ -266,11 +266,12 @@ function buildPricingSection(p) {
   const pr = getPricing(calcUsers, priceEstimate);
 
   let howLines = '';
-  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Setup and training, 1 program, up to 3 staff types</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(FF_BASE_SETUP)}</td></tr>`;
-  if (pr.setup > FF_BASE_SETUP) {
-    howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Additional programs, roles, and add-ons</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.setup - FF_BASE_SETUP)}</td></tr>`;
+  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Setup and training, up to 2 programs, all staff types</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(BASE_SETUP)}</td></tr>`;
+  if (pr.setup > BASE_SETUP) {
+    howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Additional programs and add-ons</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.setup - BASE_SETUP)}</td></tr>`;
   }
-  howLines += `<tr><td style="padding:8px 0;font-size:13px;color:#4A5568;">Licence for ${pr.userCount} people, per month</td><td style="padding:8px 0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.monthly)}</td></tr>`;
+  howLines += `<tr><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#4A5568;">Licence for ${pr.userCount} people</td><td style="padding:8px 0;border-bottom:1px dashed #E2E8F0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.licence)} /mo</td></tr>`;
+  howLines += `<tr><td style="padding:8px 0;font-size:13px;color:#4A5568;">Support plan</td><td style="padding:8px 0;font-size:13px;color:#0B1F33;font-weight:700;text-align:right;white-space:nowrap;">${fmtCAD(pr.support)} /mo</td></tr>`;
 
   return `
 <!-- Pricing Card -->
@@ -288,7 +289,7 @@ function buildPricingSection(p) {
       <td style="padding:12px 0;border-bottom:1px solid #E2E8F0;font-size:14px;font-weight:700;color:#0B1F33;text-align:right;">${fmtCAD(pr.setup)}</td>
     </tr>
     <tr>
-      <td style="padding:12px 0;font-size:14px;color:#4A5568;">Monthly licence</td>
+      <td style="padding:12px 0;font-size:14px;color:#4A5568;">Monthly plan</td>
       <td style="padding:12px 0;font-size:14px;font-weight:700;color:#0B1F33;text-align:right;">${fmtCAD(pr.monthly)} for ${pr.userCount} people</td>
     </tr>
     </table>
@@ -652,14 +653,14 @@ function parseQuoteAnswers(p) {
 }
 
 function computeQuotePricing(answers) {
-  const lic = licence(answers.users);
+  const pr = pricing(answers.users, answers.programs);
   const extraPrograms = Math.max(0, answers.programs - PROGRAMS_INCLUDED);
   const programCost = extraPrograms * PROGRAM_PRICE;
   const addonTotal = Math.min(answers.addons.length * ADDON_PRICE, ADDON_CAP);
   const frenchCost = answers.french ? 5000 : 0;
   const piaCost = answers.pia ? 2500 : 0;
   const setupTotal = BASE_SETUP + programCost + addonTotal + frenchCost + piaCost;
-  const mo = lic.total;
+  const mo = pr.total;
   const y1 = setupTotal + (mo * 12);
   const now = new Date();
   const validDate = new Date(now);
@@ -668,13 +669,11 @@ function computeQuotePricing(answers) {
   const prepayY1 = Math.round(setupTotal + prepayAnnual);
   const savingY1 = (setupTotal + mo * 12) - prepayY1;
 
-  const licNote = lic.atMin
-    ? lic.n + (lic.n === 1 ? ' person' : ' people') + ', within the ' + money(MIN_MONTHLY) + ' monthly minimum'
-    : lic.atLevel
-      ? lic.n + ' people, charged at the ' + lic.atLevel + '-person price'
-      : lic.n + ' people at ' + money(lic.rate) + ' each';
+  const licNote = pr.capped
+    ? pr.n + ' people, capped at the ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price'
+    : pr.n + ' people at ' + money(pr.rate) + ' each';
 
-  const tierIdx = TIERS.findIndex(tr => answers.users >= tr.from && (tr.to === null || answers.users <= tr.to));
+  const tierIdx = pr.tierIdx;
 
   // Build line items for setup
   const parts = [];
@@ -769,7 +768,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   const PWY = 'Priced with you';
 
   const SETUP_QS = [
-    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Plans start at $525 a month, which covers up to 15 people.', val: answers.users },
+    { q: 'How many people will log in?', help: 'Staff or volunteers who use it. Plans start at $850 a month with a minimum of 15 people.', val: answers.users },
     { q: 'How many programs will you run in it?', help: 'Your first two programs are included.', val: answers.programs },
     { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. All are included, at no extra cost.', val: answers.roles }
   ];
@@ -793,7 +792,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   t('Prepared for ' + contactInfo.name + (contactInfo.title ? ', ' + contactInfo.title : ''), M, y + 2, 12, AQUA, 'light');
 
   const cy = Math.max(y + 46, 470), cw3 = (CW - 24) / 3;
-  [['Your first year', money(y1)], ['One-time setup', money(setupTotal)], ['Monthly licence', money(mo)]].forEach(([k, v], i) => {
+  [['Your first year', money(y1)], ['One-time setup', money(setupTotal)], ['Monthly plan', money(mo)]].forEach(([k, v], i) => {
     const x = M + i * (cw3 + 12);
     doc.setGState(new doc.GState({ opacity: .1 })); box(WHITE, x, cy, cw3, 78, 8); doc.setGState(new doc.GState({ opacity: 1 }));
     doc.setDrawColor(70, 96, 122); doc.setLineWidth(.8); doc.roundedRect(x, cy, cw3, 78, 8, 8, 'S');
@@ -843,7 +842,7 @@ function buildQuotePdfServer(answers, contactInfo) {
       t(s2, nx + 14, ny, 9.5, WHITE);
     });
     doc.setDrawColor(52, 80, 106); doc.setLineWidth(.6); doc.line(x + 18, y + 100, x + w - 18, y + 100);
-    [['Your licence covers', 'Hosting in Canada, updates, security patches and the help desk.'], ['Renewals', 'Increases are capped at 4 percent a year, in writing.']].forEach(([k, v], i) => {
+    [['Your licence covers', 'Hosting in Canada, updates and security patches.'], ['Renewals', 'Increases are capped at 4 percent a year, in writing.']].forEach(([k, v], i) => {
       const ly = y + 114 + i * 30;
       eyebrow(k, x + 18, ly, AQUA, { charSpace: .8 });
       t(v, x + 18, ly + 15, 9.5, WHITE);
@@ -865,18 +864,19 @@ function buildQuotePdfServer(answers, contactInfo) {
     y += h + 8;
   });
 
-  // Licence tiers
-  y += 2; eyebrow('How your licence is priced', M, y + 6, MUTED, { charSpace: .8 }); y += 14;
-  const lw = (CW - 4 * 6) / TIERS.length;
+  // Pricing tiers
+  y += 2; eyebrow('How your plan is priced', M, y + 6, MUTED, { charSpace: .8 }); y += 14;
+  const lw = (CW - 3 * 6) / TIERS.length;
   TIERS.forEach((tr, i) => {
     const me = i === tierIdx, lx = M + i * (lw + 6);
-    box(me ? NAVY : WHITE, lx, y, lw, 38, 6);
-    if (!me) outline(BORDER, lx, y, lw, 38, 6);
-    t(tr.label, lx + lw / 2, y + 14, 7.8, me ? AQUA : MUTED, me ? 'bold' : 'normal', { align: 'center' });
-    t(tr.price, lx + lw / 2, y + 29, i ? 11.5 : 10, me ? WHITE : NAVY, 'bold', { align: 'center' });
+    box(me ? NAVY : WHITE, lx, y, lw, 52, 6);
+    if (!me) outline(BORDER, lx, y, lw, 52, 6);
+    t(tr.label, lx + lw / 2, y + 13, 7.5, me ? AQUA : MUTED, me ? 'bold' : 'normal', { align: 'center' });
+    t(tr.rateLabel + '/person', lx + lw / 2, y + 28, 10, me ? WHITE : NAVY, 'bold', { align: 'center' });
+    t(tr.supportLabel + ' support', lx + lw / 2, y + 42, 7.8, me ? ONDARK : MUTED, 'normal', { align: 'center' });
   });
-  y += 38;
-  if (lic.atLevel) { y += 14; t(licNote + ', which is lower.', M, y, 8.3, MUTED, 'light'); }
+  y += 52;
+  if (pr.capped) { y += 14; t(licNote + ', which is lower.', M, y, 8.3, MUTED, 'light'); }
 
   // Anything extra
   y += 28;
@@ -935,7 +935,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   t(money(y1), M + 18, y + 58, 30, WHITE, 'bold');
   t('Setup plus 12 months of licence', M + 18, y + 76, 8.5, ONDARK);
 
-  [['One-time setup', money(setupTotal), 'Paid once'], ['Monthly licence', money(mo), licNote]].forEach(([k, v, n], i) => {
+  [['One-time setup', money(setupTotal), 'Paid once'], ['Monthly plan', money(mo), licNote + ' plus support plan']].forEach(([k, v, n], i) => {
     const x = M + kw1 + 10 + i * (kw2 + 10);
     box(WHITE, x, y, kw2, kh, 8);
     outline(BORDER, x, y, kw2, kh, 8);
@@ -997,7 +997,10 @@ function buildQuotePdfServer(answers, contactInfo) {
   parts.forEach(p => line(p.txt, p.note, money(p.lo)));
   y += 2;
   band('One-time setup', money(setupTotal), PALE, NAVY);
-  line('Monthly licence', licNote, money(mo) + ' a month');
+  line('Monthly licence', licNote, money(pr.licence) + ' a month');
+  line('Support plan', null, money(pr.support) + ' a month');
+  if (pr.capped) line('Monthly total (capped at ' + LICENCE_TIERS[pr.tierIdx + 1].from + '-person price)', null, money(mo) + ' a month');
+  else { y += 2; band('Monthly total', money(mo) + ' a month', PALE, NAVY); }
   y += 2;
   band('Year one', money(y1), NAVY, WHITE);
 
@@ -1088,7 +1091,7 @@ function buildQuoteEmail(contact, pricing) {
       <td style="padding:12px 0;border-bottom:1px solid #E2E8F0;font-size:14px;font-weight:700;color:#0B1F33;text-align:right;">${money(setupTotal)}</td>
     </tr>
     <tr>
-      <td style="padding:12px 0;font-size:14px;color:#4A5568;">Monthly licence</td>
+      <td style="padding:12px 0;font-size:14px;color:#4A5568;">Monthly plan</td>
       <td style="padding:12px 0;font-size:14px;font-weight:700;color:#0B1F33;text-align:right;">${money(mo)}</td>
     </tr>
     </table>
@@ -1159,7 +1162,7 @@ function buildTravisQuoteEmail(contact, answers, pricing) {
     row('Priced with you', picksQuoted.length ? picksQuoted.map(q => q.name).join(', ') : 'None'),
     row('Year one', money(y1)),
     row('One-time setup', money(setupTotal)),
-    row('Monthly licence', money(mo))
+    row('Monthly plan', money(mo))
   ].join('');
 
   return `<!DOCTYPE html>

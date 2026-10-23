@@ -919,12 +919,16 @@ function nextQuestion(index) {
 // ---------- sizing: the build shape from the answers; prices are not shown until the final card lands ----------
 // Setup: Essentials for one or two programs from the standard template with spreadsheet data; otherwise a
 // scorecard estimate from the answers, confirmed with the buyer on the scoping call.
-// ---------- Travis v2 pricing engine (Oct 2026) ----------
-const BRACKETS = [[10, 40], [25, 34], [50, 32], [100, 30], [Infinity, 27]];
-const MIN_USERS = 5, BASE_SETUP = 5000;
-const FEATURE_PRICE = 500, FEATURE_CAP = 3000, FRENCH_PRICE = 5000, PIA_PRICE = 3000;
+// ---------- Travis v3 pricing engine (23 Oct 2026) ----------
+const LICENCE_TIERS = [
+  { from: 15, to: 29, rate: 40, support: 250 },
+  { from: 30, to: 49, rate: 35, support: 500 },
+  { from: 50, to: 99, rate: 30, support: 750 },
+  { from: 100, to: 200, rate: 25, support: 1000 }
+];
+const MIN_PEOPLE = 15, MAX_PEOPLE = 200, BASE_SETUP = 7500, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1500;
+const ADDON_PRICE = 250, ADDON_CAP = 1000, FRENCH_PRICE = 5000, PIA_PRICE = 2500;
 const FEATURES = [
-  { id: 'booking', name: 'Online self-booking', desc: 'Clients pick and book their own appointment times from your website.' },
   { id: 'signature', name: 'Online signatures', desc: 'Clients sign consent and intake forms on screen or online.' },
   { id: 'inventory', name: 'Inventory and distribution', desc: 'Stock, hampers or orders, and what went to whom.' },
   { id: 'finance', name: 'Financial assistance', desc: 'Requests, approvals and payments made for clients.' },
@@ -939,15 +943,26 @@ const DATA_MIGRATION = {
   several: { txt: 'Moving records from several systems', lo: 3500, hi: 6000 }
 };
 
-function licenceMonthly(users) {
-  let left = Math.max(users, MIN_USERS), prev = 0, total = 0;
-  for (const [cap, rate] of BRACKETS) {
-    const n = Math.min(left, cap - prev); if (n <= 0) break;
-    total += n * rate; left -= n; prev = cap;
+function monthlyPricing(users, programs) {
+  var n = Math.max(users, MIN_PEOPLE);
+  if (n > MAX_PEOPLE) return { total: 0, licence: 0, support: 0, rate: 0, n: n, tierIdx: -1, capped: false, custom: true };
+  var tierIdx = 0;
+  for (var i = 0; i < LICENCE_TIERS.length; i++) { if (n >= LICENCE_TIERS[i].from && n <= LICENCE_TIERS[i].to) { tierIdx = i; break; } }
+  var tier = LICENCE_TIERS[tierIdx];
+  var licCost = n * tier.rate;
+  var supportIdx = tierIdx;
+  if (programs >= 5 && supportIdx < LICENCE_TIERS.length - 1) supportIdx++;
+  var supportCost = LICENCE_TIERS[supportIdx].support;
+  var total = licCost + supportCost, capped = false;
+  if (tierIdx < LICENCE_TIERS.length - 1) {
+    var next = LICENCE_TIERS[tierIdx + 1];
+    var nextSupportIdx = tierIdx + 1;
+    if (programs >= 5 && nextSupportIdx < LICENCE_TIERS.length - 1) nextSupportIdx++;
+    var nextTotal = next.from * next.rate + LICENCE_TIERS[nextSupportIdx].support;
+    if (total > nextTotal) { total = nextTotal; capped = true; }
   }
-  return total;
+  return { total: total, licence: licCost, support: supportCost, rate: tier.rate, n: n, tierIdx: tierIdx, capped: capped, custom: false };
 }
-function marginalRate(users) { const n = Math.max(MIN_USERS, users); return n <= 10 ? 40 : n <= 25 ? 34 : n <= 50 ? 32 : n <= 100 ? 30 : 27; }
 
 function calcPricing() {
   const usersEl = document.getElementById('calcUsers'), progsEl = document.getElementById('calcPrograms'), rolesEl = document.getElementById('calcRoles');
@@ -955,14 +970,12 @@ function calcPricing() {
   const users = Math.min(+usersEl.max, Math.max(+usersEl.min, parseInt(usersEl.value, 10) || +usersEl.min));
   const programs = Math.min(+progsEl.max, Math.max(+progsEl.min, parseInt(progsEl.value, 10) || +progsEl.min));
   const roles = Math.min(+rolesEl.max, Math.max(+rolesEl.min, parseInt(rolesEl.value, 10) || +rolesEl.min));
-  const parts = [{ txt: 'Setup and training, 1 program, up to 3 staff types', lo: BASE_SETUP, hi: BASE_SETUP }];
-  const extra = programs - 1, mid = Math.min(extra, 7), late = extra - mid;
-  if (mid) parts.push({ txt: mid + ' more program' + (mid > 1 ? 's' : '') + ' at $2,500', lo: mid * 2500, hi: mid * 2500 });
-  if (late) parts.push({ txt: late + ' more program' + (late > 1 ? 's' : '') + ' at $1,500 (9th onward)', lo: late * 1500, hi: late * 1500 });
-  if (roles > 3) { const rc = Math.min((roles - 3) * 250, 2000); parts.push({ txt: (roles - 3) + ' more staff type' + (roles > 4 ? 's' : '') + ((roles - 3) * 250 > 2000 ? ' (capped at $2,000)' : ' at $250'), lo: rc, hi: rc }); }
+  const parts = [{ txt: 'Setup and training, up to 2 programs, all staff types', lo: BASE_SETUP, hi: BASE_SETUP }];
+  const extra = Math.max(0, programs - PROGRAMS_INCLUDED);
+  if (extra) parts.push({ txt: extra + ' more program' + (extra > 1 ? 's' : '') + ' at $1,500', lo: extra * PROGRAM_PRICE, hi: extra * PROGRAM_PRICE });
   const picked = FEATURES.filter(function (f) { return document.getElementById('cf_' + f.id) && document.getElementById('cf_' + f.id).checked; });
-  const fp = Math.min(picked.length * FEATURE_PRICE, FEATURE_CAP);
-  if (picked.length) parts.push({ txt: picked.length + ' feature' + (picked.length > 1 ? 's' : '') + (picked.length * FEATURE_PRICE > FEATURE_CAP ? ' (capped at $3,000)' : ' at $500') + ': ' + picked.map(function (f) { return f.name.toLowerCase(); }).join(', '), lo: fp, hi: fp });
+  const ap = Math.min(picked.length * ADDON_PRICE, ADDON_CAP);
+  if (picked.length) parts.push({ txt: picked.length + ' add-on' + (picked.length > 1 ? 's' : '') + (picked.length * ADDON_PRICE > ADDON_CAP ? ' (capped at $1,000)' : ' at $250') + ': ' + picked.map(function (f) { return f.name.toLowerCase(); }).join(', '), lo: ap, hi: ap });
   var frenchEl = document.getElementById('cf_french'), piaEl = document.getElementById('cf_pia');
   if (frenchEl && frenchEl.checked) parts.push({ txt: 'French', lo: FRENCH_PRICE, hi: FRENCH_PRICE });
   if (piaEl && piaEl.checked) parts.push({ txt: 'Privacy impact assessment', lo: PIA_PRICE, hi: PIA_PRICE });
@@ -971,9 +984,9 @@ function calcPricing() {
   if (d) parts.push(d);
   var lo = parts.reduce(function (t, p) { return t + p.lo; }, 0);
   var hi = parts.reduce(function (t, p) { return t + p.hi; }, 0);
-  var quoted = [['cq_connect', 'Connections to other software'], ['cq_onsite', 'On-site training'], ['cq_support', 'Advanced support']].filter(function (a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function (a) { return a[1]; });
-  var monthly = licenceMonthly(users);
-  return { users: users, programs: programs, roles: roles, parts: parts, lo: lo, hi: hi, quoted: quoted, monthly: monthly, fixed: lo === hi && !quoted.length, essentials: parts.length === 1 && !quoted.length };
+  var quoted = [['cq_connect', 'Connections to other software'], ['cq_onsite', 'On-site training']].filter(function (a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function (a) { return a[1]; });
+  var pr = monthlyPricing(users, programs);
+  return { users: users, programs: programs, roles: roles, parts: parts, lo: lo, hi: hi, quoted: quoted, monthly: pr.total, licence: pr.licence, support: pr.support, rate: pr.rate, capped: pr.capped, tierIdx: pr.tierIdx, fixed: lo === hi && !quoted.length, essentials: parts.length === 1 && !quoted.length };
 }
 
 function renderCalc() {
@@ -988,22 +1001,25 @@ function renderCalc() {
   document.getElementById('ceLabel').textContent = r.fixed ? 'Your first-year price' : 'Your first-year estimate';
   document.getElementById('ceYear').textContent = r.fixed ? money(y1) : (r.lo === r.hi ? 'from ' + money(y1) : range(r500(y1, false), r500(y2, true)));
   document.getElementById('ceSub').textContent = r.essentials
-    ? 'Our Essentials plan. The price is fixed.'
+    ? 'The price is fixed.'
     : 'Then ' + money(r.monthly) + ' a month after the first year.';
   document.getElementById('ceSetup').textContent = range(r.lo, r.hi);
   document.getElementById('ceMonthly').textContent = money(r.monthly) + ' for ' + r.users + ' people';
-  document.getElementById('ceMsg').textContent = r.essentials
-    ? 'You can start online and book your first meeting with us.'
-    : r.fixed
-      ? 'This is your price. Book a short call and we will confirm what you need, then send it to sign.'
-      : r.quoted.length
-        ? (r.lo === r.hi ? 'Everything shown here is fixed. ' : 'Moving records is confirmed on the call. ') + 'We price ' + r.quoted.join(', ').toLowerCase() + ' with you on a short call.'
-        : 'Moving records depends on how much you have and what shape it is in. We confirm it on a short call, and the price is fixed before we build anything.';
+  document.getElementById('ceMsg').textContent = r.fixed
+    ? 'This is your price. Book a short call and we will confirm what you need, then send it to sign.'
+    : r.quoted.length
+      ? (r.lo === r.hi ? 'Everything shown here is fixed. ' : 'Moving records is confirmed on the call. ') + 'We price ' + r.quoted.join(', ').toLowerCase() + ' with you on a short call.'
+      : 'Moving records depends on how much you have and what shape it is in. We confirm it on a short call, and the price is fixed before we build anything.';
   var h = '';
   r.parts.forEach(function (p) { h += '<div class="line"><span>' + p.txt + '</span><span>' + range(p.lo, p.hi) + '</span></div>'; });
   r.quoted.forEach(function (t) { h += '<div class="line"><span>' + t + '</span><span>priced with you</span></div>'; });
-  h += '<div class="line"><span>Licence for ' + r.users + ' people, per month</span><span>' + money(r.monthly) + '</span></div>';
-  h += '<p>The licence is $40 a person a month for the first 10 people, then less for each person after that: $34 up to 25, $32 up to 50, $30 up to 100, and $27 beyond.</p>';
+  var licNote = r.capped
+    ? 'Licence for ' + r.users + ' people, capped at the ' + LICENCE_TIERS[r.tierIdx + 1].from + '-person price'
+    : 'Licence for ' + r.users + ' people at ' + money(r.rate) + ' each';
+  h += '<div class="line"><span>' + licNote + '</span><span>' + money(r.licence) + ' /mo</span></div>';
+  h += '<div class="line"><span>Support plan</span><span>' + money(r.support) + ' /mo</span></div>';
+  h += '<div class="line"><span><strong>Monthly total' + (r.capped ? ' (capped)' : '') + '</strong></span><span><strong>' + money(r.monthly) + ' /mo</strong></span></div>';
+  h += '<p>One rate for everyone, set by the total: $40 per person for 15 to 29 people, $35 for 30 to 49, $30 for 50 to 99, $25 for 100 to 200. Every plan includes a support plan.</p>';
   document.getElementById('ceHow').innerHTML = h;
 }
 
@@ -1140,7 +1156,7 @@ function showResults() {
     '<p class="calc-subtitle">Tell us your size and pick the features you want. Your first-year price updates as you go. Prices in CAD before tax.</p>' +
     '<div class="calc-grid"><div class="calc-inputs">' +
     '<div class="calc-q calc-qrow"><h4 id="calcUsersL">How many people will log in?</h4>' +
-    '<div class="stepper"><button type="button" data-for="calcUsers" data-d="-1" onclick="stepCalc(this)">\u2212</button><input id="calcUsers" type="number" min="5" max="1000" value="' + defaultUsers + '" onchange="clampCalc(this);renderCalc()" aria-labelledby="calcUsersL"><button type="button" data-for="calcUsers" data-d="1" onclick="stepCalc(this)">+</button></div>' +
+    '<div class="stepper"><button type="button" data-for="calcUsers" data-d="-1" onclick="stepCalc(this)">\u2212</button><input id="calcUsers" type="number" min="15" max="200" value="' + defaultUsers + '" onchange="clampCalc(this);renderCalc()" aria-labelledby="calcUsersL"><button type="button" data-for="calcUsers" data-d="1" onclick="stepCalc(this)">+</button></div>' +
     '<p class="hint">Staff or volunteers who use it. Plans start at 5 people.</p></div>' +
 
     '<div class="calc-q calc-qrow"><h4 id="calcProgsL">How many programs will you run in it?</h4>' +
@@ -1162,11 +1178,11 @@ function showResults() {
     '</select></div>' +
 
     '<div class="calc-q"><h4>Add-ons</h4>' +
-    '<p class="hint">Every plan already covers the core of case management, including client records, intake forms, appointments, classes, waitlists, assessments, family tree, reminders and dashboards. Add-ons are $500 each, never more than $3,000 in total.</p>' +
+    '<p class="hint">Every plan already covers the core of case management, including client records, intake forms, appointments, classes, waitlists, assessments, family tree, reminders and dashboards. Add-ons are $250 each, never more than $1,000 in total.</p>' +
     '<div class="calc-feats">' + featsHtml + '</div>' +
     '<div class="calc-choices stack" style="margin-top:12px">' +
     '<label class="calc-choice"><input type="checkbox" id="cf_french" onchange="renderCalc()"><span>Mareto in French, $5,000</span></label>' +
-    '<label class="calc-choice"><input type="checkbox" id="cf_pia" onchange="renderCalc()"><span>Privacy impact assessment, $3,000</span></label>' +
+    '<label class="calc-choice"><input type="checkbox" id="cf_pia" onchange="renderCalc()"><span>Privacy impact assessment, $2,500</span></label>' +
     '</div></div>' +
 
     '<div class="calc-q"><h4>Also available, priced with you</h4>' +
@@ -1174,7 +1190,7 @@ function showResults() {
     '<div class="calc-choices">' +
     '<label class="calc-choice"><input type="checkbox" id="cq_connect" onchange="renderCalc()"><span>Connections to other software</span></label>' +
     '<label class="calc-choice"><input type="checkbox" id="cq_onsite" onchange="renderCalc()"><span>On-site training</span></label>' +
-    '<label class="calc-choice"><input type="checkbox" id="cq_support" onchange="renderCalc()"><span>Advanced support</span></label>' +
+    '' +
     '</div></div>' +
 
     '</div><div class="calc-estimate">' +
