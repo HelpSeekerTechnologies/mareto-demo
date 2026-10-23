@@ -686,7 +686,7 @@ function computeQuotePricing(answers) {
 
   const picksQuoted = answers.callItems.map(id => CALL_OPTIONS.find(o => o.id === id)).filter(Boolean);
 
-  return { lic, setupTotal, mo, y1, now, validDate, prepayY1, savingY1, licNote, tierIdx, parts, picksAddons, picksQuoted };
+  return { pr, setupTotal, mo, y1, now, validDate, prepayY1, savingY1, licNote, tierIdx, parts, picksAddons, picksQuoted };
 }
 
 // ========================================================================
@@ -764,7 +764,7 @@ function buildQuotePdfServer(answers, contactInfo) {
 
   // Pricing
   const pricing = computeQuotePricing(answers);
-  const { lic, setupTotal, mo, y1, now, validDate, prepayY1, savingY1, licNote, tierIdx, parts, picksAddons, picksQuoted } = pricing;
+  const { pr, setupTotal, mo, y1, now, validDate, prepayY1, savingY1, licNote, tierIdx, parts, picksAddons, picksQuoted } = pricing;
   const PWY = 'Priced with you';
 
   const SETUP_QS = [
