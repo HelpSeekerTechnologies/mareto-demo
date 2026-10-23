@@ -1101,7 +1101,7 @@ function showResults() {
   else { fitLabel = 'Worth a look'; fitDesc = 'Mareto may fit, depending on what you need. Here is what we would suggest exploring.'; }
 
   var cards = ch.filter(function (c) { return HIGHLIGHT[c]; }).map(function (c) { var h = HIGHLIGHT[c]; return '<div class="match-card"><div class="match-icon">' + icon(h[0]) + '</div><div><h4>' + h[1] + '</h4><p>' + h[2] + '</p></div></div>'; });
-  if (a.org_type === 'indigenous_gov' || a.org_type === 'indigenous_org') cards.push('<div class="match-card"><div class="match-icon">' + icon('map') + '</div><div><h4>Your community owns its data</h4><p>OCAP\u00ae principles apply: community-controlled access, Canada-only hosting, and full data portability. An Indigenous-governed organization gets a published rate off the licence.</p></div></div>');
+  if (a.org_type === 'indigenous_gov' || a.org_type === 'indigenous_org') cards.push('<div class="match-card"><div class="match-icon">' + icon('map') + '</div><div><h4>Your community owns its data</h4><p>OCAP\u00ae principles apply: community-controlled access, Canada-only hosting, and full data portability.</p></div></div>');
   if (['3-5', '6-10', '10+'].includes(a.programs)) cards.push('<div class="match-card"><div class="match-icon">' + icon('layers') + '</div><div><h4>Many programs, one registry</h4><p>Each program gets its own forms, workflows and reporting on one shared person registry. The largest live build runs 19 programs this way.</p></div></div>');
 
   // autofill from quiz answers

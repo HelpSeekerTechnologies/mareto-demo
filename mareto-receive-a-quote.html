@@ -1313,12 +1313,12 @@ function showQuote(contact, answers) {
   const talkWrap = document.getElementById('qr-talk-section');
   talkWrap.innerHTML = '';
   if (demoAnswers) {
-    const meetUrl = `https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma?firstName=${encodeURIComponent(contact.name.split(' ')[0])}&email=${encodeURIComponent(contact.email)}`;
+    const meetUrl = `mailto:travis@helpseeker.org?subject=${encodeURIComponent('Mareto quote for ' + contact.org)}`;
     talkWrap.innerHTML = `
       <div class="talk-section">
         <h3>Ready to talk it through?</h3>
-        <p>30 minutes with Travis to confirm the details and answer your questions.</p>
-        <a href="${meetUrl}" target="_blank" class="talk-btn">Choose a time</a>
+        <p>Email Travis to set up a short call. He will confirm the details and answer your questions.</p>
+        <a href="${meetUrl}" class="talk-btn">Email Travis</a>
       </div>
     `;
   }
@@ -1430,7 +1430,7 @@ function buildQuotePdf(answers, contact, assets) {
     'Funder reports': 'A report for each funder, laid out the way they ask.',
     'Live dashboards': 'Your numbers by program and period, always current.',
     'Exports to Excel and PDF': 'Download any list or report whenever you need it.',
-    'Hosted in Canada': 'A Canadian-owned facility in Calgary, kept separate from other organizations.',
+    'Hosted in Canada': 'Your data is stored in Canada.',
     'Privacy by role': 'Each type of staff sees only what they should.',
     'Two-step login': 'A second step at sign-in, such as a code on a phone.',
     'Audit logs': 'Who changed what, and when.',
@@ -1705,7 +1705,6 @@ function buildQuotePdf(answers, contact, assets) {
   t('Travis Turner, Chief Operating Officer  \u00B7  travis@helpseeker.org', M + 128, y, 9, NAVY, 'bold');
   y += 14;
   set(8.5, TEAL, 'normal');
-  doc.textWithLink('Book a 30-minute call: meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma', M, y, { url: 'https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma' });
 
   /* Navy footer on every page but the cover */
   const n = doc.getNumberOfPages();
