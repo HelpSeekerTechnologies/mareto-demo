@@ -18,7 +18,7 @@ const FROM_EMAIL = process.env.FROM_EMAIL || 'travis@helpseeker.org';
 const FROM_NAME = process.env.FROM_NAME || 'Travis Turner';
 const DEMO_URL = 'https://demo.helpseeker.org/mareto-interactive-demo.html?unlocked=1';
 const QUOTE_URL = 'https://demo.helpseeker.org/mareto-receive-a-quote.html';
-const MEETING_URL = 'https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma';
+const MEETING_URL = 'mailto:travis@helpseeker.org';
 const TRAVIS_EMAIL = 'travis@helpseeker.org';
 
 // ========================================================================
@@ -106,7 +106,7 @@ const SHORT = {
   'Funder reports': 'A report for each funder, laid out the way they ask.',
   'Live dashboards': 'Your numbers by program and period, always current.',
   'Exports to Excel and PDF': 'Download any list or report whenever you need it.',
-  'Hosted in Canada': 'A Canadian-owned facility in Calgary, kept separate from other organizations.',
+  'Hosted in Canada': 'Your data is stored in Canada.',
   'Privacy by role': 'Each type of staff sees only what they should.',
   'Two-step login': 'A second step at sign-in, such as a code on a phone.',
   'Audit logs': 'Who changed what, and when.',
@@ -379,7 +379,7 @@ ${pricingHtml}
 
 <!-- Soft close -->
 <tr><td style="padding:0 40px 32px;">
-  <p style="margin:0;font-size:14px;color:#4A5568;line-height:1.6;">After exploring the demo, you're welcome to <a href="${MEETING_URL}" style="color:#275C99;text-decoration:none;">book a time</a> to discuss next steps with our team.</p>
+  <p style="margin:0;font-size:14px;color:#4A5568;line-height:1.6;">After exploring the demo, you're welcome to <a href="${MEETING_URL}" style="color:#275C99;text-decoration:none;">email us</a> to talk through next steps.</p>
 </td></tr>
 
 <!-- Signature -->
@@ -488,7 +488,7 @@ function buildDemoEmail(contact) {
     <p style="margin:0 0 4px;font-size:12px;font-weight:700;color:#0E8C86;letter-spacing:1.5px;">NEXT STEPS</p>
     <p style="margin:12px 0 0;font-size:14px;color:#2D3748;line-height:1.7;">
       <a href="${QUOTE_URL}?from=demo-email" style="color:#275C99;text-decoration:none;font-weight:700;">Receive a quote</a> \u2014 answer a few questions and get your price instantly.<br>
-      <a href="${MEETING_URL}" style="color:#275C99;text-decoration:none;font-weight:700;">Book a meeting</a> \u2014 a short call to walk through your needs with our team.
+      <a href="${MEETING_URL}" style="color:#275C99;text-decoration:none;font-weight:700;">Email us</a> to set up a short call and walk through your needs.
     </p>
   </td></tr>
   </table>
@@ -1028,7 +1028,6 @@ function buildQuotePdfServer(answers, contactInfo) {
   t('Travis Turner, Chief Operating Officer  \u00B7  travis@helpseeker.org', M + 128, y, 9, NAVY, 'bold');
   y += 14;
   set(8.5, TEAL, 'normal');
-  doc.textWithLink('Book a 30-minute call: meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma', M, y, { url: 'https://meetings.hubspot.com/travis-turner/meet-with-helpseeker-ma' });
 
   // Navy footer on every page but the cover
   const n = doc.getNumberOfPages();
@@ -1104,8 +1103,8 @@ function buildQuoteEmail(contact, pricing) {
 
 <!-- CTA -->
 <tr><td style="padding:8px 40px 32px;text-align:center;">
-  <p style="margin:0 0 20px;font-size:16px;color:#2D3748;line-height:1.6;">The best next step is a short call to walk through the quote and confirm the details.</p>
-  <a href="${MEETING_URL}" style="display:inline-block;background:#0B1F33;color:#ffffff;font-size:16px;font-weight:700;padding:16px 36px;border-radius:10px;text-decoration:none;">Book a Meeting</a>
+  <p style="margin:0 0 20px;font-size:16px;color:#2D3748;line-height:1.6;">The best next step is a short call to walk through the quote and confirm the details. Reply to this email and we will set it up.</p>
+  <a href="${MEETING_URL}" style="display:inline-block;background:#0B1F33;color:#ffffff;font-size:16px;font-weight:700;padding:16px 36px;border-radius:10px;text-decoration:none;">Email Travis</a>
 </td></tr>
 
 <!-- Signature -->
@@ -1359,12 +1358,12 @@ function buildDay3Both(contact) {
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Thanks for taking the time to explore Mareto and put together a quote for ${orgName}. I wanted to share a few things that don't always come through in a demo or a pricing page:</p>
   <ul style="margin:0 0 12px 18px;font-size:16px;color:#2D3748;line-height:1.8;">
-    <li><strong style="color:#0B1F33;">Your data stays in Canada.</strong> Mareto is hosted entirely on Canadian infrastructure. No exceptions.</li>
+    <li><strong style="color:#0B1F33;">Your data stays in Canada.</strong> Your client data is stored in data centres in Canada.</li>
     <li><strong style="color:#0B1F33;">Setup includes hands-on support.</strong> We configure your programs, staff types, and forms with you. You're not left to figure it out alone.</li>
     <li><strong style="color:#0B1F33;">Training is built in.</strong> Your team gets live walkthroughs before go-live, not a link to a help centre.</li>
   </ul>
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">If you'd like to talk through what setup would look like for ${orgName}, I'm happy to walk you through it.</p>
-  ${ctaButton(MEETING_URL, 'Book a quick call')}
+  ${ctaButton(MEETING_URL, 'Email me to set up a call')}
   `);
 }
 
@@ -1405,7 +1404,7 @@ function buildDay5Both(contact) {
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">You've had a chance to try the Mareto demo and see what it would cost for ${orgName}. If you're thinking about moving forward, the next step is usually a short call where we walk through your specific setup: which programs to start with, how to handle your existing data, and what the timeline looks like.</p>
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">15 minutes is usually enough to cover it.</p>
-  ${ctaButton(MEETING_URL, 'Book a quick call')}
+  ${ctaButton(MEETING_URL, 'Email me to set up a call')}
   `);
 }
 
@@ -1419,7 +1418,7 @@ function buildDay7(contact) {
   return followupEmail('Here if you need us', `
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
   <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Just wanted to let you know that if you have any questions about Mareto or decide you want to move forward, don't hesitate to reach out. We're here whenever the timing is right for ${orgName}.</p>
-  ${ctaButton(MEETING_URL, 'Book a meeting')}
+  ${ctaButton(MEETING_URL, 'Get in touch')}
   `);
 }
 
