@@ -1250,6 +1250,7 @@ function showQuote(contact, answers) {
 
   // Prepay
   document.getElementById('qr-prepay').textContent = fmt(Math.round(prepayYear1));
+  document.getElementById('qr-prepay-strip').style.display = isCustom ? 'none' : '';
 
   // Demo card
   const demoCardWrap = document.getElementById('qr-demo-card');
@@ -1325,8 +1326,13 @@ function showQuote(contact, answers) {
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  // No PDF or breakdown for a custom quote (over 200 people)
+  document.querySelectorAll('.pdf-btn').forEach(b => { b.style.display = isCustom ? 'none' : ''; });
+  const howWrap = document.querySelector('.breakdown');
+  if (howWrap) howWrap.style.display = isCustom ? 'none' : '';
+
   // Auto-download PDF
-  setTimeout(() => downloadPdf(), 600);
+  if (!isCustom) setTimeout(() => downloadPdf(), 600);
 }
 
 /* ===============================================================
