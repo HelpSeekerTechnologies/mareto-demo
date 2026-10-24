@@ -1226,6 +1226,29 @@ async function processQuote() {
         title: p.jobtitle || ''
       };
 
+      // Over 200 people: custom quote. No calculated price or PDF goes out.
+      if ((answers.users || 0) > MAX_PEOPLE) {
+        const greeting = p.firstname ? `Hi ${p.firstname},` : 'Hi there,';
+        await sendViaResend({
+          to: p.email,
+          subject: 'Your Mareto quote',
+          html: followupEmail('Your Mareto quote', `
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">${greeting}</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Thank you for asking for a Mareto quote for ${orgName}. For organizations with more than 200 people, we put the price together with you, so it reflects your programs, sites and setup.</p>
+  <p style="margin:0 0 12px;font-size:16px;color:#2D3748;line-height:1.6;">Reply to this email and we will set up a short call to work it out.</p>
+  ${ctaButton(MEETING_URL, 'Email me to set up a call')}
+  `)
+        });
+        await sendViaResend({
+          to: TRAVIS_EMAIL,
+          subject: `New Mareto quote (custom, over 200 people): ${orgName}`,
+          html: `<p>${contactInfo.name}${contactInfo.title ? ', ' + contactInfo.title : ''} at ${orgName} (${p.email}) asked for a quote for ${answers.users} people and ${answers.programs} programs.</p><p>Over 200 people, so no price or PDF was sent. They were asked to reply to set up a call.</p>`
+        });
+        await hsUpdate(contact.id, { mareto_quote_email_sent: 'true', mareto_quote_email_sent_at: new Date().toISOString() });
+        console.log(`[Quote] Sent custom-quote reply to ${p.email}`);
+        continue;
+      }
+
       // Build PDF
       const doc = buildQuotePdfServer(answers, contactInfo);
       const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
