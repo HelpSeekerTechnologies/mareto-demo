@@ -25,7 +25,8 @@ const TRAVIS_EMAIL = 'travis@helpseeker.org';
 //  PRICING CONSTANTS (approved — must match mareto-receive-a-quote.html)
 // ========================================================================
 const BASE_SETUP = 7500, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1500;
-const ADDON_PRICE = 250, ADDON_CAP = 1000, MIN_PEOPLE = 15, MAX_PEOPLE = 200;
+const ADDON_PRICE = 500, ADDON_CAP = Infinity, MIN_PEOPLE = 15, MAX_PEOPLE = 200;
+const ROLES_INCLUDED = 3, ROLE_PRICE = 250, PIA_PRICE = 5000, FRENCH_PRICE = 5000;
 const LICENCE_TIERS = [
   { from: 15, to: 29, rate: 40, support: 250 },
   { from: 30, to: 49, rate: 35, support: 500 },
@@ -51,7 +52,7 @@ const ADDONS = [
 ];
 
 const CALL_OPTIONS = [
-  { id: 'q_records', name: 'Bringing in your existing records', desc: 'Moving client records over from spreadsheets or another system. We look at what you have and fix the price before any work starts.' },
+  { id: 'q_records', name: 'Data migration', desc: '' },
   { id: 'q_connect', name: 'Connections to other software', desc: '' },
   { id: 'q_onsite', name: 'On-site training', desc: '' }
 ];
@@ -658,8 +659,10 @@ function computeQuotePricing(answers) {
   const programCost = extraPrograms * PROGRAM_PRICE;
   const addonTotal = Math.min(answers.addons.length * ADDON_PRICE, ADDON_CAP);
   const frenchCost = answers.french ? 5000 : 0;
-  const piaCost = answers.pia ? 2500 : 0;
-  const setupTotal = BASE_SETUP + programCost + addonTotal + frenchCost + piaCost;
+  const piaCost = answers.pia ? PIA_PRICE : 0;
+  const extraRoles = Math.max(0, (answers.roles || 0) - ROLES_INCLUDED);
+  const roleCost = extraRoles * ROLE_PRICE;
+  const setupTotal = BASE_SETUP + programCost + roleCost + addonTotal + frenchCost + piaCost;
   const mo = pr.total;
   const y1 = setupTotal + (mo * 12);
   const now = new Date();
@@ -679,14 +682,15 @@ function computeQuotePricing(answers) {
   const parts = [];
   parts.push({ txt: 'Base setup', lo: BASE_SETUP });
   if (extraPrograms > 0) parts.push({ txt: extraPrograms + ' extra program' + (extraPrograms > 1 ? 's' : '') + ' (' + money(PROGRAM_PRICE) + ' each)', lo: programCost });
+  if (extraRoles > 0) parts.push({ txt: extraRoles + ' extra staff role' + (extraRoles > 1 ? 's' : '') + ' (' + money(ROLE_PRICE) + ' each)', lo: roleCost });
   const picksAddons = answers.addons.map(id => ADDONS.find(a => a.id === id)).filter(Boolean);
   picksAddons.forEach(a => parts.push({ txt: a.name, note: a.desc, lo: ADDON_PRICE }));
   if (answers.french) parts.push({ txt: 'Mareto in French', note: 'Every screen, button, form and report in French.', lo: 5000 });
-  if (answers.pia) parts.push({ txt: 'Privacy impact assessment', note: 'We prepare a privacy impact assessment for your system, for your board, a funder or your privacy office.', lo: 2500 });
+  if (answers.pia) parts.push({ txt: 'Privacy impact assessment', note: 'We prepare a privacy impact assessment for your system, for your board, a funder or your privacy office.', lo: PIA_PRICE });
 
   const picksQuoted = answers.callItems.map(id => CALL_OPTIONS.find(o => o.id === id)).filter(Boolean);
 
-  return { pr, setupTotal, mo, y1, now, validDate, prepayY1, savingY1, licNote, tierIdx, parts, picksAddons, picksQuoted };
+  return { pr, extraRoles, roleCost, setupTotal, mo, y1, now, validDate, prepayY1, savingY1, licNote, tierIdx, parts, picksAddons, picksQuoted };
 }
 
 // ========================================================================
@@ -770,7 +774,7 @@ function buildQuotePdfServer(answers, contactInfo) {
   const SETUP_QS = [
     { q: 'How many people will log in?', help: 'Count the staff and volunteers who will use Mareto. Licences are $40 per person per month, with a minimum of 15 people ($600 a month). Every plan also includes a support plan, starting at $250 a month.', val: answers.users },
     { q: 'How many programs will you run in it?', help: 'Your first two programs are included.', val: answers.programs },
-    { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. All staff types are included.', val: answers.roles }
+    { q: 'How many kinds of staff see different things?', help: 'For example front desk, case worker and manager. Your first 3 staff roles are included.', val: answers.roles }
   ];
 
   /* ===== Page 1: Cover ===== */
@@ -896,7 +900,7 @@ function buildQuotePdfServer(answers, contactInfo) {
 
   if (picksAddons.length) {
     eyebrow('Add-ons', M, y, TEAL, { charSpace: .8 });
-    t(money(ADDON_PRICE) + ' each, never more than ' + money(ADDON_CAP) + ' in total.', M + 112, y, 8.3, MUTED, 'light');
+    t(money(ADDON_PRICE) + ' each.', M + 112, y, 8.3, MUTED, 'light');
     y += 22;
     picksAddons.forEach(a => itemRow(a.name, a.desc, money(ADDON_PRICE)));
     y += 10;
@@ -904,7 +908,7 @@ function buildQuotePdfServer(answers, contactInfo) {
 
   const otherPicks = [];
   if (answers.french) otherPicks.push({ name: 'Mareto in French', desc: 'Every screen, button, form and report in French.', price: 5000 });
-  if (answers.pia) otherPicks.push({ name: 'Privacy impact assessment', desc: 'We prepare a privacy impact assessment for your system, for your board, a funder or your privacy office.', price: 2500 });
+  if (answers.pia) otherPicks.push({ name: 'Privacy impact assessment', desc: 'We prepare a privacy impact assessment for your system, for your board, a funder or your privacy office.', price: PIA_PRICE });
   if (otherPicks.length) {
     eyebrow('Other options', M, y, TEAL, { charSpace: .8 });
     y += 18;

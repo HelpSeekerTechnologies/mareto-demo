@@ -927,7 +927,7 @@ const LICENCE_TIERS = [
   { from: 100, to: 200, rate: 25, support: 1000 }
 ];
 const MIN_PEOPLE = 15, MAX_PEOPLE = 200, BASE_SETUP = 7500, PROGRAMS_INCLUDED = 2, PROGRAM_PRICE = 1500;
-const ADDON_PRICE = 250, ADDON_CAP = 1000, FRENCH_PRICE = 5000, PIA_PRICE = 2500;
+const ADDON_PRICE = 500, ADDON_CAP = Infinity, FRENCH_PRICE = 5000, PIA_PRICE = 5000;
 const FEATURES = [
   { id: 'signature', name: 'Online signatures', desc: 'Clients sign consent and intake forms on screen or online.' },
   { id: 'inventory', name: 'Inventory and distribution', desc: 'Stock, hampers or orders, and what went to whom.' },
@@ -969,13 +969,13 @@ function calcPricing() {
   if (extra) parts.push({ txt: extra + ' more program' + (extra > 1 ? 's' : '') + ' at $1,500', lo: extra * PROGRAM_PRICE, hi: extra * PROGRAM_PRICE });
   const picked = FEATURES.filter(function (f) { return document.getElementById('cf_' + f.id) && document.getElementById('cf_' + f.id).checked; });
   const ap = Math.min(picked.length * ADDON_PRICE, ADDON_CAP);
-  if (picked.length) parts.push({ txt: picked.length + ' add-on' + (picked.length > 1 ? 's' : '') + (picked.length * ADDON_PRICE > ADDON_CAP ? ' (never more than $1,000)' : ' at $250') + ': ' + picked.map(function (f) { return f.name.toLowerCase(); }).join(', '), lo: ap, hi: ap });
+  if (picked.length) parts.push({ txt: picked.length + ' add-on' + (picked.length > 1 ? 's' : '') + ' at $500' + ': ' + picked.map(function (f) { return f.name.toLowerCase(); }).join(', '), lo: ap, hi: ap });
   var frenchEl = document.getElementById('cf_french'), piaEl = document.getElementById('cf_pia');
   if (frenchEl && frenchEl.checked) parts.push({ txt: 'French', lo: FRENCH_PRICE, hi: FRENCH_PRICE });
   if (piaEl && piaEl.checked) parts.push({ txt: 'Privacy impact assessment', lo: PIA_PRICE, hi: PIA_PRICE });
   var lo = parts.reduce(function (t, p) { return t + p.lo; }, 0);
   var hi = parts.reduce(function (t, p) { return t + p.hi; }, 0);
-  var quoted = [['cq_migrate', 'Moving records'], ['cq_connect', 'Connections to other software'], ['cq_onsite', 'On-site training']].filter(function (a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function (a) { return a[1]; });
+  var quoted = [['cq_migrate', 'Data migration'], ['cq_connect', 'Connections to other software'], ['cq_onsite', 'On-site training']].filter(function (a) { var el = document.getElementById(a[0]); return el && el.checked; }).map(function (a) { return a[1]; });
   var pr = monthlyPricing(users, programs);
   return { users: users, programs: programs, custom: pr.custom, parts: parts, lo: lo, hi: hi, quoted: quoted, monthly: pr.total, licence: pr.licence, support: pr.support, rate: pr.rate, capped: pr.capped, tierIdx: pr.tierIdx, fixed: lo === hi && !quoted.length, essentials: parts.length === 1 && !quoted.length };
 }
@@ -1165,17 +1165,17 @@ function showResults() {
     '<p class="hint">For example a housing program, a youth program and a food bank would be three. Your first two programs are included.</p></div>' +
 
     '<div class="calc-q"><h4>Add-ons</h4>' +
-    '<p class="hint">Every plan already covers the core of case management, including client records, intake forms, appointments, classes, waitlists, assessments, family tree, reminders and dashboards. Add-ons are $250 each, never more than $1,000 in total.</p>' +
+    '<p class="hint">Every plan already covers the core of case management, including client records, intake forms, appointments, classes, waitlists, assessments, family tree, reminders and dashboards. Add-ons are $500 each.</p>' +
     '<div class="calc-feats">' + featsHtml + '</div>' +
     '<div class="calc-choices stack" style="margin-top:12px">' +
     '<label class="calc-choice"><input type="checkbox" id="cf_french" onchange="renderCalc()"><span>Mareto in French, $5,000</span></label>' +
-    '<label class="calc-choice"><input type="checkbox" id="cf_pia" onchange="renderCalc()"><span>Privacy impact assessment, $2,500</span></label>' +
+    '<label class="calc-choice"><input type="checkbox" id="cf_pia" onchange="renderCalc()"><span>Privacy impact assessment, $5,000</span></label>' +
     '</div></div>' +
 
     '<div class="calc-q"><h4>Also available, priced with you</h4>' +
     '<p class="hint">These depend on your setup, so we price them on a short call.</p>' +
     '<div class="calc-choices">' +
-    '<label class="calc-choice"><input type="checkbox" id="cq_migrate" onchange="renderCalc()"><span>Moving records from your current system</span></label>' +
+    '<label class="calc-choice"><input type="checkbox" id="cq_migrate" onchange="renderCalc()"><span>Data migration</span></label>' +
     '<label class="calc-choice"><input type="checkbox" id="cq_connect" onchange="renderCalc()"><span>Connections to other software</span></label>' +
     '<label class="calc-choice"><input type="checkbox" id="cq_onsite" onchange="renderCalc()"><span>On-site training</span></label>' +
     '</div></div>' +
