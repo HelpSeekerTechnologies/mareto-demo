@@ -583,9 +583,16 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
             <input type="text" id="q-org" autocomplete="organization" placeholder="Community Services Inc.">
             <div class="field-error">Please enter your organization.</div>
           </div>
+          <div class="field" id="f-web">
+            <label for="q-web">Website</label>
+            <input type="url" id="q-web" autocomplete="url" placeholder="https://yourorg.ca">
+          </div>
+        </div>
+
+        <div class="field-row">
           <div class="field" id="f-prov">
             <label for="q-province">Province or territory <span class="req">*</span></label>
-            <select id="q-province">
+            <select id="q-province" onchange="fillCities()">
               <option value="">Select...</option>
               <option value="Alberta">Alberta</option>
               <option value="British Columbia">British Columbia</option>
@@ -604,12 +611,16 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
             </select>
             <div class="field-error">Please select a province.</div>
           </div>
+          <div class="field" id="f-city">
+            <label for="q-city">City or town <span class="req">*</span></label>
+            <select id="q-city" onchange="cityOther()" disabled>
+              <option value="">Select your province first</option>
+            </select>
+            <input type="text" id="q-city-other" autocomplete="address-level2" placeholder="Type your city or town" style="display:none;margin-top:8px">
+            <div class="field-error">Please enter your city or town.</div>
+          </div>
         </div>
 
-        <div class="field" id="f-web">
-          <label for="q-web">Website</label>
-          <input type="url" id="q-web" autocomplete="url" placeholder="https://yourorg.ca">
-        </div>
 
         <p class="contact-note">We use this to send your quote and follow up about Mareto. Unsubscribe any time.</p>
       </div>
@@ -806,6 +817,64 @@ let totalSteps = 5;
 let activeSteps = [1, 2, 3, 4, 5];
 let demoAnswers = null;
 let demoContact = null;
+
+const CITIES = {
+  'Alberta': 'Airdrie|Athabasca|Banff|Barrhead|Beaumont|Bonnyville|Brooks|Calgary|Camrose|Canmore|Cardston|Chestermere|Claresholm|Cochrane|Cold Lake|Devon|Didsbury|Drayton Valley|Drumheller|Edmonton|Edson|Fort Macleod|Fort McMurray|Fort Saskatchewan|Grande Cache|Grande Prairie|High Level|High Prairie|High River|Hinton|Innisfail|Lac La Biche|Lacombe|Leduc|Lethbridge|Lloydminster|Medicine Hat|Morinville|Okotoks|Olds|Peace River|Pincher Creek|Ponoka|Red Deer|Rocky Mountain House|Sherwood Park|Slave Lake|Spruce Grove|St. Albert|Stettler|Stony Plain|Strathmore|Swan Hills|Sylvan Lake|Taber|Three Hills|Vegreville|Vermilion|Wainwright|Wetaskiwin|Whitecourt',
+  'British Columbia': 'Abbotsford|Burnaby|Campbell River|Castlegar|Chilliwack|Coquitlam|Courtenay|Cranbrook|Dawson Creek|Delta|Duncan|Fort St. John|Kamloops|Kelowna|Kitimat|Langley|Maple Ridge|Merritt|Nanaimo|Nelson|New Westminster|North Vancouver|Penticton|Port Alberni|Port Coquitlam|Powell River|Prince George|Prince Rupert|Quesnel|Richmond|Salmon Arm|Smithers|Squamish|Surrey|Terrace|Trail|Vancouver|Vernon|Victoria|West Vancouver|Williams Lake',
+  'Manitoba': 'Altona|Brandon|Dauphin|Flin Flon|Gimli|Morden|Neepawa|Niverville|Portage la Prairie|Selkirk|Steinbach|Stonewall|Swan River|The Pas|Thompson|Winkler|Winnipeg',
+  'New Brunswick': 'Bathurst|Campbellton|Caraquet|Dieppe|Edmundston|Fredericton|Miramichi|Moncton|Oromocto|Riverview|Sackville|Saint John|Shediac|Sussex|Woodstock',
+  'Newfoundland and Labrador': 'Clarenville|Conception Bay South|Corner Brook|Gander|Grand Falls-Windsor|Happy Valley-Goose Bay|Labrador City|Marystown|Mount Pearl|Paradise|St. John\'s|Stephenville',
+  'Nova Scotia': 'Amherst|Antigonish|Bridgewater|Dartmouth|Digby|Halifax|Kentville|Lunenburg|New Glasgow|Port Hawkesbury|Sydney|Truro|Windsor|Wolfville|Yarmouth',
+  'Ontario': 'Ajax|Barrie|Belleville|Brampton|Brantford|Brockville|Burlington|Cambridge|Chatham-Kent|Cobourg|Cornwall|Elliot Lake|Greater Sudbury|Guelph|Hamilton|Kawartha Lakes|Kenora|Kingston|Kitchener|London|Markham|Milton|Mississauga|Moosonee|Newmarket|Niagara Falls|North Bay|Oakville|Orangeville|Orillia|Oshawa|Ottawa|Owen Sound|Pembroke|Peterborough|Pickering|Richmond Hill|Sarnia|Sault Ste. Marie|Simcoe|St. Catharines|Stratford|Thunder Bay|Timmins|Toronto|Vaughan|Waterloo|Welland|Whitby|Windsor|Woodstock',
+  'Prince Edward Island': 'Alberton|Charlottetown|Cornwall|Kensington|Montague|Souris|Stratford|Summerside',
+  'Quebec': 'Alma|Baie-Comeau|Blainville|Brossard|Chibougamau|Drummondville|Gatineau|Granby|Joliette|Kuujjuaq|Laval|Longueuil|L\u00e9vis|Montr\u00e9al|Qu\u00e9bec City|Repentigny|Rimouski|Rivi\u00e8re-du-Loup|Rouyn-Noranda|Saguenay|Saint-J\u00e9r\u00f4me|Saint-Jean-sur-Richelieu|Sept-\u00celes|Shawinigan|Sherbrooke|Terrebonne|Trois-Rivi\u00e8res|Val-d\'Or|Victoriaville',
+  'Saskatchewan': 'Estevan|Humboldt|Kindersley|La Ronge|Lloydminster|Meadow Lake|Melfort|Moose Jaw|North Battleford|Prince Albert|Regina|Saskatoon|Swift Current|Weyburn|Yorkton',
+  'Northwest Territories': 'Behchoko|Fort Simpson|Fort Smith|Hay River|Inuvik|Norman Wells|Yellowknife',
+  'Nunavut': 'Arviat|Baker Lake|Cambridge Bay|Igloolik|Iqaluit|Kinngait|Kugluktuk|Pond Inlet|Rankin Inlet',
+  'Yukon': 'Carmacks|Dawson City|Haines Junction|Mayo|Watson Lake|Whitehorse'
+};
+const CITY_OTHER = '__other';
+
+function fillCities(keep) {
+  const prov = document.getElementById('q-province').value;
+  const sel = document.getElementById('q-city');
+  const other = document.getElementById('q-city-other');
+  const list = CITIES[prov] ? CITIES[prov].split('|') : [];
+  if (!prov) {
+    sel.innerHTML = '<option value="">Select your province first</option>';
+    sel.disabled = true; sel.style.display = ''; other.style.display = 'none';
+    return;
+  }
+  if (!list.length) {
+    // Outside Canada: type it
+    sel.style.display = 'none'; other.style.display = ''; other.style.marginTop = '0';
+    if (keep) other.value = keep;
+    return;
+  }
+  sel.style.display = ''; sel.disabled = false; other.style.marginTop = '8px';
+  sel.innerHTML = '<option value="">Select...</option>' +
+    list.map(c => `<option value="${c.replace(/"/g, '&quot;')}">${c}</option>`).join('') +
+    `<option value="${CITY_OTHER}">Somewhere else (type it)</option>`;
+  if (keep && list.includes(keep)) { sel.value = keep; other.style.display = 'none'; }
+  else if (keep) { sel.value = CITY_OTHER; other.style.display = ''; other.value = keep; }
+  else { other.style.display = 'none'; other.value = ''; }
+}
+
+function cityOther() {
+  const sel = document.getElementById('q-city');
+  const other = document.getElementById('q-city-other');
+  const on = sel.value === CITY_OTHER;
+  other.style.display = on ? '' : 'none';
+  if (on) other.focus(); else other.value = '';
+}
+
+function cityValue() {
+  const sel = document.getElementById('q-city');
+  const other = document.getElementById('q-city-other');
+  if (sel.style.display === 'none' || sel.value === CITY_OTHER) return other.value.trim();
+  return sel.value;
+}
+
 let fromSource = 'direct';
 
 const STEP_NAMES = {
@@ -868,6 +937,10 @@ const STEP_NAMES = {
   if (hasContact) {
     [['q-name', demoContact.name], ['q-title', demoContact.title], ['q-email', demoContact.email], ['q-org', demoContact.org], ['q-web', demoContact.website]]
       .forEach(([id, v]) => { const el = document.getElementById(id); if (el && v && !el.value) el.value = v; });
+    if (demoContact.province) {
+      document.getElementById('q-province').value = demoContact.province;
+      fillCities(demoContact.city || '');
+    }
   }
 
   // Build dynamic UI
@@ -1139,7 +1212,8 @@ function validateContact() {
       return true;
     }},
     { id: 'q-org', test: v => v.trim().length > 0 },
-    { id: 'q-province', test: v => v.length > 0 }
+    { id: 'q-province', test: v => v.length > 0 },
+    { id: 'q-city', test: () => cityValue().length > 0 }
   ];
   fields.forEach(f => {
     const el = document.getElementById(f.id);
@@ -1175,6 +1249,7 @@ function submitQuote() {
       email: document.getElementById('q-email').value.trim(),
       org: document.getElementById('q-org').value.trim(),
       province: document.getElementById('q-province').value,
+      city: cityValue(),
       website: document.getElementById('q-web').value.trim()
     };
   } else {
@@ -1222,7 +1297,7 @@ function submitQuote() {
   localStorage.setItem('mareto-quote-contact', JSON.stringify(contact));
   // Unlock the interactive demo so it skips the gate
   localStorage.setItem('mareto-demo-unlocked', new Date().toISOString());
-  localStorage.setItem('mareto-demo-contact', JSON.stringify({ name: contact.name, email: contact.email, org: contact.org, title: contact.title, website: contact.website || '' }));
+  localStorage.setItem('mareto-demo-contact', JSON.stringify({ name: contact.name, email: contact.email, org: contact.org, title: contact.title, website: contact.website || '', province: contact.province || '', city: contact.city || '' }));
 
   // HubSpot POST
   postToHubSpot(contact, answers);
@@ -1249,6 +1324,7 @@ function postToHubSpot(contact, answers) {
       f('name', contact.org, '0-2'),
       f('jobtitle', contact.title),
       f('state', prov),
+      f('city', contact.city || ''),
       f('mareto_flow', 'quote'),
       f('mareto_from', new URLSearchParams(location.search).get('from') || 'direct'),
       f('mareto_exact_users', String(answers.users)),
@@ -1263,10 +1339,10 @@ function postToHubSpot(contact, answers) {
     ],
     context: { pageUri: location.href, pageName: 'Receive a Quote' }
   };
-  fetch(`https://api.hsforms.com/submissions/v3/integration/submit/5183115/${HUBSPOT_QUOTE_FORM_ID}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+  const url = `https://api.hsforms.com/submissions/v3/integration/submit/5183115/${HUBSPOT_QUOTE_FORM_ID}`;
+  const send = b => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) });
+  send(body).then(res => {
+    if (!res.ok && res.status === 400) send({ ...body, fields: body.fields.filter(x => x.name !== 'city') }).catch(() => {});
   }).catch(() => {});
 }
 
