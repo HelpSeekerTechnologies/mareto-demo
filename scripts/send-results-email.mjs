@@ -611,7 +611,7 @@ const QUOTE_PROPERTIES = [
   'mareto_flow', 'mareto_from', 'mareto_org_type', 'mareto_org_other',
   'mareto_services', 'mareto_svc_other', 'mareto_challenges',
   'mareto_users', 'mareto_programs', 'mareto_timeline', 'mareto_role',
-  'mareto_province', 'mareto_exact_users', 'mareto_exact_programs',
+  'mareto_province', 'city', 'mareto_exact_users', 'mareto_exact_programs',
   'mareto_staff_types', 'mareto_addons', 'mareto_extras',
   'mareto_quoted_items', 'mareto_quote_email_sent'
 ];
@@ -1153,7 +1153,8 @@ function buildTravisQuoteEmail(contact, answers, pricing) {
     row('Programs', p.mareto_programs),
     row('Timeline', p.mareto_timeline),
     row('Role', p.mareto_role),
-    row('Province', p.mareto_province)
+    row('Province', p.mareto_province),
+    row('City', p.city)
   ].join('');
 
   const quoteRows = [
