@@ -613,13 +613,14 @@ const QUOTE_PROPERTIES = [
   'mareto_users', 'mareto_programs', 'mareto_timeline', 'mareto_role',
   'mareto_province', 'city', 'mareto_exact_users', 'mareto_exact_programs',
   'mareto_staff_types', 'mareto_addons', 'mareto_extras',
-  'mareto_quoted_items', 'mareto_quote_email_sent'
+  'mareto_quoted_items', 'mareto_quote_email_sent', 'mareto_quote_email_sent_at',
+  'recent_conversion_date', 'recent_conversion_event_name'
 ];
 
 async function searchUnsentQuote() {
   // Search by mareto_exact_users (set by the quote form) instead of mareto_flow,
   // so it works even when the same contact did both demo and quote.
-  return hsSearch(
+  const fresh = await hsSearch(
     [
       { filters: [
         { propertyName: 'mareto_exact_users', operator: 'HAS_PROPERTY' },
@@ -632,6 +633,25 @@ async function searchUnsentQuote() {
     ],
     QUOTE_PROPERTIES
   );
+  // Someone who already got a quote email and submits a new quote: the sent flag
+  // stays true, so pick them up when their latest quote submission is newer than
+  // the last quote email.
+  const since = String(Date.now() - 3 * 24 * 60 * 60 * 1000);
+  const repeat = (await hsSearch(
+    [
+      { filters: [
+        { propertyName: 'mareto_quote_email_sent_at', operator: 'HAS_PROPERTY' },
+        { propertyName: 'recent_conversion_date', operator: 'GTE', value: since }
+      ]}
+    ],
+    QUOTE_PROPERTIES
+  )).filter(c => {
+    const p = c.properties;
+    return /Receive a Quote/i.test(p.recent_conversion_event_name || '') &&
+      new Date(p.recent_conversion_date) > new Date(p.mareto_quote_email_sent_at);
+  });
+  const seen = new Set(fresh.map(c => c.id));
+  return fresh.concat(repeat.filter(c => !seen.has(c.id)));
 }
 
 /** Parse HubSpot contact properties into the answers object the PDF builder expects */
