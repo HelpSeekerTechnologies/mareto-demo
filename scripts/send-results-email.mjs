@@ -1559,12 +1559,14 @@ async function processOwnerAssignment() {
     ]});
   }
 
-  // hsSearch returns at most 20 per call; loop so a backlog clears in one run.
-  for (let page = 0; page < 10; page++) {
-    const contacts = await hsSearch(groups, ['email', 'hubspot_owner_id']);
+  // One pass per run. HubSpot search lags writes by a few seconds, so looping
+  // within a run re-finds contacts just assigned. Up to 20 are handled per run,
+  // and the 5-minute schedule clears any larger backlog.
+  {
+    const found = await hsSearch(groups, ['email', 'hubspot_owner_id']);
+    const contacts = found.filter(c => c.properties.hubspot_owner_id !== TRAVIS_OWNER_ID);
     console.log(`[Owner] Found ${contacts.length} contact(s) to assign to Travis`);
     if (contacts.length === 0) return;
-    let assigned = 0;
     for (const contact of contacts) {
       const res = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${contact.id}`, {
         method: 'PATCH',
@@ -1575,14 +1577,11 @@ async function processOwnerAssignment() {
         body: JSON.stringify({ properties: { hubspot_owner_id: TRAVIS_OWNER_ID } })
       });
       if (res.ok) {
-        assigned++;
         console.log(`[Owner] ${contact.properties.email}: ${contact.properties.hubspot_owner_id || 'none'} -> Travis`);
       } else {
         console.error(`[Owner] Failed for ${contact.properties.email}: HTTP ${res.status} ${await res.text()}`);
       }
     }
-    // Stop if nothing could be assigned, so a permissions error does not loop.
-    if (assigned === 0) return;
   }
 }
 
