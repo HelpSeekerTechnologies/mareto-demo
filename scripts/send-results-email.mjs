@@ -20,6 +20,8 @@ const DEMO_URL = 'https://demo.helpseeker.org/mareto-interactive-demo.html?unloc
 const QUOTE_URL = 'https://demo.helpseeker.org/mareto-receive-a-quote.html';
 const MEETING_URL = 'mailto:travis@helpseeker.org';
 const TRAVIS_EMAIL = 'travis@helpseeker.org';
+// HubSpot owner ID for Travis Turner. Every demo and quote submitter is assigned to him.
+const TRAVIS_OWNER_ID = '34380142';
 
 // ========================================================================
 //  PRICING CONSTANTS (approved — must match mareto-receive-a-quote.html)
@@ -1534,6 +1536,57 @@ async function processFollowups() {
 }
 
 // ========================================================================
+//  OWNER ASSIGNMENT
+//  Anyone who has submitted the demo form (mareto_org_type is set) or the
+//  quote form (mareto_exact_users is set) is assigned to Travis, unless they
+//  already are. Internal helpseeker.org addresses are left alone. Because the
+//  search only returns contacts not yet owned by Travis, this also backfills
+//  everyone who submitted before this step existed.
+// ========================================================================
+async function processOwnerAssignment() {
+  const notInternal = { propertyName: 'email', operator: 'NOT_CONTAINS_TOKEN', value: '*@helpseeker.org' };
+  const groups = [];
+  for (const formProp of ['mareto_org_type', 'mareto_exact_users']) {
+    groups.push({ filters: [
+      { propertyName: formProp, operator: 'HAS_PROPERTY' },
+      { propertyName: 'hubspot_owner_id', operator: 'NOT_HAS_PROPERTY' },
+      notInternal
+    ]});
+    groups.push({ filters: [
+      { propertyName: formProp, operator: 'HAS_PROPERTY' },
+      { propertyName: 'hubspot_owner_id', operator: 'NEQ', value: TRAVIS_OWNER_ID },
+      notInternal
+    ]});
+  }
+
+  // hsSearch returns at most 20 per call; loop so a backlog clears in one run.
+  for (let page = 0; page < 10; page++) {
+    const contacts = await hsSearch(groups, ['email', 'hubspot_owner_id']);
+    console.log(`[Owner] Found ${contacts.length} contact(s) to assign to Travis`);
+    if (contacts.length === 0) return;
+    let assigned = 0;
+    for (const contact of contacts) {
+      const res = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${contact.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${HUBSPOT_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ properties: { hubspot_owner_id: TRAVIS_OWNER_ID } })
+      });
+      if (res.ok) {
+        assigned++;
+        console.log(`[Owner] ${contact.properties.email}: ${contact.properties.hubspot_owner_id || 'none'} -> Travis`);
+      } else {
+        console.error(`[Owner] Failed for ${contact.properties.email}: HTTP ${res.status} ${await res.text()}`);
+      }
+    }
+    // Stop if nothing could be assigned, so a permissions error does not loop.
+    if (assigned === 0) return;
+  }
+}
+
+// ========================================================================
 //  MAIN
 // ========================================================================
 async function main() {
@@ -1547,6 +1600,7 @@ async function main() {
   await processDemo();
   await processQuote();
   await processFollowups();
+  await processOwnerAssignment();
 
   console.log('Done');
 }
