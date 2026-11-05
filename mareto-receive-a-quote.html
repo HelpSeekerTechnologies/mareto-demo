@@ -892,6 +892,11 @@ const STEP_NAMES = {
   const params = new URLSearchParams(location.search);
   if (params.has('reset')) { ['mareto-demo-contact','mareto-demo-unlocked','mareto-demo-answers','mareto-fit-finder','mareto-quote-contact','mareto-quote-answers'].forEach(k => localStorage.removeItem(k)); location.href = location.pathname; return; }
   fromSource = params.get('from') || 'direct';
+  window._utmSource = params.get('utm_source') || '';
+  window._utmMedium = params.get('utm_medium') || '';
+  window._utmCampaign = params.get('utm_campaign') || '';
+  window._utmContent = params.get('utm_content') || '';
+  window._utmTerm = params.get('utm_term') || '';
 
   // Load demo answers
   try { demoAnswers = JSON.parse(localStorage.getItem('mareto-demo-answers')); } catch(e) {}
@@ -1337,7 +1342,16 @@ function postToHubSpot(contact, answers) {
       f('mareto_role', HS_ROLE[answers.role] || answers.role || ''),
       f('mareto_province', HS_PROV[prov] || prov)
     ],
-    context: { pageUri: location.href, pageName: 'Receive a Quote' }
+    context: {
+      hutk: document.cookie.match(/hubspotutk=([^;]*)/)?.[1] || undefined,
+      pageUri: location.href,
+      pageName: 'Receive a Quote',
+      ...(window._utmSource && { utm_source: window._utmSource }),
+      ...(window._utmMedium && { utm_medium: window._utmMedium }),
+      ...(window._utmCampaign && { utm_campaign: window._utmCampaign }),
+      ...(window._utmContent && { utm_content: window._utmContent }),
+      ...(window._utmTerm && { utm_term: window._utmTerm })
+    }
   };
   const url = `https://api.hsforms.com/submissions/v3/integration/submit/5183115/${HUBSPOT_QUOTE_FORM_ID}`;
   const send = b => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) });
