@@ -354,11 +354,6 @@ const PERSONAL_RE = /@(gmail|yahoo|hotmail|outlook|live|icloud|me|aol|proton|pro
 const params = new URLSearchParams(location.search);
 if (params.has('reset')) { ['mareto-demo-contact','mareto-demo-unlocked','mareto-demo-answers','mareto-fit-finder','mareto-quote-contact','mareto-quote-answers'].forEach(k => localStorage.removeItem(k)); location.href = location.pathname; }
 const fromParam = params.get('from') || 'direct';
-const utmSource = params.get('utm_source') || '';
-const utmMedium = params.get('utm_medium') || '';
-const utmCampaign = params.get('utm_campaign') || '';
-const utmContent = params.get('utm_content') || '';
-const utmTerm = params.get('utm_term') || '';
 const serviceParam = params.get('service');
 
 /* ---- State ---- */
@@ -610,12 +605,7 @@ function finishDemo(contact) {
     context: {
       hutk: document.cookie.match(/hubspotutk=([^;]*)/)?.[1] || undefined,
       pageUri: location.href,
-      pageName: 'Receive a Demo',
-      ...(utmSource && { utm_source: utmSource }),
-      ...(utmMedium && { utm_medium: utmMedium }),
-      ...(utmCampaign && { utm_campaign: utmCampaign }),
-      ...(utmContent && { utm_content: utmContent }),
-      ...(utmTerm && { utm_term: utmTerm })
+      pageName: 'Receive a Demo'
     }
   };
 
