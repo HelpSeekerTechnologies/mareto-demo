@@ -338,14 +338,34 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
 }
 .talk-section .talk-btn:hover{box-shadow:var(--sh2);text-decoration:none}
 
+/* ---- Save quote card ---- */
+.save-quote-card,.save-quote-done{background:var(--hs-surface);border-radius:var(--hs-radius-card);box-shadow:var(--sh1);padding:28px;margin:24px 0;animation:fadeIn .4s ease}
+.save-quote-card h3,.save-quote-done h3{font-size:18px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.save-quote-card p,.save-quote-done p{font-size:14px;color:var(--hs-muted);margin-bottom:20px}
+.sq-fields{display:flex;flex-direction:column;gap:12px}
+.sq-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sq-field label{display:block;font-size:13px;font-weight:700;color:var(--hs-navy);margin-bottom:6px}
+.sq-field .sq-req{color:#c0392b}
+.sq-field input{width:100%;font-family:'Lato',sans-serif;font-size:14px;padding:0 18px;border:0;border-radius:var(--hs-radius-control);background:var(--hs-mist);box-shadow:var(--hs-inset);min-height:var(--nv-tap);color:var(--hs-text);outline:none;transition:all .2s}
+.sq-field input::placeholder{color:var(--hs-muted)}
+.sq-field input:focus{background:#fff;box-shadow:0 8px 22px rgba(11,31,51,.20),0 2px 6px rgba(11,31,51,.10)}
+.sq-error{color:#c0392b;font-size:13px;font-weight:700;margin-top:6px;display:none}
+.sq-field.has-error input{box-shadow:0 0 0 2px #c0392b !important}
+.sq-field.has-error .sq-error{display:block}
+.sq-submit{margin-top:20px;background:var(--hs-action-gradient);color:#fff;font-size:14px;font-weight:700;font-family:'Lato',sans-serif;padding:14px 32px;border-radius:var(--hs-radius-control);border:none;cursor:pointer;transition:all .2s;box-shadow:var(--sh1);min-height:var(--nv-tap)}
+.sq-submit:hover{box-shadow:var(--sh2)}
+.save-quote-done{text-align:center;border:2px solid var(--hs-pale)}
+.sq-done-icon{color:var(--hs-teal);margin-bottom:8px}
+.sq-done-icon svg{display:inline-block}
+
 /* ---- Responsive ---- */
 @media(max-width:600px){
   .quiz-container{padding:16px}
   .landing{padding:40px 16px}
-  .field-row{grid-template-columns:1fr}
+  .sq-row{grid-template-columns:1fr}
   .addon-grid{grid-template-columns:1fr}
   .two-tiles{grid-template-columns:1fr}
-  .step-nav,.submit-row{gap:12px}
+  .step-nav{gap:12px}
   .quote-banner{padding:28px 20px}
   .year-card{padding:24px 20px}
   .included-hero{padding:24px 20px}
@@ -558,6 +578,47 @@ body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--
           <div class="strip-label">Pay the year in full up front and save 5 percent</div>
         </div>
         <div class="strip-value" id="qr-prepay"></div>
+      </div>
+
+      <!-- Save quote card -->
+      <div class="save-quote-card" id="save-quote-card">
+        <h3>Save this quote</h3>
+        <p>Enter your details and we will send you a copy and keep it on file.</p>
+        <div class="sq-fields">
+          <div class="sq-row">
+            <div class="sq-field" id="sq-f-name">
+              <label for="sq-name">Name <span class="sq-req">*</span></label>
+              <input type="text" id="sq-name" autocomplete="name" placeholder="Jane Smith">
+              <div class="sq-error">Please enter your name.</div>
+            </div>
+            <div class="sq-field" id="sq-f-title">
+              <label for="sq-title">Title</label>
+              <input type="text" id="sq-title" autocomplete="organization-title" placeholder="Executive Director">
+            </div>
+          </div>
+          <div class="sq-field" id="sq-f-email">
+            <label for="sq-email">Work email <span class="sq-req">*</span></label>
+            <input type="email" id="sq-email" autocomplete="email" placeholder="jane@yourorg.ca">
+            <div class="sq-error" id="sq-email-error">Please enter a valid work email.</div>
+          </div>
+          <div class="sq-row">
+            <div class="sq-field" id="sq-f-org">
+              <label for="sq-org">Organization <span class="sq-req">*</span></label>
+              <input type="text" id="sq-org" autocomplete="organization" placeholder="Community Services Inc.">
+              <div class="sq-error">Please enter your organization.</div>
+            </div>
+            <div class="sq-field" id="sq-f-web">
+              <label for="sq-web">Website</label>
+              <input type="url" id="sq-web" autocomplete="url" placeholder="https://yourorg.ca">
+            </div>
+          </div>
+        </div>
+        <button class="sq-submit" onclick="saveQuote()">Save my quote</button>
+      </div>
+      <div class="save-quote-done" id="save-quote-done" style="display:none;">
+        <div class="sq-done-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Quote saved</h3>
+        <p>We have your details on file. Download your personalized quote below.</p>
       </div>
 
       <div id="qr-demo-card"></div>
@@ -1224,8 +1285,7 @@ function showQuote(contact, answers) {
   const howWrap = document.querySelector('.breakdown');
   if (howWrap) howWrap.style.display = isCustom ? 'none' : '';
 
-  // Auto-download PDF
-  if (!isCustom) setTimeout(() => downloadPdf(), 600);
+  // No auto-download in OPEN version — user downloads after saving their info
 }
 
 /* ===============================================================
@@ -1667,7 +1727,102 @@ async function downloadPdf() {
   if (!answers || !contact) return;
   const assets = await loadPdfAssets();
   const doc = buildQuotePdf(answers, contact, assets);
-  doc.save('Mareto quote.pdf');
+  doc.save(contact.name ? ('Mareto quote - ' + contact.org.replace(/[^\w ]+/g, '').trim() + '.pdf') : 'Mareto quote.pdf');
+}
+
+/* ===============================================================
+   SAVE QUOTE (optional contact capture on results page)
+   =============================================================== */
+const HUBSPOT_QUOTE_FORM_ID = '91a72e57-dc04-4a00-9fcc-408af3fa8fb1';
+const PERSONAL_DOMAINS = ['gmail.com','yahoo.com','yahoo.ca','hotmail.com','hotmail.ca','outlook.com','live.com','live.ca','icloud.com','me.com','aol.com','protonmail.com','proton.me','mail.com','zoho.com','yandex.com','gmx.com','gmx.ca','fastmail.com','tutanota.com','hey.com','pm.me'];
+
+let savedAnswers = null;
+
+function saveQuote() {
+  // Validate
+  let ok = true;
+  document.querySelectorAll('.sq-field.has-error').forEach(f => f.classList.remove('has-error'));
+
+  const name = document.getElementById('sq-name').value.trim();
+  const title = document.getElementById('sq-title').value.trim();
+  const email = document.getElementById('sq-email').value.trim();
+  const org = document.getElementById('sq-org').value.trim();
+  const website = document.getElementById('sq-web').value.trim();
+
+  if (!name) { document.getElementById('sq-f-name').classList.add('has-error'); ok = false; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('sq-email-error').textContent = 'Please enter a valid work email.';
+    document.getElementById('sq-f-email').classList.add('has-error'); ok = false;
+  } else if (PERSONAL_DOMAINS.includes(email.split('@')[1].toLowerCase())) {
+    document.getElementById('sq-email-error').textContent = 'Please use a work email, not a personal address.';
+    document.getElementById('sq-f-email').classList.add('has-error'); ok = false;
+  }
+  if (!org) { document.getElementById('sq-f-org').classList.add('has-error'); ok = false; }
+
+  if (!ok) return;
+
+  const contact = { name, title, email, org, website, province: '', city: '' };
+
+  // Save to localStorage
+  localStorage.setItem('mareto-quote-contact', JSON.stringify(contact));
+
+  // Update the quote heading with their info
+  document.getElementById('qr-heading').textContent = 'Mareto for ' + org;
+  const now = new Date();
+  const validUntil = new Date(now);
+  validUntil.setDate(validUntil.getDate() + QUOTE_VALID_DAYS);
+  let subText = 'Prepared for ' + name;
+  if (title) subText += ', ' + title;
+  subText += '. Issued ' + fmtDate(now) + ', valid until ' + fmtDate(validUntil) + '.';
+  document.getElementById('qr-sub').textContent = subText;
+
+  // Update talk section mailto
+  const talkBtn = document.querySelector('.talk-section .talk-btn');
+  if (talkBtn) talkBtn.href = 'mailto:travis@helpseeker.org?subject=' + encodeURIComponent('Mareto quote for ' + org);
+
+  // POST to HubSpot
+  const answers = JSON.parse(localStorage.getItem('mareto-quote-answers'));
+  if (answers) postToHubSpot(contact, answers);
+
+  // Show confirmation, hide form
+  document.getElementById('save-quote-card').style.display = 'none';
+  document.getElementById('save-quote-done').style.display = '';
+}
+
+function postToHubSpot(contact, answers) {
+  const nameParts = contact.name.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+  const HS_TIME = { now: 'Immediately', '3m': '1-3 months', '6m': '3-6 months', exploring: 'Just exploring' };
+  const HS_ROLE = { decision: 'Decision maker', evaluator: 'Evaluator', researcher: 'Researcher', curious: 'Just exploring' };
+  const f = (name, value, oid) => ({ objectTypeId: oid || '0-1', name, value: value || '' });
+  const body = {
+    fields: [
+      f('firstname', firstName),
+      f('lastname', lastName),
+      f('email', contact.email),
+      f('website', contact.website || ''),
+      f('name', contact.org, '0-2'),
+      f('jobtitle', contact.title),
+      f('mareto_flow', 'quote-open'),
+      f('mareto_from', new URLSearchParams(location.search).get('from') || 'direct'),
+      f('mareto_exact_users', String(answers.users)),
+      f('mareto_exact_programs', String(answers.programs)),
+      f('mareto_staff_types', String(answers.roles)),
+      f('mareto_addons', (answers.addons || []).join(';')),
+      f('mareto_extras', [answers.french ? 'french' : '', answers.pia ? 'PIA' : ''].filter(Boolean).join(';')),
+      f('mareto_quoted_items', (answers.callItems || []).join(';')),
+      f('mareto_timeline', HS_TIME[answers.timing] || answers.timing || ''),
+      f('mareto_role', HS_ROLE[answers.role] || answers.role || '')
+    ],
+    context: {
+      hutk: document.cookie.match(/hubspotutk=([^;]*)/)?.[1] || undefined,
+      pageUri: location.href,
+      pageName: 'Receive a Quote (Open)'
+    }
+  };
+  const url = `https://api.hsforms.com/submissions/v3/integration/submit/5183115/${HUBSPOT_QUOTE_FORM_ID}`;
+  fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).catch(() => {});
 }
 
 </script>
